@@ -1,12 +1,12 @@
 package com.portalprojects.entity.base;
 
 import com.portalprojects.infrastructure.listener.AuditEntityListener;
+import jakarta.persistence.Column;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.EntityListeners;
-import javax.persistence.MappedSuperclass;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.MappedSuperclass;
 
 /**
  * @author thangncph26123

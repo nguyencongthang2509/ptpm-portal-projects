@@ -2,7 +2,7 @@ package com.portalprojects.infrastructure.listener;
 
 import com.portalprojects.entity.base.PrimaryEntity;
 
-import javax.persistence.PrePersist;
+import jakarta.persistence.PrePersist;
 import java.util.UUID;
 
 /**

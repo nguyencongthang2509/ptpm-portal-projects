@@ -1,9 +1,8 @@
 package com.portalprojects.infrastructure.listener;
 
 import com.portalprojects.entity.base.AuditEntity;
-
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import java.util.Calendar;
 
 /**

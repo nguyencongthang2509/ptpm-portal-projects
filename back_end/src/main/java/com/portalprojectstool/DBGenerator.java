@@ -3,17 +3,14 @@ package com.portalprojectstool;
 import com.portalprojects.entity.DuAn;
 import com.portalprojects.repository.DuAnRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-import java.util.Date;
-
 /**
- * @author phongtt35
+ * @author thangncph26123
  */
 
 @SpringBootApplication
@@ -25,15 +22,15 @@ public class DBGenerator implements CommandLineRunner {
 
     private final boolean IS_RELEASE = false;
 
-//    @Autowired
-//    @Qualifier(DuAnRepository.NAME)
-//    private DuAnRepository duAnRepository;
+    @Autowired
+    private DuAnRepository duAnRepository;
 
     @Override
     public void run(String... args) throws Exception {
-        DuAn duAn = new DuAn();
-        duAn.setId("1");
-        duAn.setTenDuAn("aaaaaaaaaaaaaa");
+//        DuAn duAn = new DuAn();
+//        duAn.setMaDuAn("DA1");
+//        duAn.setTenDuAn("aaaaaaaaaaaaaa");
+//        duAn.setTaiNguyen("Link git:");
 //        duAnRepository.save(duAn);
     }
 

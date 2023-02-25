@@ -1,17 +1,14 @@
 package com.portalprojects.entity;
 
-import lombok.AllArgsConstructor;
+import com.portalprojects.entity.base.PrimaryEntity;
+import com.portalprojects.infrastructure.constant.EntityProperties;
+import com.portalprojects.infrastructure.constant.TrangThaiDuAn;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import java.io.Serializable;
+import org.hibernate.annotations.Nationalized;
 
 /**
  * @author thangncph26123
@@ -21,12 +18,32 @@ import java.io.Serializable;
 @Data
 @ToString
 @Table(name = "du_an")
-public class DuAn implements Serializable {
+public class DuAn extends PrimaryEntity {
 
-    @Id
-    @Column(length = 36, updatable = false)
-    private String id;
+    @Column(length = EntityProperties.LENGTH_CODE, nullable = false)
+    private String maDuAn;
 
-    @Column(name = "ten_du_an")
+    @Column(length = EntityProperties.LENGTH_NAME)
+    @Nationalized
     private String tenDuAn;
+
+    @Column(length = EntityProperties.LENGTH_DESCRIPTION)
+    @Nationalized
+    private String taiNguyen;
+
+    @Column(length = EntityProperties.LENGTH_DESCRIPTION)
+    @Nationalized
+    private String moTa;
+
+    @Column(nullable = false)
+    private Long ngayBatDau;
+
+    @Column(nullable = false)
+    private Long ngayKetThuc;
+
+    private Short tienDo;
+
+    @Column(nullable = false)
+    private TrangThaiDuAn trangThai;
+
 }
