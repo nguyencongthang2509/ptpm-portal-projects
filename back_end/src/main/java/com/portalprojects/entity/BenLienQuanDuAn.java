@@ -1,30 +1,30 @@
 package com.portalprojects.entity;
 
 import com.portalprojects.infrastructure.constant.EntityProperties;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.ToString;
 
-import jakarta.persistence.Column;
-
 /**
  * @author thangncph26123
  */
+
 @Entity
-@Table(name = "the_loai_du_an")
+@Table(name = "ben_lien_quan_du_an")
 @Data
 @ToString
-public class TheLoaiDuAn {
+public class BenLienQuanDuAn {
 
     @Id
     @Column(length = EntityProperties.LENGTH_ID, updatable = false)
     private String id;
 
     @Column(length = EntityProperties.LENGTH_ID)
-    private String duAnId;
+    private String benLienQuanId;
 
     @Column(length = EntityProperties.LENGTH_ID)
-    private String theLoaiId;
+    private String duAnId;
 }

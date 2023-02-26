@@ -4,7 +4,6 @@ import com.portalprojects.entity.base.PrimaryEntity;
 import com.portalprojects.infrastructure.constant.EntityProperties;
 import com.portalprojects.infrastructure.constant.MucDoUuTien;
 import com.portalprojects.infrastructure.constant.TrangThaiDauViec;
-import com.portalprojects.infrastructure.constant.TrangThaiDuAn;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
