@@ -13,18 +13,18 @@ import jakarta.persistence.Column;
  * @author thangncph26123
  */
 @Entity
-@Table(name = "giai_doan_dau_viec")
 @Data
 @ToString
-public class GiaiDoanDauViec {
+@Table(name = "project_category")
+public class ProjectCategory {
 
     @Id
     @Column(length = EntityProperties.LENGTH_ID, updatable = false)
     private String id;
 
     @Column(length = EntityProperties.LENGTH_ID)
-    private String giaiDoanId;
+    private String projectId;
 
     @Column(length = EntityProperties.LENGTH_ID)
-    private String dauViecId;
+    private String categoryId;
 }

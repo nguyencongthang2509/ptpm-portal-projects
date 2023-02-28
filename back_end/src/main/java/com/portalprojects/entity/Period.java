@@ -2,8 +2,7 @@ package com.portalprojects.entity;
 
 import com.portalprojects.entity.base.PrimaryEntity;
 import com.portalprojects.infrastructure.constant.EntityProperties;
-import com.portalprojects.infrastructure.constant.MucDoUuTien;
-import com.portalprojects.infrastructure.constant.TrangThaiDauViec;
+import com.portalprojects.infrastructure.constant.StatusPeriod;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -14,39 +13,35 @@ import org.hibernate.annotations.Nationalized;
 /**
  * @author thangncph26123
  */
-
 @Entity
 @Data
 @ToString
-@Table(name = "dau_viec")
-public class DauViec extends PrimaryEntity {
+@Table(name = "period")
+public class Period extends PrimaryEntity {
 
     @Column(length = EntityProperties.LENGTH_CODE, nullable = false)
-    private String maDauViec;
+    private String code;
 
     @Column(length = EntityProperties.LENGTH_NAME)
     @Nationalized
-    private String tenDauViec;
+    private String name;
 
     @Column(length = EntityProperties.LENGTH_DESCRIPTION)
     @Nationalized
-    private String moTa;
+    private String descriptions;
 
     @Column(nullable = false)
-    private Long deadLine;
+    private Long startTime;
 
     @Column(nullable = false)
-    private Long ngayHoanThanh;
+    private Long endTime;
 
-    @Column(nullable = false)
-    private MucDoUuTien mucDoUuTien;
-
-    private Short tienDo;
+    private Short progress;
 
     @Column(length = EntityProperties.LENGTH_DESCRIPTION)
     @Nationalized
-    private String ghiChu;
+    private String target;
 
     @Column(nullable = false)
-    private TrangThaiDauViec trangThaiDauViec;
+    private StatusPeriod statusPeriod;
 }

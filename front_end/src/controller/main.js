@@ -1,4 +1,4 @@
-app.controller("myCtrl", function ($scope) {
+app.controller("myCtrl", function ($scope, $rootScope, $window) {
   $scope.$on("$includeContentLoaded", function () {
     document
       .querySelector(".toggle-sidebar-btn")
@@ -13,6 +13,4 @@ app.controller("myCtrl", function ($scope) {
           .classList.toggle("search-bar-show");
       });
   });
-
-  
 });

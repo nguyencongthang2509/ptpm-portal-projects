@@ -12,17 +12,16 @@ import org.hibernate.annotations.Nationalized;
 /**
  * @author thangncph26123
  */
-
 @Entity
-@Table(name = "the_loai")
 @Data
 @ToString
-public class TheLoai extends PrimaryEntity {
+@Table(name = "label")
+public class Label extends PrimaryEntity {
 
     @Column(length = EntityProperties.LENGTH_CODE, nullable = false)
-    private String ma;
+    private String code;
 
     @Column(length = EntityProperties.LENGTH_NAME_SHORT)
     @Nationalized
-    private String ten;
+    private String name;
 }

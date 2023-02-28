@@ -2,7 +2,7 @@ package com.portalprojects.entity;
 
 import com.portalprojects.entity.base.PrimaryEntity;
 import com.portalprojects.infrastructure.constant.EntityProperties;
-import com.portalprojects.infrastructure.constant.TrangThaiDuAn;
+import com.portalprojects.infrastructure.constant.StatusProject;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -17,33 +17,33 @@ import org.hibernate.annotations.Nationalized;
 @Entity
 @Data
 @ToString
-@Table(name = "du_an")
-public class DuAn extends PrimaryEntity {
+@Table(name = "project")
+public class Project extends PrimaryEntity {
 
     @Column(length = EntityProperties.LENGTH_CODE, nullable = false)
-    private String maDuAn;
+    private String code;
 
     @Column(length = EntityProperties.LENGTH_NAME)
     @Nationalized
-    private String tenDuAn;
+    private String name;
 
     @Column(length = EntityProperties.LENGTH_DESCRIPTION)
     @Nationalized
-    private String taiNguyen;
+    private String resources;
 
     @Column(length = EntityProperties.LENGTH_DESCRIPTION)
     @Nationalized
-    private String moTa;
+    private String descriptions;
 
     @Column(nullable = false)
-    private Long ngayBatDau;
+    private Long startTime;
 
     @Column(nullable = false)
-    private Long ngayKetThuc;
+    private Long endTime;
 
-    private Short tienDo;
+    private Short progress;
 
     @Column(nullable = false)
-    private TrangThaiDuAn trangThai;
+    private StatusProject statusProject;
 
 }

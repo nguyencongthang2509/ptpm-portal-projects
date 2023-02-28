@@ -13,18 +13,18 @@ import lombok.ToString;
  */
 
 @Entity
-@Table(name = "ben_lien_quan_du_an")
 @Data
 @ToString
-public class BenLienQuanDuAn {
+@Table(name = "stakeholder_project")
+public class StakeholderProject {
 
     @Id
     @Column(length = EntityProperties.LENGTH_ID, updatable = false)
     private String id;
 
     @Column(length = EntityProperties.LENGTH_ID)
-    private String benLienQuanId;
+    private String stakeholderId;
 
     @Column(length = EntityProperties.LENGTH_ID)
-    private String duAnId;
+    private String projectId;
 }
