@@ -1,5 +1,6 @@
 package com.portalprojects.entity;
 
+import com.portalprojects.entity.base.PrimaryEntity;
 import com.portalprojects.infrastructure.constant.EntityProperties;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -16,11 +17,7 @@ import jakarta.persistence.Column;
 @Data
 @ToString
 @Table(name = "project_category")
-public class ProjectCategory {
-
-    @Id
-    @Column(length = EntityProperties.LENGTH_ID, updatable = false)
-    private String id;
+public class ProjectCategory extends PrimaryEntity {
 
     @Column(length = EntityProperties.LENGTH_ID)
     private String projectId;

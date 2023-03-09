@@ -7,8 +7,8 @@ import org.springframework.stereotype.Repository;
 /**
  * @author thangncph26123
  */
-@Repository(AssignCategory.NAME)
-public interface AssignCategory extends JpaRepository<Assign, String> {
+@Repository(AssignRepository.NAME)
+public interface AssignRepository extends JpaRepository<Assign, String> {
 
-    public static final String NAME = "BaseAssignCategory";
+    public static final String NAME = "BaseAssignRepository";
 }

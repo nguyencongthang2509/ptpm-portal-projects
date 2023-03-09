@@ -29,10 +29,6 @@ public class Project extends PrimaryEntity {
 
     @Column(length = EntityProperties.LENGTH_DESCRIPTION)
     @Nationalized
-    private String resources;
-
-    @Column(length = EntityProperties.LENGTH_DESCRIPTION)
-    @Nationalized
     private String descriptions;
 
     @Column(nullable = false)

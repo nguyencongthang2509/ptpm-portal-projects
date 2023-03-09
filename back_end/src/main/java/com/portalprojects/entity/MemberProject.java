@@ -1,6 +1,9 @@
 package com.portalprojects.entity;
 
+import com.portalprojects.entity.base.PrimaryEntity;
 import com.portalprojects.infrastructure.constant.EntityProperties;
+import com.portalprojects.infrastructure.constant.RoleMemberProject;
+import com.portalprojects.infrastructure.constant.StatusWork;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -16,15 +19,17 @@ import lombok.ToString;
 @Data
 @ToString
 @Table(name = "member_project")
-public class MemberProject {
-
-    @Id
-    @Column(length = EntityProperties.LENGTH_ID, updatable = false)
-    private String id;
+public class MemberProject extends PrimaryEntity {
 
     @Column(length = EntityProperties.LENGTH_ID)
     private String memberId;
 
     @Column(length = EntityProperties.LENGTH_ID)
     private String projectId;
+
+    @Column(nullable = false)
+    private RoleMemberProject role;
+
+    @Column(nullable = false)
+    private StatusWork status;
 }
