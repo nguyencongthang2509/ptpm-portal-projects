@@ -323,7 +323,6 @@ public class DBGenerator implements CommandLineRunner {
         assign2.setMemberId("d21b02c0-bdd4-11ed-afa1-0242ac120002");
         assign2.setTodoId(todo2.getId());
         assign2.setId(assignRepository.save(assign2).getId());
-
     }
 
     public static void main(String[] args) {
