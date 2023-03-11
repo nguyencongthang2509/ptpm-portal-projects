@@ -36,6 +36,67 @@ let functionInit = (function () {
     });
   }
 
+  let check = true;
+
+  window.addEventListener("resize", function () {
+    if (window.innerWidth < 1200) {
+      if (document.querySelector("#sidebar").classList.contains("hide-text")) {
+        document.querySelector("#sidebar").classList.remove("hide-text");
+        let listNavHeading = document.querySelectorAll(".nav-heading");
+        listNavHeading.forEach((item) => {
+          item.classList.remove("change-heading");
+        });
+        check = true;
+      }
+    } else {
+      if (document.querySelector(".toggle-sidebar") != null) {
+        document.querySelector("#sidebar").classList.add("hide-text");
+        let listNavHeading = document.querySelectorAll(".nav-heading");
+        listNavHeading.forEach((item) => {
+          item.classList.add("change-heading");
+        });
+        check = false;
+      }
+    }
+  });
+
+  document
+    .querySelector(".toggle-sidebar-btn")
+    .addEventListener("click", function () {
+      if (window.innerWidth > 1200) {
+        if (check) {
+          document.querySelector("#sidebar").classList.add("hide-text");
+          let listNavHeading = document.querySelectorAll(".nav-heading");
+          listNavHeading.forEach((item) => {
+            item.classList.add("change-heading");
+          });
+          check = false;
+        } else {
+          document.querySelector("#sidebar").classList.remove("hide-text");
+          let listNavHeading = document.querySelectorAll(".nav-heading");
+          listNavHeading.forEach((item) => {
+            item.classList.remove("change-heading");
+          });
+          check = true;
+        }
+        if (document.querySelector(".toggle-sidebar") != null) {
+          document.querySelector("#sidebar").classList.add("hide-text");
+          let listNavHeading = document.querySelectorAll(".nav-heading");
+          listNavHeading.forEach((item) => {
+            item.classList.add("change-heading");
+          });
+          check = true;
+        } else {
+          document.querySelector("#sidebar").classList.remove("hide-text");
+          let listNavHeading = document.querySelectorAll(".nav-heading");
+          listNavHeading.forEach((item) => {
+            item.classList.remove("change-heading");
+          });
+          check = false;
+        }
+      }
+    });
+
   /**
    * Search bar toggle
    */

@@ -638,6 +638,10 @@ h6 {
   }
 }
 
+.change-heading {
+  margin-left: -8px !important;
+}
+
 .sidebar::-webkit-scrollbar {
   width: 5px;
   height: 8px;
@@ -649,7 +653,6 @@ h6 {
 }
 
 @media (min-width: 1200px) {
-
   #main,
   #footer {
     margin-left: 250px;
@@ -658,7 +661,7 @@ h6 {
 
 @media (max-width: 1199px) {
   .toggle-sidebar .sidebar {
-    left: 0;
+    left: 0px;
   }
 }
 
@@ -666,12 +669,19 @@ h6 {
 
   .toggle-sidebar #main,
   .toggle-sidebar #footer {
-    margin-left: 0;
+    margin-left: 80px;
   }
 
   .toggle-sidebar .sidebar {
-    left: -300px;
+    bottom: 0;
+    right: 0;
+    width: 80px;
+    transition: all 0.3s ease-in-out;
   }
+}
+
+.hide-text span {
+  display: none;
 }
 
 .sidebar-nav {
@@ -1239,6 +1249,7 @@ h6 {
     max-width: 50%;
   }
 }
+
 
 /*--------------------------------------------------------------
 # Footer
