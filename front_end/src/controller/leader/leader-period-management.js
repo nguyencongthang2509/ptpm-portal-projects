@@ -1,1 +1,0 @@
-window.LeaderPeriodManagementController = function ($scope, $http) {};
