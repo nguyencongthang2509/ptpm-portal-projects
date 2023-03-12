@@ -1,0 +1,239 @@
+<div id="main" class="main">
+  <div class="row">
+    <div class="content-title">
+      <div class="title-project">
+        <h4>{{detailProject.name}}</h4>
+      </div>
+      <div class="list-member">
+        <a
+          ng-repeat-start="member in listMemberById | limitTo:4"
+          data-toggle="tooltip"
+          title="{{member.name}}"
+          href=""
+        >
+          <img
+            class="rounded-circle"
+            width="30px"
+            height="30px"
+            src="{{member.image}}"
+            alt=""
+          />
+        </a>
+        <a ng-repeat-end></a>
+        <button
+          class="btn-people"
+          data-bs-toggle="modal"
+          data-bs-target="#modal_showMember"
+        >
+          +7
+        </button>
+      </div>
+    </div>
+  </div>
+  <br />
+  <div class="container-custom-trello">
+    <div class="row flex-nowrap">
+      <div class="col-4">
+        <div class="card trello-card">
+          <div class="card-body">
+            <h6 class="card-title">TÀI LIỆU CỦA DỰ ÁN</h6>
+            <ul class="list-group" dnd-list="items">
+              <li
+                ng-repeat="item in items"
+                dnd-draggable="item"
+                dnd-moved="items.splice($index, 1)"
+                dnd-effect-allowed="move"
+                dnd-selected="selected = item"
+                ng-class="{selected: selected === item}"
+                class="list-group-item"
+              >
+                <a href="#">{{item.name}} <br /><i class="bx bx-menu"></i></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="card trello-card">
+          <div class="card-body">
+            <h6 class="card-title">VIỆC CẦN LÀM</h6>
+            <ul class="list-group">
+              <li class="list-group-item">
+                <a href="#"
+                  >Tài liệu 1<br />
+                  <i class="bx bx-menu"></i
+                ></a>
+              </li>
+              <li class="list-group-item">
+                <a href="#"
+                  >Tài liệu 2<br />
+                  <i class="bx bx-menu"></i
+                ></a>
+              </li>
+              <li class="list-group-item">
+                <a href="#"
+                  >Tài liệu 3<br />
+                  <i class="bx bx-menu"></i
+                ></a>
+              </li>
+              <li class="list-group-item">
+                <a href="#"
+                  >Tài liệu 4<br />
+                  <i class="bx bx-menu"></i
+                ></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="card trello-card">
+          <div class="card-body">
+            <h6 class="card-title">ĐANG LÀM</h6>
+            <ul class="list-group">
+              <li class="list-group-item">
+                <a href="#"
+                  >Tài liệu 1<br />
+                  <i class="bx bx-menu"></i
+                ></a>
+              </li>
+              <li class="list-group-item">
+                <a href="#"
+                  >Tài liệu 2<br />
+                  <i class="bx bx-menu"></i
+                ></a>
+              </li>
+              <li class="list-group-item">
+                <a href="#"
+                  >Tài liệu 3<br />
+                  <i class="bx bx-menu"></i
+                ></a>
+              </li>
+              <li class="list-group-item">
+                <a href="#"
+                  >Tài liệu 4<br />
+                  <i class="bx bx-menu"></i
+                ></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="card trello-card">
+          <div class="card-body">
+            <h6 class="card-title">CẦN SỬA</h6>
+            <ul class="list-group">
+              <li class="list-group-item">
+                <a href="#"
+                  >Tài liệu 1<br />
+                  <i class="bx bx-menu"></i
+                ></a>
+              </li>
+              <li class="list-group-item">
+                <a href="#"
+                  >Tài liệu 2<br />
+                  <i class="bx bx-menu"></i
+                ></a>
+              </li>
+              <li class="list-group-item">
+                <a href="#"
+                  >Tài liệu 3<br />
+                  <i class="bx bx-menu"></i
+                ></a>
+              </li>
+              <li class="list-group-item">
+                <a href="#"
+                  >Tài liệu 4<br />
+                  <i class="bx bx-menu"></i
+                ></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="card trello-card">
+          <div class="card-body">
+            <h6 class="card-title">ĐÃ HOÀN THÀNH</h6>
+            <ul class="list-group">
+              <li class="list-group-item">
+                <a href="#"
+                  >Tài liệu 1<br />
+                  <i class="bx bx-menu"></i
+                ></a>
+              </li>
+              <li class="list-group-item">
+                <a href="#"
+                  >Tài liệu 2<br />
+                  <i class="bx bx-menu"></i
+                ></a>
+              </li>
+              <li class="list-group-item">
+                <a href="#"
+                  >Tài liệu 3<br />
+                  <i class="bx bx-menu"></i
+                ></a>
+              </li>
+              <li class="list-group-item">
+                <a href="#"
+                  >Tài liệu 4<br />
+                  <i class="bx bx-menu"></i
+                ></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div
+  class="modal fade"
+  id="modal_showMember"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg modal-lg" role="document">
+    <div class="modal-content">
+      <form id="form_member">
+        <div class="modal-header">
+          <h5 class="modal-title">Danh sách các thành viên tham gia dự án</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div class="container">
+            <div ng-repeat="member in listMemberById">
+              <div class="custom_member">
+                <img
+                  class="rounded-circle"
+                  width="50px"
+                  height="50px"
+                  src="{{member.image}}"
+                  alt=""
+                />
+                <span style="margin-left: 20px; font-size: 16px;">{{member.name}}</span>
+                <span class="role_member_custom" style="margin-left: 20px"> {{member.role == 0 ? "Quản lý" : "Thành viên"}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-outline-secondary btn btn-light"
+            data-bs-dismiss="modal"
+          >
+            Hủy
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

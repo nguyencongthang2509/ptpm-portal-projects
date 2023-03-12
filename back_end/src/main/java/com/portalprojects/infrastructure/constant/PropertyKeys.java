@@ -8,6 +8,6 @@ public class PropertyKeys {
     private PropertyKeys() {
     }
 
-//    public static final String TAO_NHOM_THAT_BAI = "tao.nhom.that.bai";
+    public static final String PROJECT_NOT_EXISTS = "project.not.exists";
 
 }

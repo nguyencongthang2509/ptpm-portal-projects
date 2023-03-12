@@ -1,5 +1,7 @@
 package com.portalprojects.infrastructure.constant;
 
+import com.portalprojects.util.PropertiesReader;
+
 /**
  * @author thangncph26123
  */
@@ -9,8 +11,8 @@ public enum Message {
     SUCCESS("Success"),
 
     //    ERROR_UNKNOWN("Error Unknown"),
-    ERROR_UNKNOWN("Error Unknown");
-//    CHUYEN_NGANH_NOT_EXIST(PropertiesReader.getProperty(PropertyKeys.CHUYEN_NGANH_NOT_EXIST)),
+    ERROR_UNKNOWN("Error Unknown"),
+    PROJECT_NOT_EXISTS(PropertiesReader.getProperty(PropertyKeys.PROJECT_NOT_EXISTS));
 
     private String message;
 

@@ -1,3 +1,37 @@
 <div id="main" class="main">
-  <h4>Home View List Project</h4>
+  <h4>Danh sách dự án của bạn</h4>
+  <br />
+  <div class="container">
+    <div class="row">
+      <div
+        ng-repeat="item in listProjectById"
+        class="col-lg-3 col-md-4 col-sm-6"
+      >
+        <a href="#/member/project-is-participating/{{item.id}}">
+          <div class="card" style="width: 100%">
+            <img
+              src="../../../assets/img/portal_project.jpg"
+              class="card-img-top"
+              alt="..."
+            />
+            <div class="card-body">
+              <h5 class="card-title">{{item.name}}</h5>
+              <h6 class="card-subtitle mb-2 text-muted">
+                Trạng thái: {{item.status == 0 ? 'Chưa diễn ra' : (item.status
+                == 1 ? 'Đang diễn ra' : 'Đã hoàn thành')}}
+              </h6>
+              <p class="card-text">{{item.descriptions}}</p>
+              <!-- <i class="bx bx-task">Task: </i><br> <i class="bx bx-user">Member: </i> -->
+              <p>
+                Tiến độ: {{item.progress}} %<progress
+                  max="100"
+                  value="{{item.progress}}"
+                ></progress>
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
 </div>

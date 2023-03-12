@@ -127,7 +127,7 @@ h6 {
 }
 
 .dropdown-menu .dropdown-footer a {
-  color: #444444;
+  color: #ffffff;
   text-decoration: underline;
 }
 
@@ -247,7 +247,7 @@ h6 {
 .card-footer {
   border-color: #ebeef4;
   background-color: #fff;
-  color: #798eb3;
+  color: #ffffff;
   padding: 15px;
 }
 
@@ -1263,12 +1263,12 @@ h6 {
 
 .footer .copyright {
   text-align: center;
-  color: #012970;
+  color: #ffffff;
 }
 
 .footer .credits {
   padding-top: 5px;
   text-align: center;
   font-size: 13px;
-  color: #012970;
+  color: #ffffff;
 }

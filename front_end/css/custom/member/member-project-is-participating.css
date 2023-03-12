@@ -1,0 +1,63 @@
+.card {
+  background: linear-gradient(to bottom right, #ffc0cb, #87cefa);
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  color: #333;
+  font-size: 16px;
+  padding: 20px;
+  width: 100%;
+  transition: transform 0.5s ease;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: stretch;
+  overflow-y: scroll; /* Thêm thanh cuộn dọc */
+  overflow-y: auto; /* Thêm thanh cuộn dọc */
+  height: 550px;
+}
+
+
+
+.card:hover {
+  transform: translateY(-20px);
+}
+
+progress {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  height: 8px;
+
+  background-color: #eee;
+  outline: none;
+}
+
+progress::-webkit-progress-value {
+  background-color: #0077ff;
+  border-radius: 5px;
+  transition: width 0.3s ease-in-out;
+}
+
+progress::-moz-progress-bar {
+  background-color: #0077ff;
+  border-radius: 5px;
+  transition: width 0.3s ease-in-out;
+}
+
+progress[value]::-webkit-progress-bar {
+  background-color: #eee;
+}
+
+progress[value]::-moz-progress-bar {
+  background-color: #eee;
+}
+
+progress[value="100"]::-webkit-progress-value {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+progress[value="100"]::-moz-progress-bar {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}

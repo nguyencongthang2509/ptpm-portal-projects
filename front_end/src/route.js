@@ -18,6 +18,11 @@ app.config(function ($routeProvider, $locationProvider) {
       controller: MemberProjectIsParticipatingController,
       css: "../css/custom/member/member-project-is-participating.css",
     })
+    .when("/member/project-is-participating/:id", {
+      templateUrl: "./pages/member/member-project-is-participating-detail.html",
+      controller: MemberProjectIsParticipatingDetailController,
+      css: "../css/custom/member/member-project-is-participating-detail.css",
+    })
     .when("/member/work-history", {
       templateUrl: "./pages/member/member-work-history.html",
       controller: MemberWorkHistoryController,
