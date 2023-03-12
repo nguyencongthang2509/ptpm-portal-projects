@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
  * @author thangncph26123
  */
 @Repository(LabelTodoRepository.NAME)
-public interface LabelTodoRepository  extends JpaRepository<LabelTodo, String> {
+public interface LabelTodoRepository extends JpaRepository<LabelTodo, String> {
 
     public static final String NAME = "BaseLabelTodoRepository";
 }

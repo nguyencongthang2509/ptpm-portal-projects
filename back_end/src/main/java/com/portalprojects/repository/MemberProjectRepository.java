@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
  * @author thangncph26123
  */
 @Repository(MemberProjectRepository.NAME)
-public interface MemberProjectRepository  extends JpaRepository<MemberProject, String> {
+public interface MemberProjectRepository extends JpaRepository<MemberProject, String> {
 
     public static final String NAME = "BaseMemberProjectRepository";
 }

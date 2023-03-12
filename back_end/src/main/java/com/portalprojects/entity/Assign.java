@@ -1,5 +1,6 @@
 package com.portalprojects.entity;
 
+import com.portalprojects.entity.base.PrimaryEntity;
 import com.portalprojects.infrastructure.constant.EntityProperties;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -16,11 +17,7 @@ import lombok.ToString;
 @Data
 @ToString
 @Table(name = "assign")
-public class Assign {
-
-    @Id
-    @Column(length = EntityProperties.LENGTH_ID, updatable = false)
-    private String id;
+public class Assign extends PrimaryEntity {
 
     @Column(length = EntityProperties.LENGTH_ID)
     private String memberId;

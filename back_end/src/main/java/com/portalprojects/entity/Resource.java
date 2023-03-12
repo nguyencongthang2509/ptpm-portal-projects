@@ -21,7 +21,11 @@ public class Resource extends PrimaryEntity {
     @Column(length = EntityProperties.LENGTH_CODE, nullable = false)
     private String code;
 
-    @Column(length = EntityProperties.LENGTH_NAME_SHORT)
+    @Column(length = EntityProperties.LENGTH_NAME)
+    @Nationalized
+    private String name;
+
+    @Column(length = EntityProperties.LENGTH_NAME)
     @Nationalized
     private String content;
 

@@ -1,8 +1,8 @@
 package com.portalprojects.entity;
 
+import com.portalprojects.entity.base.PrimaryEntity;
 import com.portalprojects.infrastructure.constant.EntityProperties;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.ToString;
@@ -15,12 +15,8 @@ import jakarta.persistence.Column;
 @Entity
 @Data
 @ToString
-@Table(name = "period_project")
-public class PeriodProject {
-
-    @Id
-    @Column(length = EntityProperties.LENGTH_ID, updatable = false)
-    private String id;
+@Table(name = "period_todo")
+public class PeriodTodo extends PrimaryEntity {
 
     @Column(length = EntityProperties.LENGTH_ID)
     private String periodId;

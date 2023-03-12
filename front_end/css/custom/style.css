@@ -13,7 +13,10 @@
 }
 
 body {
-  font-family: "Open Sans", sans-serif;
+  /* font-family: "Open Sans", sans-serif; */
+  font-family: var(--bs-body-font-family);
+  font-size: var(--bs-body-font-size);
+  font-weight: var(--bs-body-font-weight);
   background: #f6f9ff;
   color: #444444;
 }
@@ -376,7 +379,7 @@ h6 {
 
 @media (min-width: 1200px) {
   .logo {
-    width: 280px;
+    width: 215px;
   }
 }
 
@@ -395,9 +398,9 @@ h6 {
 .header {
   transition: all 0.5s;
   z-index: 997;
-  height: 60px;
+  height: 53px;
   box-shadow: 0px 2px 20px rgba(1, 41, 112, 0.1);
-  background-color: #fff;
+  background-color: #78b2ec;
   padding-left: 20px;
   /* Toggle Sidebar Button */
   /* Search Bar */
@@ -447,7 +450,7 @@ h6 {
   color: #012970;
   border: 1px solid rgba(1, 41, 112, 0.2);
   padding: 7px 38px 7px 8px;
-  border-radius: 3px;
+  border-radius: 40px;
   transition: 0.3s;
   width: 100%;
 }
@@ -615,10 +618,10 @@ h6 {
 --------------------------------------------------------------*/
 .sidebar {
   position: fixed;
-  top: 60px;
+  top: 50px;
   left: 0;
   bottom: 0;
-  width: 300px;
+  width: 250px;
   z-index: 996;
   transition: all 0.3s;
   padding: 20px;
@@ -626,13 +629,17 @@ h6 {
   scrollbar-width: thin;
   scrollbar-color: #aab7cf transparent;
   box-shadow: 0px 0px 20px rgba(1, 41, 112, 0.1);
-  background-color: #fff;
+  background-color: #ffffff;
 }
 
 @media (max-width: 1199px) {
   .sidebar {
     left: -300px;
   }
+}
+
+.change-heading {
+  margin-left: -8px !important;
 }
 
 .sidebar::-webkit-scrollbar {
@@ -646,16 +653,15 @@ h6 {
 }
 
 @media (min-width: 1200px) {
-
   #main,
   #footer {
-    margin-left: 300px;
+    margin-left: 250px;
   }
 }
 
 @media (max-width: 1199px) {
   .toggle-sidebar .sidebar {
-    left: 0;
+    left: 0px;
   }
 }
 
@@ -663,12 +669,19 @@ h6 {
 
   .toggle-sidebar #main,
   .toggle-sidebar #footer {
-    margin-left: 0;
+    margin-left: 80px;
   }
 
   .toggle-sidebar .sidebar {
-    left: -300px;
+    bottom: 0;
+    right: 0;
+    width: 80px;
+    transition: all 0.3s ease-in-out;
   }
+}
+
+.hide-text span {
+  display: none;
 }
 
 .sidebar-nav {
@@ -714,8 +727,8 @@ h6 {
 }
 
 .sidebar-nav .nav-link.collapsed {
-  color: #012970;
-  background: #fff;
+  color: #080808;
+  background: #ffffff;
 }
 
 .sidebar-nav .nav-link.collapsed i {
@@ -1236,6 +1249,7 @@ h6 {
     max-width: 50%;
   }
 }
+
 
 /*--------------------------------------------------------------
 # Footer

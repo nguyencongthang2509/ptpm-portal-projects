@@ -1,6 +1,8 @@
 package com.portalprojects.entity;
 
+import com.portalprojects.entity.base.PrimaryEntity;
 import com.portalprojects.infrastructure.constant.EntityProperties;
+import com.portalprojects.infrastructure.constant.RoleStakeholderProject;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -16,15 +18,14 @@ import lombok.ToString;
 @Data
 @ToString
 @Table(name = "stakeholder_project")
-public class StakeholderProject {
-
-    @Id
-    @Column(length = EntityProperties.LENGTH_ID, updatable = false)
-    private String id;
+public class StakeholderProject extends PrimaryEntity {
 
     @Column(length = EntityProperties.LENGTH_ID)
     private String stakeholderId;
 
     @Column(length = EntityProperties.LENGTH_ID)
     private String projectId;
+
+    @Column(nullable = false)
+    private RoleStakeholderProject role;
 }
