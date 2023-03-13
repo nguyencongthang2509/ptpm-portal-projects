@@ -9,5 +9,6 @@ public class PropertyKeys {
     }
 
     public static final String PROJECT_NOT_EXISTS = "project.not.exists";
+    public static final String PROJECT_NOT_EXTST = "project.not.exist";
 
 }

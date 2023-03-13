@@ -12,7 +12,8 @@ public enum Message {
 
     //    ERROR_UNKNOWN("Error Unknown"),
     ERROR_UNKNOWN("Error Unknown"),
-    PROJECT_NOT_EXISTS(PropertiesReader.getProperty(PropertyKeys.PROJECT_NOT_EXISTS));
+    PROJECT_NOT_EXISTS(PropertiesReader.getProperty(PropertyKeys.PROJECT_NOT_EXISTS)),
+    PROJECT_NOT_EXIST(PropertiesReader.getProperty(PropertyKeys.PROJECT_NOT_EXTST));
 
     private String message;
 
