@@ -257,6 +257,7 @@ public class DBGenerator implements CommandLineRunner {
         period1.setProgress(Short.parseShort("0"));
         period1.setStatusPeriod(StatusPeriod.DANG_DIEN_RA);
         period1.setDescriptions("Giai đoạn quan trọng 1");
+        period1.setProjectId(project1.getId());
         period1.setId(periodRepository.save(period1).getId());
 
         Period period2 = new Period();
@@ -268,6 +269,7 @@ public class DBGenerator implements CommandLineRunner {
         period2.setProgress(Short.parseShort("0"));
         period2.setStatusPeriod(StatusPeriod.CHUA_DIEN_RA);
         period2.setDescriptions("Giai đoạn quan trọng 2");
+        period2.setProjectId(project1.getId());
         period2.setId(periodRepository.save(period2).getId());
 
         Todo todo1 = new Todo();

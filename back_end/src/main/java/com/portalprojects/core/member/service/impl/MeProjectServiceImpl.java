@@ -29,7 +29,7 @@ public class MeProjectServiceImpl implements MeProjectService {
     private MeProjectRepository meProjectRepository;
 
     @Override
-    public PageableObject<MeProjectResponse> getAllProjectByIdUser(MeFindProjectRequest request, String idUser) {
+    public PageableObject<MeProjectResponse> getAllProjectByIdUser(final MeFindProjectRequest request, String idUser) {
         Pageable pageable = PageRequest.of(request.getPage(), request.getSize());
         Page<MeProjectResponse> res = meProjectRepository.getAllProjectById(pageable, idUser);
         return new PageableObject(res);

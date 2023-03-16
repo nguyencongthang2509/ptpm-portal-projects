@@ -1,5 +1,6 @@
 package com.portalprojects.core.member.repository;
 
+import com.portalprojects.core.member.model.request.MeFindProjectRequest;
 import com.portalprojects.core.member.model.response.MeProjectResponse;
 import com.portalprojects.repository.ProjectRepository;
 import org.springframework.data.domain.Page;
@@ -17,7 +18,9 @@ public interface MeProjectRepository extends ProjectRepository {
             FROM project a JOIN member_project b ON a.id = b.project_id 
             WHERE b.member_id = :idUser ORDER BY a.created_date DESC
             """, countQuery = """
-            SELECT COUNT(1) FROM project a
+            SELECT COUNT(1) 
+            FROM project a JOIN member_project b ON a.id = b.project_id 
+            WHERE b.member_id = :idUser ORDER BY a.created_date DESC
             """, nativeQuery = true)
-    Page<MeProjectResponse> getAllProjectById(Pageable page,@Param("idUser") String idUser);
+    Page<MeProjectResponse> getAllProjectById(Pageable page, @Param("idUser") String idUser);
 }

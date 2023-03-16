@@ -480,7 +480,7 @@ h6 {
   list-style: none;
 }
 
-.header-nav>ul {
+.header-nav > ul {
   margin: 0;
   padding: 0;
 }
@@ -666,7 +666,6 @@ h6 {
 }
 
 @media (min-width: 1200px) {
-
   .toggle-sidebar #main,
   .toggle-sidebar #footer {
     margin-left: 80px;
@@ -912,7 +911,7 @@ h6 {
 }
 
 /* News & Updates */
-.dashboard .news .post-item+.post-item {
+.dashboard .news .post-item + .post-item {
   margin-top: 15px;
 }
 
@@ -1179,7 +1178,7 @@ h6 {
   padding: 12px 15px;
 }
 
-.contact .php-email-form button[type=submit] {
+.contact .php-email-form button[type="submit"] {
   background: #4154f1;
   border: 0;
   padding: 10px 30px;
@@ -1188,7 +1187,7 @@ h6 {
   border-radius: 4px;
 }
 
-.contact .php-email-form button[type=submit]:hover {
+.contact .php-email-form button[type="submit"]:hover {
   background: #5969f3;
 }
 
@@ -1250,7 +1249,6 @@ h6 {
   }
 }
 
-
 /*--------------------------------------------------------------
 # Footer
 --------------------------------------------------------------*/
@@ -1263,12 +1261,51 @@ h6 {
 
 .footer .copyright {
   text-align: center;
-  color: #ffffff;
+  color: #000000;
 }
 
 .footer .credits {
   padding-top: 5px;
   text-align: center;
   font-size: 13px;
-  color: #ffffff;
+  color: #000000;
+}
+
+.btn_eye {
+  cursor: pointer;
+  text-align: center;
+  border: 1px solid white;
+  border-radius: 7px;
+  width: 35px;
+  height: 35px;
+  line-height: 29px;
+  background: #1abb32;
+  float: left;
+}
+
+.btn_pencil {
+  cursor: pointer;
+  text-align: center;
+  border: 1px solid white;
+  border-radius: 7px;
+  width: 35px;
+  height: 35px;
+  line-height: 29px;
+  background: #ea3737;
+  float: left;
+}
+
+.btn.btn-primary {
+  padding: 4px;
+  font-size: 14px;
+}
+
+.btn-outline-secondary {
+  padding: 4px;
+  font-size: 14px;
+}
+
+.btn.btn-outline-secondary.btn.btn-light {
+  padding: 4px;
+  font-size: 14px;
 }

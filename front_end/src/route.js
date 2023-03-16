@@ -23,10 +23,10 @@ app.config(function ($routeProvider, $locationProvider) {
       controller: MemberProjectIsParticipatingDetailController,
       css: "../css/custom/member/member-project-is-participating-detail.css",
     })
-    .when("/member/work-history", {
-      templateUrl: "./pages/member/member-work-history.html",
-      controller: MemberWorkHistoryController,
-      css: "../css/custom/member/member-work-history.css",
+    .when("/member/period-project/:id", {
+      templateUrl: "./pages/member/member-period-project.html",
+      controller: MemberPeriodProjectController,
+      css: "../css/custom/member/member-period-project.css",
     })
     // Stakeholders
     .when("/stakeholder/projects", {

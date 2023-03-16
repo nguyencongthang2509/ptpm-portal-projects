@@ -9,5 +9,5 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class MeFindProjectRequest extends PageableRequest {
+public final class MeFindProjectRequest extends PageableRequest {
 }

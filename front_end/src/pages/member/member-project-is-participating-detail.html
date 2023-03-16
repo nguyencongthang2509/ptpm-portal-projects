@@ -4,6 +4,24 @@
       <div class="title-project">
         <h4>{{detailProject.name}}</h4>
       </div>
+      <div class="listPeriod">
+          <select name="" class="form-control select" id="">
+            <option value="{{item.id}}" ng-repeat="item in listPeriodById">
+              {{item.name}}
+            </option>
+          </select>
+      </div>
+      <div class="listPeriod__btn">
+        <a href="#member/period-project/{{projectId}}">
+          <div
+            class="btn_eye"
+            data-toggle="tooltip"
+            title="Xem chi tiết các giai đoạn"
+          >
+            <img src="../../../assets/img/eye-fill.svg" />
+          </div>
+        </a>
+      </div>
       <div class="list-member">
         <a
           ng-repeat-start="member in listMemberById | limitTo:4"
@@ -33,207 +51,155 @@
   <br />
   <div class="container-custom-trello">
     <div class="row flex-nowrap">
-      <div class="col-4">
+      <div style="width: auto">
         <div class="card trello-card">
           <div class="card-body">
-            <h6 class="card-title">TÀI LIỆU CỦA DỰ ÁN</h6>
-            <ul class="list-group" dnd-list="items">
+            <h6 class="card-title">TÀI LIỆU DỰ ÁN</h6>
+            <ul class="list-group">
+              <li ng-repeat="item in listResource" class="list-group-item">
+                <a> {{item.name}} <br /><i class="bx bx-file"></i></a>
+              </li>
               <li
-                ng-repeat="item in items"
+                class="list-group-item"
+                ng-click="addACard(xx.id)"
+                ng-hide="xx.checkShowAddCard"
+              >
+                <i class="bx bx-plus"></i> Add a card
+              </li>
+              <!-- <li class="list-group-item"> -->
+              <div class="form_add_card" ng-show="xx.checkShowAddCard">
+                <input
+                  type="text"
+                  placeholder="Enter card title"
+                  class="form-control mb-2"
+                  name="inputTitle"
+                  ng-model="valueInput"
+                />
+                <button ng-click="addNewResource()" class="btn btn-primary">
+                  Add card
+                </button>
+                <button
+                  class="btn btn-outline-secondary"
+                  ng-click="xx.checkShowAddCard = false"
+                >
+                  Close
+                </button>
+              </div>
+              <!-- </li> -->
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div ng-repeat="xx in listTask" style="width: auto">
+        <div class="card trello-card">
+          <div class="card-body">
+            <h6 class="card-title">{{xx.name}}</h6>
+            <ul
+              class="list-group"
+              dnd-list="xx.todoList"
+              ng-init="externalSources=['external']"
+              dnd-allow-same-container
+              dnd-external-sources="externalSources"
+              dnd-drop="onDrop($event, index, item, external, type, xx)"
+            >
+              <li
+                ng-repeat="item in xx.todoList"
                 dnd-draggable="item"
-                dnd-moved="items.splice($index, 1)"
-                dnd-effect-allowed="move"
                 dnd-selected="selected = item"
                 ng-class="{selected: selected === item}"
                 class="list-group-item"
+                dnd-effect-allowed="move"
+                dnd-dragstart="onDragStart($index, xx.todoList)"
+                dnd-dragend="onDragEnd(item, xx, $event, $index)"
+                dnd-moved="draggedItem = item"
+                style="list-style: none"
               >
-                <a href="#">{{item.name}} <br /><i class="bx bx-menu"></i></a>
+                <a href="">{{item.name}} <br /><i class="bx bx-menu"></i></a>
               </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="col-4">
-        <div class="card trello-card">
-          <div class="card-body">
-            <h6 class="card-title">VIỆC CẦN LÀM</h6>
-            <ul class="list-group">
-              <li class="list-group-item">
-                <a href="#"
-                  >Tài liệu 1<br />
-                  <i class="bx bx-menu"></i
-                ></a>
+              <li
+                class="list-group-item"
+                ng-click="addACard(xx.id)"
+                ng-hide="xx.checkShowAddCard"
+              >
+                <i class="bx bx-plus"></i> Add a card
               </li>
-              <li class="list-group-item">
-                <a href="#"
-                  >Tài liệu 2<br />
-                  <i class="bx bx-menu"></i
-                ></a>
-              </li>
-              <li class="list-group-item">
-                <a href="#"
-                  >Tài liệu 3<br />
-                  <i class="bx bx-menu"></i
-                ></a>
-              </li>
-              <li class="list-group-item">
-                <a href="#"
-                  >Tài liệu 4<br />
-                  <i class="bx bx-menu"></i
-                ></a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="col-4">
-        <div class="card trello-card">
-          <div class="card-body">
-            <h6 class="card-title">ĐANG LÀM</h6>
-            <ul class="list-group">
-              <li class="list-group-item">
-                <a href="#"
-                  >Tài liệu 1<br />
-                  <i class="bx bx-menu"></i
-                ></a>
-              </li>
-              <li class="list-group-item">
-                <a href="#"
-                  >Tài liệu 2<br />
-                  <i class="bx bx-menu"></i
-                ></a>
-              </li>
-              <li class="list-group-item">
-                <a href="#"
-                  >Tài liệu 3<br />
-                  <i class="bx bx-menu"></i
-                ></a>
-              </li>
-              <li class="list-group-item">
-                <a href="#"
-                  >Tài liệu 4<br />
-                  <i class="bx bx-menu"></i
-                ></a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="col-4">
-        <div class="card trello-card">
-          <div class="card-body">
-            <h6 class="card-title">CẦN SỬA</h6>
-            <ul class="list-group">
-              <li class="list-group-item">
-                <a href="#"
-                  >Tài liệu 1<br />
-                  <i class="bx bx-menu"></i
-                ></a>
-              </li>
-              <li class="list-group-item">
-                <a href="#"
-                  >Tài liệu 2<br />
-                  <i class="bx bx-menu"></i
-                ></a>
-              </li>
-              <li class="list-group-item">
-                <a href="#"
-                  >Tài liệu 3<br />
-                  <i class="bx bx-menu"></i
-                ></a>
-              </li>
-              <li class="list-group-item">
-                <a href="#"
-                  >Tài liệu 4<br />
-                  <i class="bx bx-menu"></i
-                ></a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="col-4">
-        <div class="card trello-card">
-          <div class="card-body">
-            <h6 class="card-title">ĐÃ HOÀN THÀNH</h6>
-            <ul class="list-group">
-              <li class="list-group-item">
-                <a href="#"
-                  >Tài liệu 1<br />
-                  <i class="bx bx-menu"></i
-                ></a>
-              </li>
-              <li class="list-group-item">
-                <a href="#"
-                  >Tài liệu 2<br />
-                  <i class="bx bx-menu"></i
-                ></a>
-              </li>
-              <li class="list-group-item">
-                <a href="#"
-                  >Tài liệu 3<br />
-                  <i class="bx bx-menu"></i
-                ></a>
-              </li>
-              <li class="list-group-item">
-                <a href="#"
-                  >Tài liệu 4<br />
-                  <i class="bx bx-menu"></i
-                ></a>
-              </li>
+              <!-- <li class="list-group-item"> -->
+              <div class="form_add_card" ng-show="xx.checkShowAddCard">
+                <input
+                  type="text"
+                  placeholder="Enter card title"
+                  class="form-control mb-2"
+                  name="inputTitle"
+                  ng-model="valueInput"
+                />
+                <button ng-click="addNewCard(xx.id)" class="btn btn-primary">
+                  Add card
+                </button>
+                <button
+                  class="btn btn-outline-secondary"
+                  ng-click="xx.checkShowAddCard = false"
+                >
+                  Close
+                </button>
+              </div>
+              <!-- </li> -->
             </ul>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-<div
-  class="modal fade"
-  id="modal_showMember"
-  tabindex="-1"
-  aria-labelledby="exampleModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-lg modal-lg" role="document">
-    <div class="modal-content">
-      <form id="form_member">
-        <div class="modal-header">
-          <h5 class="modal-title">Danh sách các thành viên tham gia dự án</h5>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
-        </div>
-        <div class="modal-body">
-          <div class="container">
-            <div ng-repeat="member in listMemberById">
-              <div class="custom_member">
-                <img
-                  class="rounded-circle"
-                  width="50px"
-                  height="50px"
-                  src="{{member.image}}"
-                  alt=""
-                />
-                <span style="margin-left: 20px; font-size: 16px;">{{member.name}}</span>
-                <span class="role_member_custom" style="margin-left: 20px"> {{member.role == 0 ? "Quản lý" : "Thành viên"}}</span>
+  <div
+    class="modal fade"
+    id="modal_showMember"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-lg modal-lg" role="document">
+      <div class="modal-content">
+        <form id="form_member">
+          <div class="modal-header">
+            <h5 class="modal-title">Danh sách các thành viên tham gia dự án</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="container">
+              <div ng-repeat="member in listMemberById">
+                <div class="custom_member">
+                  <img
+                    class="rounded-circle"
+                    width="50px"
+                    height="50px"
+                    src="{{member.image}}"
+                    alt=""
+                  />
+                  <span style="margin-left: 20px; font-size: 16px"
+                    >{{member.name}}</span
+                  >
+                  <span class="role_member_custom" style="margin-left: 20px">
+                    {{member.role == 0 ? "Quản lý" : "Thành viên"}}</span
+                  >
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-outline-secondary btn btn-light"
-            data-bs-dismiss="modal"
-          >
-            Hủy
-          </button>
-        </div>
-      </form>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-outline-secondary btn btn-light"
+              data-bs-dismiss="modal"
+            >
+              Hủy
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </div>

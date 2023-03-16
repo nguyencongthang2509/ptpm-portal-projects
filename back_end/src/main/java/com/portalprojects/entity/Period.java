@@ -42,6 +42,9 @@ public class Period extends PrimaryEntity {
     @Nationalized
     private String target;
 
+    @Column(length = EntityProperties.LENGTH_ID)
+    private String projectId;
+
     @Column(nullable = false)
     private StatusPeriod statusPeriod;
 }

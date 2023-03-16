@@ -1,0 +1,33 @@
+.title_project {
+  float: left;
+}
+
+.add_new_period {
+  float: right;
+}
+
+.card-body {
+  margin-top: 20px;
+  background-color: rgb(255, 255, 255);
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.form-control.custom-input-search {
+  width: 25%;
+  float: left;
+}
+
+.btn.btn-primary.custom-btn {
+  margin-left: 10px;
+  margin-top: 2px;
+}
+
+.paging_custom {
+  float: right;
+}
+
+.table.table-striped.table-hover {
+  font-size: 14px;
+}
+

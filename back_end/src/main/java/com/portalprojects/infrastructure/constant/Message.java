@@ -12,7 +12,11 @@ public enum Message {
 
     //    ERROR_UNKNOWN("Error Unknown"),
     ERROR_UNKNOWN("Error Unknown"),
-    PROJECT_NOT_EXISTS(PropertiesReader.getProperty(PropertyKeys.PROJECT_NOT_EXISTS));
+    PROJECT_NOT_EXISTS(PropertiesReader.getProperty(PropertyKeys.PROJECT_NOT_EXISTS)),
+    INVALID_DATE(PropertiesReader.getProperty(PropertyKeys.INVALID_DATE)),
+    INVALID_END_TIME(PropertiesReader.getProperty(PropertyKeys.INVALID_END_TIME)),
+    PERIOD_OVERLAP(PropertiesReader.getProperty(PropertyKeys.PERIOD_OVERLAP)),
+    PERIOD_NOT_EXISTS(PropertiesReader.getProperty(PropertyKeys.PERIOD_NOT_EXISTS));
 
     private String message;
 

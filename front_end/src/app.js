@@ -2,7 +2,7 @@ var app = angular.module("myModule", [
   "ngResource",
   "ngRoute",
   "angularCSS",
-  "ngDragDrop",
+  "dndLists",
   "ngStorage",
   "ngFileUpload",
   "ngLocale",

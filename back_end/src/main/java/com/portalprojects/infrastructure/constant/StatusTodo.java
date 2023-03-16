@@ -4,7 +4,9 @@ package com.portalprojects.infrastructure.constant;
  * @author thangncph26123
  */
 public enum StatusTodo {
-    DA_HOAN_THANH,
+    VIEC_CAN_LAM,
     DANG_DIEN_RA,
-    CHUA_DIEN_RA
+    CAN_SUA,
+    DA_HOAN_THANH,
+    TAM_HOAN
 }

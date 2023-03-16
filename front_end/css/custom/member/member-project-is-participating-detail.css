@@ -50,10 +50,30 @@ h4 {
   margin-bottom: 15px;
 }
 
+.list-group {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
 .list-group-item {
   border: none;
   padding: 5px 0;
   font-size: 14px;
+  list-style-type: none;
+  cursor: grabbing;
+}
+
+li.list-group-item::before {
+  display: none;
+}
+
+li.list-group-item, li.list-group-item * {
+  user-select: none;
+}
+
+.form_add_card * {
+  user-select: text;
 }
 
 .list-group-item a {
@@ -61,21 +81,12 @@ h4 {
   text-decoration: none;
 }
 
+.list-group-item::marker {
+  display: none;
+}
+
 .list-group-item a:hover {
   text-decoration: underline;
-}
-
-.trello-card {
-  margin-top: 10px;
-  border-radius: 10px;
-  background-color: #ebecf0;
-  box-shadow: 0 1px 0 rgba(9, 30, 66, 0.25);
-}
-
-.trello-card .card-title {
-  font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 0;
 }
 
 .card-body {
@@ -95,11 +106,30 @@ h4 {
 
 .card-body::-webkit-scrollbar-thumb {
   background-color: #c1c1c1;
-  border-radius: 30px;
+  border-radius: 10px;
 }
 
 .card-body::-webkit-scrollbar-thumb:hover {
   background-color: #a8a8a8;
+}
+
+.trello-card {
+  background: linear-gradient(
+    to bottom right,
+    hsla(349, 26%, 75%, 0.5),
+    hsl(203, 46%, 76%)
+  );
+  margin-top: 10px;
+  border-radius: 5px;
+  box-shadow: 0 1px 0 rgba(9, 30, 66, 0.25);
+  width: 250px;
+}
+
+.trello-card .card-title {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 0;
+  color: white;
 }
 
 .trello-card .list-group {
@@ -111,6 +141,7 @@ h4 {
   background-color: #fff;
   border: none;
   border-radius: 3px;
+  user-select: none;
   padding: 10px;
   margin-bottom: 8px;
   box-shadow: 0 1px 0 rgba(9, 30, 66, 0.25);
@@ -122,7 +153,7 @@ h4 {
 }
 
 .trello-card .list-group-item:hover {
-  background-color: #b7bac1;
+  background-color: #d2dbf0;
 }
 .container-custom-trello::-webkit-scrollbar {
   width: 5px;
@@ -154,18 +185,18 @@ h4 {
 }
 
 .custom_member {
-    margin-top: 10px;
-    width: 400px;
+  margin-top: 10px;
+  width: 400px;
 }
 
 .role_member_custom {
-    float: right;
-    background-color: #81aece;
-    border: 1px white solid;
-    margin-top: 10px;
-    border-radius: 10px;
-    font-size: 0.8em; /* giảm kích thước font chữ */
-    padding: 2px 5px; /* giảm khoảng cách giữa nội dung và viền */
+  float: right;
+  background-color: #81aece;
+  border: 1px white solid;
+  margin-top: 10px;
+  border-radius: 10px;
+  font-size: 0.8em; /* giảm kích thước font chữ */
+  padding: 2px 5px; /* giảm khoảng cách giữa nội dung và viền */
 }
 
 .btn-people {
@@ -174,6 +205,8 @@ h4 {
   width: 35px;
   font-size: 12px;
   border-radius: 50%;
+  background-color: transparent;
+  color: white;
 }
 
 .btn-people :hover {
@@ -186,5 +219,28 @@ h4 {
 }
 
 .modal_showMember {
-    width: 500px !important;
+  width: 500px !important;
 }
+
+.col-4 {
+  width: 27%;
+}
+
+.form_add_card {
+  padding: 10px;
+}
+
+.listPeriod {
+  float: left;
+  margin-left: 10px;
+}
+
+.form-control.select{
+  font-size: 14px;
+}
+
+.listPeriod__btn {
+  float: left;
+  margin-left: 5px;
+}
+
