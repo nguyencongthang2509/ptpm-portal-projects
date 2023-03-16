@@ -37,8 +37,8 @@ public interface AdProjectRepository extends ProjectRepository {
              FROM project pro 
              WHERE  
              ( :#{#rep.name} IS NULL 
-                        OR :#{#rep.name} LIKE '' 
-                        OR pro.name LIKE %:#{#rep.name}% ) 
+                OR :#{#rep.name} LIKE '' 
+                OR pro.name LIKE %:#{#rep.name}% )          
             """, nativeQuery = true)
     Page<AdProjectReponse> findByNameProject(@Param("rep") AdFindProjectRepuest rep, Pageable page);
 

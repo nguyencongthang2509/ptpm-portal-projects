@@ -26,7 +26,7 @@ public interface AdProjectReponse extends IsIdentified {
     Long getStartTime();
 
     @Value("#{target.end_time}")
-    Long getEndTimne();
+    Long getEndTime();
 
     @Value("#{target.progress}")
     Short  getProgress();
@@ -34,7 +34,7 @@ public interface AdProjectReponse extends IsIdentified {
     @Value("#{target.created_date}")
     Long  getCreateDate();
 
-
-
+    @Value("#{target.status_project}")
+    String getStatusProject();
 
 }

@@ -1,6 +1,5 @@
 package com.portalprojects.core.admin.service.impl;
 
-import com.portalprojects.core.admin.model.request.AdBaseProjectRepuest;
 import com.portalprojects.core.admin.model.request.AdCreateProjectRepuest;
 import com.portalprojects.core.admin.model.request.AdFindProjectRepuest;
 import com.portalprojects.core.admin.model.request.AdUpdateProjectRepuest;
@@ -19,7 +18,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
-import java.rmi.RemoteException;
 import java.util.List;
 import java.util.Optional;
 

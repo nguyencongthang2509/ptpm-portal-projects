@@ -1,3 +1,272 @@
 <div id="main" class="main">
-  <h1>Đây là màn quản lý dự án của admin</h1>
+  <h1>Quản lý dự án</h1>
+  <br />
+  <div class="container"></div>
+  <!-- form seacrh -->
+  <!-- Content here -->
+  <div class="search-bar">
+    <form class="d-flex">
+      <input
+        class="form-control me-2"
+        type="text"
+        placeholder="Search"
+        aria-label="Search"
+        style="width: 400px"
+        ng-model="seacrhByName"
+        name="seacrhByName"
+        id="seacrhByName"
+      />
+      <button class="btn btn-outline-success" type="button" ng-click="searchProjectByName($event)" >Search</button>
+    </form>
+  </div>
+  <br />
+  <!-- Button trigger modal -->
+  <button
+    type="button"
+    class="btn btn-primary"
+    data-bs-toggle="modal"
+    data-bs-target="#exampleModal"
+  >
+    Thêm dự án
+  </button>
+  <!-- Modal thêm project -->
+  <div
+    class="modal fade"
+    id="exampleModal"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Thêm dự án</h1>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <!-- body model -->
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="">Mã dự án</label>
+              <input
+                type="text"
+                class="form-control"
+                id=""
+                ng-model="form_project.code"
+              />
+            </div>
+            <br />
+            <div class="form-group">
+              <label for="">Tên dự án</label>
+              <input
+                type="text"
+                class="form-control"
+                ng-model="form_project.name"
+              />
+            </div>
+            <br />
+            <div class="form-group">
+              <label for="start">Ngày bắt đầu:</label>
+              <input
+                class="form-control"
+                type="date"
+                id="start"
+                name="trip-start"
+                value=""
+                ng-model="form_project.startTime"
+              />
+            </div>
+            <br />
+            <div class="form-group">
+              <label for="start">Ngày kết thúc:</label>
+              <input
+                class="form-control"
+                type="date"
+                id="start"
+                name="trip-start"
+                value=""
+                ng-model="form_project.endTime"
+              />
+            </div>
+            <br />
+            <div class="form-group">
+              <label for="">Mô tả dự án </label>
+              <input type="text" class="form-control"  ng-model="form_project.descriptions" />
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Thoát
+          </button>
+          <button type="button" class="btn btn-primary" ng-click="addProject()">
+            Thêm
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col" style="display: none">ID</th>
+        <th scope="col">STT</th>
+        <th scope="col">Mã số</th>
+        <th scope="col">Tên dự án</th>
+        <th scope="col">Tiến độ</th>
+        <th scope="col">Trạng thái</th>
+        <th scope="col">Ngày bắt đầu</th>
+        <th scope="col">Ngày kết thúc</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="item in listProject ">
+        <td style="display: none">{{item.id}}</td>
+        <td>{{item.stt}}</td>
+        <td>{{item.code}}</td>
+        <td>{{item.name}}</td>
+        <td>{{item.progress}}%</td>
+        <td>
+          {{item.statusProject == 1 ? 'Chưa diễn ra' : (item.statusProject == 0 ?
+          'Đang diễn ra' :'Đã hoàn thành' )}}
+        </td>
+        <td>{{item.startTime | date :'dd/MM/yyyy'}}</td>
+        <td>{{item.endTime | date :'dd/MM/yyyy'}}</td>
+        <td>
+          <a class="btn btn-warning" href="#" role="button"
+            ><i class="bi bi-eye"></i
+          ></a>
+          <a
+            class="btn btn-primary"
+            href="#"
+            role="button"
+            class="btn btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModalUpdate"
+            ng-click="detail($event,$index)"
+            ><i class="bi bi-pencil-square"></i
+          ></a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Modal update project -->
+  <div
+    class="modal fade"
+    id="exampleModalUpdate"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Update dự án</h1>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <!-- body model -->
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <input
+                type="hidden"
+                class="form-control"
+                id=""
+                ng-model="form_project_update.id"
+
+              />
+            </div>
+            <div class="form-group">
+              <label for="">Mã dự án</label>
+              <input
+                type="text"
+                class="form-control"
+                id=""
+                ng-model="form_project_update.code"
+              />
+            </div>
+            <br />
+            <div class="form-group">
+              <label for="">Tên dự án</label>
+              <input
+                type="text"
+                class="form-control"
+                ng-model="form_project_update.name"
+              />
+            </div>
+            <br />
+            <div class="form-group">
+              <label for="start">Ngày bắt đầu:</label>
+              <input
+                class="form-control"
+                type="date"
+                id="start"
+                name="trip-start"
+                value=""
+                ng-model="form_project_update.startTime"
+              />
+            </div>
+            <br />
+            <div class="form-group">
+              <label for="start">Ngày kết thúc:</label>
+              <input
+                class="form-control"
+                type="date"
+                id="start"
+                name="trip-start"
+                value=""
+                ng-model="form_project_update.endTime"
+              />
+            </div>
+            <br />
+            <div class="form-group">
+              <label for="">Tiến độ </label>
+              <input type="text" class="form-control" ng-model="form_project_update.progress"/>
+            </div>
+            <br>
+            <div class="form-group">
+              <label for="">Mô tả dự án </label>
+              <input type="text" class="form-control" ng-model="form_project_update.descriptions"/>
+            </div>
+            <br>
+            <form class="form-inline">
+              <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Trạng thái</label><br>
+              <select class="custom-select my-1 mr-sm-2 form-control" id="inlineFormCustomSelectPref" ng-model="form_project_update.statusProject" >
+                <option value="1">Chưa diễn ra</option>
+                <option value="0">Đang diễn ra</option>
+                <option value="2">Đã hoàn thành</option>
+              </select>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Thoát
+          </button>
+          <button type="button"  class="btn btn-primary"  aria-hidden="false" ng-click="Update($event)">
+            Update
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

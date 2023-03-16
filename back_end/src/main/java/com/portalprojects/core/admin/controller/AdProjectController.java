@@ -28,14 +28,14 @@ import java.util.List;
  * @author NguyenVinh
  */
 @RestController
-@RequestMapping("admin/project")
-@CrossOrigin(origins = {"*"}, maxAge = 4800, allowCredentials = "false")
+@RequestMapping("/admin/project")
+@CrossOrigin(origins = {"*"})
 public class AdProjectController {
 
     @Autowired
     private AdProjectService adProjectService;
 
-    @GetMapping("/{page}")
+    @GetMapping("page/{page}")
     public ResponseEntity<?> fintAll(@PathVariable int page) {
         Pageable pageResquest = PageRequest.of(page - 1, 5);
         List<Project> list = adProjectService.findAllProject(pageResquest);
@@ -47,7 +47,7 @@ public class AdProjectController {
         return new ResponseObject((adProjectService.searchProject(repuest)));
     }
 
-    @GetMapping("/detail/{id}")
+    @GetMapping("/{id}")
     public ResponseObject detailProject(@PathVariable("id") String id) {
         return new ResponseObject(adProjectService.findProjectById(id));
     }
