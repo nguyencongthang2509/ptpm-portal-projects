@@ -16,6 +16,7 @@ window.AdminProjectManagementController = function (
     progress: 0,
     statusProject: "1",
   };
+
   $scope.form_project_update = {
     id: "",
     code: "",
@@ -27,11 +28,23 @@ window.AdminProjectManagementController = function (
     statusProject: "1",
   };
 
-  // lấy hết dữ liệu ra
-  AdProjcetService.fetchProject().then(function () {
-    $scope.listProject = AdProjcetService.getProject();
-  });
+  // load data
+  function loadData() {
+    // lấy hết dữ liệu ra
+    AdProjcetService.fetchProject().then(function () {
+      $scope.listProject = AdProjcetService.getProject();
+    });
+  }
 
+  loadData();
+
+  $scope.openModalAdd = function () {
+    $scope.form_project.name = "";
+    $scope.form_project.code = "";
+    $scope.form_project.descriptions = "";
+    $scope.form_project.startTime = "";
+    $scope.form_project.endTime = "";
+  };
   // thêm project
   $scope.addProject = function () {
     console.log($scope.form_project);
@@ -47,12 +60,21 @@ window.AdminProjectManagementController = function (
       })
       .then(
         function (response) {
-          if (response.status == 201) {
-            alert("Thêm thành công");
-            $location.path("/admin/project-management");
-          }
+          toastr.success("Thêm thành công", "Thông báo!", {
+            closeButton: true,
+            progressBar: true,
+            positionClass: "toast-top-center",
+          });
+          $("#exampleModal").modal("hide");
+          loadData();
         },
-        function (error) {}
+        function (error) {
+          toastr.error(error.data.message, "Thông báo!", {
+            closeButton: true,
+            progressBar: true,
+            positionClass: "toast-top-center",
+          });
+        }
       );
   };
 
@@ -101,9 +123,9 @@ window.AdminProjectManagementController = function (
   // tìm kiếm tên dự án
   $scope.searchProjectByName = function (event) {
     event.preventDefault();
-    $scope.listProject =[];
-    alert("okkkkkkkkkk")
-    $http.get(projcetAPI+"/search").then(
+    $scope.listProject = [];
+    alert("okkkkkkkkkk");
+    $http.get(projcetAPI + "/search").then(
       function (response) {
         if (response.status === 200) {
           $scope.listProject = response.data;
@@ -114,6 +136,4 @@ window.AdminProjectManagementController = function (
       }
     );
   };
-
- 
 };

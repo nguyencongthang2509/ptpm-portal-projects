@@ -26,6 +26,7 @@
     class="btn btn-primary"
     data-bs-toggle="modal"
     data-bs-target="#exampleModal"
+    ng-click="openModalAdd()"
   >
     Thêm dự án
   </button>
@@ -262,7 +263,7 @@
           >
             Thoát
           </button>
-          <button type="button"  class="btn btn-primary"  aria-hidden="false" ng-click="Update($event)">
+          <button type="button"  class="btn btn-primary"  ng-click="Update($event)">
             Update
           </button>
         </div>
