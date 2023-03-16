@@ -58,7 +58,7 @@ public class AdProjectServiceImpl implements AdProjectService {
     public Project findProjectById(String id) {
         Optional<Project> projectCheck = adProjectRepository.findById(id);
         if (!projectCheck.isPresent()) {
-            throw new RestApiException(Message.PROJECT_NOT_EXIST);
+            throw new RestApiException(Message.PROJECT_NOT_EXISTS);
         }
         return projectCheck.get();
     }
@@ -67,7 +67,7 @@ public class AdProjectServiceImpl implements AdProjectService {
     public Boolean removeProject(String id) {
         Optional<Project> projectCheck = adProjectRepository.findById(id);
         if (!projectCheck.isPresent()) {
-            throw new RestApiException(Message.PROJECT_NOT_EXIST);
+            throw new RestApiException(Message.PROJECT_NOT_EXISTS);
         }
         adProjectRepository.delete(projectCheck.get());
         return true;
@@ -77,7 +77,7 @@ public class AdProjectServiceImpl implements AdProjectService {
     public Project updateProject(AdUpdateProjectRepuest comand) {
         Optional<Project> projectCheck = adProjectRepository.findById(comand.getId());
         if (!projectCheck.isPresent()) {
-            throw new RestApiException(Message.PROJECT_NOT_EXIST);
+            throw new RestApiException(Message.PROJECT_NOT_EXISTS);
         }
         Project project = projectCheck.get();
         project.setStatusProject(comand.getStatusProject());
