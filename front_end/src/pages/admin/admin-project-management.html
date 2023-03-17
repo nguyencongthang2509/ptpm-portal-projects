@@ -12,11 +12,9 @@
         placeholder="Search"
         aria-label="Search"
         style="width: 400px"
-        ng-model="seacrhByName"
-        name="seacrhByName"
-        id="seacrhByName"
+        ng-model="input_search"
       />
-      <button class="btn btn-outline-success" type="button" ng-click="searchProjectByName($event)" >Search</button>
+      <button class="btn btn-outline-success" ng-click="search()" type="button"  >Search</button>
     </form>
   </div>
   <br />
@@ -26,7 +24,7 @@
     class="btn btn-primary"
     data-bs-toggle="modal"
     data-bs-target="#exampleModal"
-    ng-click="openModalAdd()"
+    ng-click="clearInputModalAdd()"
   >
     Thêm dự án
   </button>
@@ -60,8 +58,8 @@
                 id=""
                 ng-model="form_project.code"
               />
+              <small class="text-danger"><p>{{errorCodeAdd}}</p></small>
             </div>
-            <br />
             <div class="form-group">
               <label for="">Tên dự án</label>
               <input
@@ -69,35 +67,30 @@
                 class="form-control"
                 ng-model="form_project.name"
               />
+              <small class="text-danger"><p>{{errorNameAdd}}</p></small>
             </div>
-            <br />
             <div class="form-group">
-              <label for="start">Ngày bắt đầu:</label>
+              <label >Ngày bắt đầu:</label>
               <input
                 class="form-control"
                 type="date"
-                id="start"
-                name="trip-start"
-                value=""
                 ng-model="form_project.startTime"
               />
+              <small class="text-danger"><p>{{errorStartTimeAdd}}</p></small>
             </div>
-            <br />
             <div class="form-group">
-              <label for="start">Ngày kết thúc:</label>
+              <label >Ngày kết thúc:</label>
               <input
                 class="form-control"
                 type="date"
-                id="start"
-                name="trip-start"
-                value=""
                 ng-model="form_project.endTime"
               />
+              <small class="text-danger"><p>{{errorEndTimeAdd}}</p></small>
             </div>
-            <br />
             <div class="form-group">
               <label for="">Mô tả dự án </label>
               <input type="text" class="form-control"  ng-model="form_project.descriptions" />
+              <small class="text-danger"><p>{{errorDescriptionsAdd}}</p></small>
             </div>
           </form>
         </div>
@@ -116,7 +109,7 @@
       </div>
     </div>
   </div>
-
+<div>
   <table class="table table-striped">
     <thead>
       <tr>
@@ -145,6 +138,9 @@
         <td>{{item.endTime | date :'dd/MM/yyyy'}}</td>
         <td>
           <a class="btn btn-warning" href="#" role="button"
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModalDetail"
+          ng-click="detail($event,$index)"
             ><i class="bi bi-eye"></i
           ></a>
           <a
@@ -161,6 +157,37 @@
       </tr>
     </tbody>
   </table>
+</div>
+  <nav class="" aria-label="Page navigation example" >
+    <ul class="pagination">
+      <li
+        ng-click="currentPage > 0 ? actionPage(currentPage - 1) : null"
+        ng-class="{ 'disabled': currentPage === 0 }"
+        class="page-item"
+      >
+        <a class="page-link" href="" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      <li
+        ng-repeat="item in arrayPage"
+        ng-click="actionPage(item - 1)"
+        ng-class="{active: ($index === currentPage)}"
+        class="page-item"
+      >
+        <a class="page-link" href="">{{item}}</a>
+      </li>
+      <li
+        ng-click="totalPages - 1 > currentPage ? actionPage(currentPage + 1) : null"
+        ng-class="{ 'disabled': currentPage === totalPages - 1 }"
+        class="page-item"
+      >
+        <a class="page-link" href="" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
 
   <!-- Modal update project -->
   <div
@@ -180,6 +207,35 @@
             data-bs-dismiss="modal"
             aria-label="Close"
           ></button>
+        </div>
+        <!-- ------------- -->
+        <br>
+        <div class="row">
+          <div class="content-title" style="text-align: right;">
+            <div class="list-member">
+              <a
+                ng-repeat-start="member in listMemberById | limitTo:4"
+                data-toggle="tooltip"
+                title="{{member.name}}"
+                href=""
+              >
+                <img
+                  class="rounded-circle"
+                  width="30px"
+                  height="30px"
+                  src="{{member.image}}"
+                  alt=""
+                />
+              </a>
+              <a ng-repeat-end></a>
+              <a class="btn btn-primary" 
+              href="#"  
+              class="btn-people"
+              data-bs-toggle="modal"
+              data-bs-target="#modal_showMember"
+              role="button" style="margin: 7px;"> <i class="bi bi-plus-circle"></i></a>
+            </div>
+          </div>
         </div>
         <!-- body model -->
         <div class="modal-body">
@@ -201,8 +257,8 @@
                 id=""
                 ng-model="form_project_update.code"
               />
+              <small class="text-danger"><p>{{errorCodeUpdate}}</p></small>
             </div>
-            <br />
             <div class="form-group">
               <label for="">Tên dự án</label>
               <input
@@ -210,50 +266,31 @@
                 class="form-control"
                 ng-model="form_project_update.name"
               />
+              <small class="text-danger"><p>{{errorNameUpdate}}</p></small>
             </div>
-            <br />
             <div class="form-group">
               <label for="start">Ngày bắt đầu:</label>
               <input
                 class="form-control"
                 type="date"
-                id="start"
-                name="trip-start"
-                value=""
                 ng-model="form_project_update.startTime"
               />
+              <small class="text-danger"><p>{{errorStartTimeUpdate}}</p></small>
             </div>
-            <br />
             <div class="form-group">
               <label for="start">Ngày kết thúc:</label>
               <input
                 class="form-control"
                 type="date"
-                id="start"
-                name="trip-start"
-                value=""
                 ng-model="form_project_update.endTime"
               />
+              <small class="text-danger"><p>{{errorEndTimeUpdate}}</p></small>
             </div>
-            <br />
-            <div class="form-group">
-              <label for="">Tiến độ </label>
-              <input type="text" class="form-control" ng-model="form_project_update.progress"/>
-            </div>
-            <br>
             <div class="form-group">
               <label for="">Mô tả dự án </label>
               <input type="text" class="form-control" ng-model="form_project_update.descriptions"/>
+              <small class="text-danger"><p>{{errorDescriptionsUpdate}}</p></small>
             </div>
-            <br>
-            <form class="form-inline">
-              <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Trạng thái</label><br>
-              <select class="custom-select my-1 mr-sm-2 form-control" id="inlineFormCustomSelectPref" ng-model="form_project_update.statusProject" >
-                <option value="1">Chưa diễn ra</option>
-                <option value="0">Đang diễn ra</option>
-                <option value="2">Đã hoàn thành</option>
-              </select>
-          </form>
         </div>
         <div class="modal-footer">
           <button
@@ -270,4 +307,186 @@
       </div>
     </div>
   </div>
+
+    <!-- Modal detail project -->
+    <div
+    class="modal fade"
+    id="exampleModalDetail"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-lg modal-lg" role="document">
+      <div class="modal-content">
+        <form id="form_member">
+          <div class="modal-header">
+            <h5 class="modal-title">Chi tiết dự án</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="container">
+              <div class="row">
+                <div class="col-6">
+                  Mã dự án:
+                  <input
+                    type="text"
+                    class="form-control"
+                    name=""
+                    ng-model="form_project_update.code"
+                    id=""
+                    readonly
+                  />
+                </div>
+                <div class="col-6">
+                  Ngày bắt đầu:
+                  <input
+                    type="date"
+                    class="form-control"
+                    name=""
+                    ng-model="form_project_update.startTime"
+                    id=""
+                    readonly
+                  />
+                </div>
+              </div>
+              <br />
+              <div class="row">
+                <div class="col-6">
+                  Tên dự án :
+                  <input
+                    type="text"
+                    class="form-control"
+                    name=""
+                    ng-model="form_project_update.name"
+                    id=""
+                    readonly
+                  />
+                </div>
+                <div class="col-6">
+                  Ngày kết thúc:
+                  <input
+                    type="date"
+                    class="form-control"
+                    name=""
+                    ng-model="form_project_update.endTime"
+                    id=""
+                    readonly
+                  />
+                </div>
+              </div>
+              <br />
+              <div class="row">
+                <div class="col-6">
+                  Mô tả dự án:
+                  <input
+                    type="text"
+                    class="form-control"
+                    name=""
+                    ng-model="form_project_update.descriptions"
+                    id=""
+                    readonly
+                  />
+                </div>
+                <div class="col-6">
+                 Tiến độ dự án
+                  <input
+                    type="text"
+                    class="form-control"
+                    name=""
+                    ng-model="form_project_update.progress"
+                    id=""
+                    readonly
+                  />
+                </div>
+              </div>
+              <br />
+              <div class="row">
+                <div class="col-6">
+                  Trạng thái:
+                  <input
+                    type="text"
+                    class="form-control"
+                    name=""
+                    id=""
+                    value=" {{form_project_update.statusProject == 1 ? 'Chưa diễn ra' : (form_project_update.statusProject == 0 ?
+                            'Đang diễn ra' :'Đã hoàn thành' )}}"
+                    readonly
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-outline-secondary btn btn-light"
+              data-bs-dismiss="modal"
+            >
+              Hủy
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- modal thành viên  -->
+  <div
+  class="modal fade"
+  id="modal_showMember"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg modal-lg" role="document">
+    <div class="modal-content">
+      <form id="form_member">
+        <div class="modal-header">
+          <h5 class="modal-title">Danh sách các thành viên tham gia dự án</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div class="container">
+            <div ng-repeat="member in listMemberById">
+              <div class="custom_member">
+                <img
+                  class="rounded-circle"
+                  width="50px"
+                  height="50px"
+                  src="{{member.image}}"
+                  alt=""
+                />
+                <span style="margin-left: 20px; font-size: 16px"
+                  >{{member.name}}</span
+                >
+                <span class="role_member_custom" style="margin-left: 20px">
+                  {{member.role == 0 ? "Quản lý" : "Thành viên"}}</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-outline-secondary btn btn-light"
+            data-bs-dismiss="modal"
+          >
+            Hủy
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 </div>

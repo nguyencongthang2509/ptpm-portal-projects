@@ -39,7 +39,14 @@ public interface AdProjectRepository extends ProjectRepository {
              ( :#{#rep.name} IS NULL 
                 OR :#{#rep.name} LIKE '' 
                 OR pro.name LIKE %:#{#rep.name}% )          
-            """, nativeQuery = true)
+            """, countQuery = """
+            SELECT COUNT(pro.id) FROM project pro
+            WHERE 
+             ( :#{#rep.name} IS NULL 
+                OR :#{#rep.name} LIKE '' 
+                OR pro.name LIKE %:#{#rep.name}% ) 
+            ORDER BY pro.last_modified_date DESC
+            """ ,nativeQuery = true)
     Page<AdProjectReponse> findByNameProject(@Param("rep") AdFindProjectRepuest rep, Pageable page);
 
 
