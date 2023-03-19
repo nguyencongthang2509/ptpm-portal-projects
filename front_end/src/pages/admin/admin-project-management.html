@@ -1,7 +1,7 @@
 <div id="main" class="main">
   <h1>Quản lý dự án</h1>
   <br />
-  <div class="container"></div>
+  <div class="container">
   <!-- form seacrh -->
   <!-- Content here -->
   <div class="search-bar">
@@ -110,7 +110,7 @@
     </div>
   </div>
 <div>
-  <table class="table table-striped">
+  <table class="table table-striped" style="text-align: center;">
     <thead>
       <tr>
         <th scope="col" style="display: none">ID</th>
@@ -158,8 +158,8 @@
     </tbody>
   </table>
 </div>
-  <nav class="" aria-label="Page navigation example" >
-    <ul class="pagination">
+  <nav class="" aria-label="Page navigation example"  >
+    <ul class="pagination" >
       <li
         ng-click="currentPage > 0 ? actionPage(currentPage - 1) : null"
         ng-class="{ 'disabled': currentPage === 0 }"
@@ -233,6 +233,7 @@
               class="btn-people"
               data-bs-toggle="modal"
               data-bs-target="#modal_showMember"
+               ng-click="chekcMemberJoinProject()"
               role="button" style="margin: 7px;"> <i class="bi bi-plus-circle"></i></a>
             </div>
           </div>
@@ -327,6 +328,34 @@
               data-bs-dismiss="modal"
               aria-label="Close"
             ></button>
+          </div>
+          <br>
+          <div class="row">
+            <div class="content-title" style="text-align: right;">
+              <div class="list-member">
+                <a
+                  ng-repeat-start="member in listMemberJoinProject | limitTo:4"
+                  data-toggle="tooltip"
+                  title="{{member.name}}"
+                  href=""
+                >
+                  <img
+                    class="rounded-circle"
+                    width="30px"
+                    height="30px"
+                    src="{{member.image}}"
+                    alt=""
+                  />
+                </a>
+                <a ng-repeat-end></a>
+                <a class="btn btn-primary" 
+                href="#"  
+                class="btn-people"
+                data-bs-toggle="modal"
+                data-bs-target="#modal_showMember_join_project"
+                role="button" style="margin: 7px;"> <i class="bi bi-plus-circle"></i></a>
+              </div>
+            </div>
           </div>
           <div class="modal-body">
             <div class="container">
@@ -457,23 +486,81 @@
         </div>
         <div class="modal-body">
           <div class="container">
-            <div ng-repeat="member in listMemberById">
               <div class="custom_member">
-                <img
-                  class="rounded-circle"
-                  width="50px"
-                  height="50px"
-                  src="{{member.image}}"
-                  alt=""
-                />
-                <span style="margin-left: 20px; font-size: 16px"
-                  >{{member.name}}</span
-                >
-                <span class="role_member_custom" style="margin-left: 20px">
-                  {{member.role == 0 ? "Quản lý" : "Thành viên"}}</span
-                >
+                <table class="table table-borderless">
+                  <tbody>
+                    <tr ng-repeat="member in listMemberById">
+                      <td><img
+                        class="rounded-circle"
+                        width="50px"
+                        height="50px"
+                        src="{{member.image}}"
+                        alt=""
+                      /></td>
+                      <td>{{member.name}}</td>
+                      <td>{{member.role == 0 ? "Quản lý" : "Thành viên"}}</td>
+                      <td>
+                        <a class="btn btn-primary" id="button1"  ng-click="addMemberProject($event,$index)" href="#" role="button">Thêm</a>
+                        <a class="btn btn-primary" id="button2"  href="#" role="button">Xóa</a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
-            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-outline-secondary btn btn-light"
+            data-bs-dismiss="modal"
+          >
+            Hủy
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+  <!-- modal thành viên đã tham gia dự án  -->
+  <div
+  class="modal fade"
+  id="modal_showMember_join_project"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg modal-lg" role="document">
+    <div class="modal-content">
+      <form id="form_member">
+        <div class="modal-header">
+          <h5 class="modal-title">Danh sách các thành viên tham gia dự án</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div class="container">
+              <div class="custom_member">
+                <table class="table table-borderless">
+                  <tbody>
+                    <tr ng-repeat="member in listMemberJoinProject">
+                      <td><img
+                        class="rounded-circle"
+                        width="50px"
+                        height="50px"
+                        src="{{member.image}}"
+                        alt=""
+                      /></td>
+                      <td>{{member.name}}</td>
+                      <td>{{member.role == 0 ? "Quản lý" : "Thành viên"}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
           </div>
         </div>
         <div class="modal-footer">

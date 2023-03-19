@@ -6,9 +6,9 @@ import lombok.Setter;
 /**
  * @author NguyenVinh
  */
-@Getter
 @Setter
-public class AdUpdateProjectRepuest extends AdBaseProjectRepuest{
+@Getter
+public class AdUpdateMemberProjectRequest extends AdBaseMemberProjectRequest {
 
     private String id;
 }

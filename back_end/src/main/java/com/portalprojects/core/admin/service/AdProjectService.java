@@ -1,8 +1,8 @@
 package com.portalprojects.core.admin.service;
 
-import com.portalprojects.core.admin.model.request.AdCreateProjectRepuest;
+import com.portalprojects.core.admin.model.request.AdCearteProjectRepuest;
 import com.portalprojects.core.admin.model.request.AdFindProjectRepuest;
-import com.portalprojects.core.admin.model.request.AdUpdateProjectRepuest;
+import com.portalprojects.core.admin.model.request.AdUpdateProjectRequest;
 import com.portalprojects.core.admin.model.response.AdProjectReponse;
 import com.portalprojects.core.common.base.PageableObject;
 import com.portalprojects.entity.Project;
@@ -19,7 +19,7 @@ public interface AdProjectService {
 
     List<Project> findAllProject (Pageable pageable);
 
-    Project createProject (@Valid final AdCreateProjectRepuest command);
+    Project createProject (@Valid final AdCearteProjectRepuest command);
 
     PageableObject<AdProjectReponse> searchProject(final AdFindProjectRepuest rep);
 
@@ -27,5 +27,5 @@ public interface AdProjectService {
 
     Boolean removeProject (final String id);
 
-    Project updateProject (final AdUpdateProjectRepuest comand);
+    Project updateProject (final AdUpdateProjectRequest comand);
 }
