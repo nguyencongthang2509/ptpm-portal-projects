@@ -1,8 +1,8 @@
 package com.portalprojects.core.admin.controller;
 
-import com.portalprojects.core.admin.model.request.AdCreateProjectRepuest;
+import com.portalprojects.core.admin.model.request.AdCearteProjectRepuest;
 import com.portalprojects.core.admin.model.request.AdFindProjectRepuest;
-import com.portalprojects.core.admin.model.request.AdUpdateProjectRepuest;
+import com.portalprojects.core.admin.model.request.AdUpdateProjectRequest;
 import com.portalprojects.core.admin.model.response.AdProjectReponse;
 import com.portalprojects.core.admin.service.AdProjectService;
 import com.portalprojects.core.common.base.PageableObject;
@@ -59,7 +59,7 @@ public class AdProjectController {
     }
 
     @PostMapping
-    public ResponseObject addProject(@RequestBody AdCreateProjectRepuest cmd) {
+    public ResponseObject addProject(@RequestBody AdCearteProjectRepuest cmd) {
         try {
             return new ResponseObject(adProjectService.createProject(cmd));
         } catch (Exception e) {
@@ -74,7 +74,7 @@ public class AdProjectController {
 
     @PutMapping("/{id}")
     public ResponseObject updateProjcet(@PathVariable("id") String id,
-                                        @RequestBody AdUpdateProjectRepuest cmd) {
+                                        @RequestBody AdUpdateProjectRequest cmd) {
         cmd.setId(id);
         return new ResponseObject(adProjectService.updateProject(cmd));
     }

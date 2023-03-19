@@ -14,5 +14,6 @@ public class PropertyKeys {
     public static final String PERIOD_OVERLAP = "period.overlap";
     public static final String PERIOD_NOT_EXISTS = "period.not.exists";
     public static final String PROJECT_NOT_EXTST = "project.not.exist";
+    public static final String MEMBER_PROJECT_NOT_EXISTS = "member.project.not.exist";
 
 }

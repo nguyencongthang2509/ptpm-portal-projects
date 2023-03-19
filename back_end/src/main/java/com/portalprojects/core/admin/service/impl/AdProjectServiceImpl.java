@@ -1,8 +1,8 @@
 package com.portalprojects.core.admin.service.impl;
 
-import com.portalprojects.core.admin.model.request.AdCreateProjectRepuest;
+import com.portalprojects.core.admin.model.request.AdCearteProjectRepuest;
 import com.portalprojects.core.admin.model.request.AdFindProjectRepuest;
-import com.portalprojects.core.admin.model.request.AdUpdateProjectRepuest;
+import com.portalprojects.core.admin.model.request.AdUpdateProjectRequest;
 import com.portalprojects.core.admin.model.response.AdProjectReponse;
 import com.portalprojects.core.admin.repository.AdProjectRepository;
 import com.portalprojects.core.admin.service.AdProjectService;
@@ -40,7 +40,7 @@ public class AdProjectServiceImpl implements AdProjectService {
     }
 
     @Override
-    public Project createProject(@Valid AdCreateProjectRepuest command) {
+    public Project createProject(@Valid AdCearteProjectRepuest command) {
         Project project = formUtils.convertToObject(Project.class, command);
         return adProjectRepository.save(project);
     }
@@ -74,7 +74,7 @@ public class AdProjectServiceImpl implements AdProjectService {
     }
 
     @Override
-    public Project updateProject(AdUpdateProjectRepuest comand) {
+    public Project updateProject(AdUpdateProjectRequest comand) {
         Optional<Project> projectCheck = adProjectRepository.findById(comand.getId());
         if (!projectCheck.isPresent()) {
             throw new RestApiException(Message.PROJECT_NOT_EXISTS);
