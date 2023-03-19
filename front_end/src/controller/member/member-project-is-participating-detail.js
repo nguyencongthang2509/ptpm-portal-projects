@@ -4,91 +4,113 @@ window.MemberProjectIsParticipatingDetailController = function (
   MeDetailProjectService,
   MeMemberService,
   MeResourceService,
-  MeGetAllPeriodById
+  MeGetAllPeriodById,
+  MeTodoService,
+  MeAssignService,
+  MeLabelService,
+  MeDetailTodoService
 ) {
   let idProject = $routeParams.id;
   $scope.projectId = idProject;
+  // Get All
+  async function fetchAllData(idProject) {
+    await Promise.all([
+      MeDetailProjectService.fetchProject(idProject),
+      MeMemberService.fetchMembers(),
+      MeResourceService.fetchResources(idProject),
+      MeGetAllPeriodById.fetchPeriods(idProject),
+    ]);
 
-  MeDetailProjectService.fetchProject(idProject).then(function () {
     $scope.detailProject = MeDetailProjectService.getProject();
-  });
-
-  MeMemberService.fetchMembers().then(function () {
     $scope.listMemberById = MeMemberService.getMembers();
-  });
-
-  MeResourceService.fetchResources(idProject).then(function () {
     $scope.listResource = MeResourceService.getResources();
-  });
-
-  MeGetAllPeriodById.fetchPeriods(idProject).then(function () {
     $scope.listPeriodById = MeGetAllPeriodById.getPeriods();
-  });
 
+    let periodCurrent = $scope.listPeriodById.filter((pe) => {
+      return pe.status == 1;
+    })[0];
+    if (periodCurrent) {
+      $scope.valuePeriod = periodCurrent.id;
+    } else {
+      $scope.valueInput = "";
+    }
+    $scope.loadDataTodo(periodCurrent.id);
+  }
 
-  $scope.listViecCanLam = [{ name: "Item 1" }, { name: "Item 2" }, { name: "Item 3" }];
+  fetchAllData(idProject);
 
-  $scope.listDangDienRa = [
-    { name: "Item 1" },
-    { name: "Item 2" },
-    { name: "Item 3" },
-    { name: "Item 1" },
-    { name: "Item 2" },
-  ];
+  $scope.loadDataTodo = function (idPeriod) {
+    $scope.listTask = [
+      {
+        id: 1,
+        name: "VIỆC CẦN LÀM",
+        todoList: [],
+        checkShowAddCard: false,
+      },
+      {
+        id: 2,
+        name: "ĐANG DIỄN RA",
+        todoList: [],
+        checkShowAddCard: false,
+      },
+      {
+        id: 3,
+        name: "CẦN SỬA",
+        todoList: [],
+        checkShowAddCard: false,
+      },
+      {
+        id: 4,
+        name: "ĐÃ HOÀN THÀNH",
+        todoList: [],
+        checkShowAddCard: false,
+      },
+      {
+        id: 5,
+        name: "TẠM HOÃN",
+        todoList: [],
+        checkShowAddCard: false,
+      },
+    ];
 
-  $scope.listCanSua = [
-    { name: "Item 1" },
-    { name: "Item 2" },
-    { name: "Item 3" },
-    { name: "Item 1" },
-  ];
+    Promise.all(
+      $scope.listTask.map((item) => {
+        return MeTodoService.fetchTodo(idPeriod, item.id - 1).then(function () {
+          item.todoList = MeTodoService.getTodo();
+          if (item.todoList != []) {
+            const assignPromises = item.todoList.map((td) => {
+              return MeAssignService.fetchMember(td.id).then(function () {
+                td.members = [];
+                const idMembers = MeAssignService.getMembers();
+                idMembers.forEach((meId) => {
+                  const member = $scope.listMemberById.find(
+                    (me) => meId === me.id
+                  );
+                  if (member) {
+                    td.members.push(member);
+                  }
+                });
+              });
+            });
 
-  $scope.listDaHoanThanh = [
-    { name: "Item 1" },
-    { name: "Item 2" },
-    { name: "Item 2" },
-    { name: "Item 3" },
-  ];
+            const labelPromises = item.todoList.map((td) => {
+              return MeLabelService.fetchLabel(td.id).then(function () {
+                td.labels = MeLabelService.getLabels();
+              });
+            });
 
-  $scope.listTamHoan = [
-    { name: "Item 1" },
-    { name: "Item 3" },
-    { name: "Item 2" },
-    { name: "Item 3" },
-  ];
+            return Promise.all([...assignPromises, ...labelPromises]);
+          }
+        });
+      })
+    );
+  };
 
-  $scope.listTask = [
-    {
-      id: 1,
-      name: "VIỆC CẦN LÀM",
-      todoList: $scope.listViecCanLam,
-      checkShowAddCard: false,
-    },
-    {
-      id: 2,
-      name: "ĐANG DIỄN RA",
-      todoList: $scope.listDangDienRa,
-      checkShowAddCard: false,
-    },
-    {
-      id: 3,
-      name: "CẦN SỬA",
-      todoList: $scope.listCanSua,
-      checkShowAddCard: false,
-    },
-    {
-      id: 4,
-      name: "ĐÃ HOÀN THÀNH",
-      todoList: $scope.listDaHoanThanh,
-      checkShowAddCard: false,
-    },
-    {
-      id: 5,
-      name: "TẠM HOÃN",
-      todoList: $scope.listTamHoan,
-      checkShowAddCard: false,
-    },
-  ];
+  $scope.changePeriod = function () {
+    $scope.loadDataTodo($scope.valuePeriod);
+  };
+
+  // Drag And Drop
 
   $scope.selected = null;
   $scope.fromList = null;
@@ -124,6 +146,8 @@ window.MemberProjectIsParticipatingDetailController = function (
     }
   };
 
+  // Add card
+
   $scope.addACard = function (value) {
     $scope.listTask[value - 1].checkShowAddCard = true;
   };
@@ -140,4 +164,26 @@ window.MemberProjectIsParticipatingDetailController = function (
   };
 
   $scope.addNewResource = function () {};
+
+  //Detail Todo
+
+  $scope.actionDetailTodo = function (id) {
+    MeDetailTodoService.fetchTodo(id).then(function () {
+      $scope.detailTodo = MeDetailTodoService.getTodo();
+      $scope.detailTodo.listMemberDetailTodo = [];
+      $scope.detailTodo.listLabelDetailTodo = [];
+      MeAssignService.fetchMember(id).then(function () {
+        const idMembers = MeAssignService.getMembers();
+        idMembers.forEach((meId) => {
+          const member = $scope.listMemberById.find((me) => meId === me.id);
+          if (member) {
+            $scope.detailTodo.listMemberDetailTodo.push(member);
+          }
+        });
+      });
+      MeLabelService.fetchLabel(id).then(function () {
+        $scope.detailTodo.listLabelDetailTodo = MeLabelService.getLabels();
+      });
+    });
+  };
 };

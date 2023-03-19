@@ -5,11 +5,18 @@
         <h4>{{detailProject.name}}</h4>
       </div>
       <div class="listPeriod">
-          <select name="" class="form-control select" id="">
-            <option value="{{item.id}}" ng-repeat="item in listPeriodById">
-              {{item.name}}
-            </option>
-          </select>
+        <select
+          name=""
+          ng-change="changePeriod()"
+          ng-model="valuePeriod"
+          class="form-control select"
+          id=""
+        >
+          <option value="" hidden>Giai đoạn</option>
+          <option value="{{item.id}}" ng-repeat="item in listPeriodById">
+            {{item.name}}
+          </option>
+        </select>
       </div>
       <div class="listPeriod__btn">
         <a href="#member/period-project/{{projectId}}">
@@ -113,8 +120,50 @@
                 dnd-dragend="onDragEnd(item, xx, $event, $index)"
                 dnd-moved="draggedItem = item"
                 style="list-style: none"
+                data-bs-toggle="modal"
+                data-bs-target="#modal_show_detail_todo"
+                ng-click="actionDetailTodo(item.id)"
               >
-                <a href="">{{item.name}} <br /><i class="bx bx-menu"></i></a>
+                <div>
+                  <span
+                    ng-repeat="lb in item.labels"
+                    data-toggle="tooltip"
+                    title="{{lb.name}}"
+                    class="label_todo"
+                    ng-style="{ backgroundColor: lb.colorLabel }"
+                    ><span class="label_dot"></span>{{lb.code}}</span
+                  >
+                </div>
+                <a
+                  >{{item.name}}
+                  <br />
+                  <span
+                    data-toggle="tooltip"
+                    title="{{item.priorityLevel == 0 ? 'Quan trọng' :
+                    (item.priorityLevel == 1 ? 'Cao' : (item.priorityLevel == 2
+                    ? 'Trung bình' : 'Thấp'))}}"
+                    class="prioritylevel_todo"
+                    ng-style="{ backgroundColor: item.priorityLevel == 0 ? 'red' : item.priorityLevel == 1 ? 'orange' : item.priorityLevel == 2 ? 'yellow' : 'green' }"
+                  >
+                  </span>
+                  <br /><i class="bx bx-menu"></i
+                ></a>
+                <div class="list_member_todo">
+                  <a
+                    ng-repeat="member in item.members"
+                    data-toggle="tooltip"
+                    title="{{member.name}}"
+                    href=""
+                  >
+                    <img
+                      class="rounded-circle"
+                      width="27px"
+                      height="27px"
+                      src="{{member.image}}"
+                      alt=""
+                    />
+                  </a>
+                </div>
               </li>
               <li
                 class="list-group-item"
@@ -141,6 +190,18 @@
                 >
                   Close
                 </button>
+                <div class="toggle-menu">
+                  <button
+                    class="btn btn-outline-secondary custom"
+                    ng-click="toggleMenu()"
+                  >
+                    ...
+                  </button>
+                  <ul ng-show="showMenu">
+                    <li><a href="#">Edit</a></li>
+                    <li><a href="#">Delete</a></li>
+                  </ul>
+                </div>
               </div>
               <!-- </li> -->
             </ul>
@@ -197,6 +258,144 @@
             >
               Hủy
             </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div
+    class="modal fade"
+    id="modal_show_detail_todo"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-lg modal-lg" role="document">
+      <div class="modal-content">
+        <form id="form_member">
+          <div class="modal-header">
+            <h5 class="modal-title" style="width: auto">
+              <i class="bx bx-task"></i>
+              <b
+                ><input
+                  class="title_detail_todo"
+                  type="text"
+                  value="{{detailTodo.name}}"
+              /></b>
+              <br />
+              <p style="font-size: 14px">
+                trong danh sách {{detailTodo.statusTodo}}
+              </p>
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-9">
+                  <div class="member__label">
+                    <div class="member_detail_todo">
+                      <h6 style="font-size: 14px">Thành viên</h6>
+                      <a
+                        ng-repeat="member in detailTodo.listMemberDetailTodo"
+                        data-toggle="tooltip"
+                        title="{{member.name}}"
+                        href=""
+                      >
+                        <img
+                          class="rounded-circle"
+                          width="35px"
+                          height="35px"
+                          src="{{member.image}}"
+                          alt=""
+                        />
+                      </a>
+                      <button class="btn-add-member">
+                        <i class="bx bx-plus"></i>
+                      </button>
+                    </div>
+                    <div class="label_detail_todo">
+                      Nhãn
+                      <div class="span_custom_label">
+                        <span
+                          ng-repeat="lb in detailTodo.listLabelDetailTodo"
+                          data-toggle="tooltip"
+                          title="{{lb.name}}"
+                          class="span_label"
+                          ng-style="{ backgroundColor: lb.colorLabel }"
+                          ><span class="label_dot_detail"></span
+                          >{{lb.code}}</span
+                        >
+                        <span class="span_label_plus"
+                          ><i class="bx bx-plus"></i
+                        ></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="descipstions_custom">
+                    <i class="bx bx-menu"></i><span> Mô tả </span> <br />
+                    <textarea
+                      name=""
+                      class="textarea_custom_detail_todo"
+                      id=""
+                      cols="30"
+                      rows="10"
+                    ></textarea>
+                  </div>
+                  <div class="checklist_custom">
+                    <i class="bx bx-task"></i>
+                    <span style="font-size: 17px; font-weight: 500">
+                      Danh sách đầu việc</span
+                    >
+                    <div class="list_task_checklist">
+                      <progress value="50" max="100"></progress>
+                      <div class="checkbox_list">
+                        <input
+                          type="checkbox"
+                          class="form-check-input custom"
+                        /><span class="content_checklist"> Xem </span>
+                      </div>
+                      <div class="checkbox_list">
+                        <input
+                          type="checkbox"
+                          class="form-check-input custom"
+                        />
+                        <span class="content_checklist"> Xem </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="activity_custom">
+                    <i class="bx bx-menu"></i
+                    ><span style="font-size: 17px; font-weight: 500">
+                      Hoạt động
+                    </span>
+                    <br />
+                  </div>
+                </div>
+                <div class="col-3">
+                  <span style="font-size: 14px">Thêm vào thẻ</span>
+                  <div class="row">
+                    <button class="btn_add_to_card">
+                      <i class="bx bx-user"></i> Thành viên
+                    </button>
+                    <button class="btn_add_to_card">
+                      <i class="bx bx-label"></i> Nhãn
+                    </button>
+                    <button class="btn_add_to_card">
+                      <i class="bx bx-task"></i> Đầu việc
+                    </button>
+                    <button class="btn_add_to_card">
+                      <i class="bx bx-time"></i> Ngày hạn
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </form>
       </div>

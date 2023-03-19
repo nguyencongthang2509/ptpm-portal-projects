@@ -7,5 +7,8 @@ window.apiMemberResource = apiURL + "/resource/";
 window.apiMemberGetAllPeriodByIdProject = apiURL + "/period";
 window.apiMemberGetAllPeriod = apiURL + "/period/list-period/";
 window.apiMemberDetailPeriod = apiURL + "/period/detail/";
+window.apiMemberTodo = apiURL + "/todo";
+window.apiMemberAssign = apiURL + "/assign";
+window.apiMemberLabel = apiURL + "/label";
 
 

@@ -13,6 +13,17 @@ public final class Constants {
 
     public static final String ENCODING_UTF8 = "UTF-8";
 
+    public static final String COLOR_7AA1E4 = "#7AA1E4";
+    public static final String COLOR_ADFF2F = "#ADFF2F";
+    public static final String COLOR_FF4500 = "#FF4500";
+    public static final String COLOR_FFA500 = "#FFA500";
+    public static final String COLOR_FFFF00 = "#FFFF00";
+    public static final String COLOR_FFD700 = "#FFD700";
+    public static final String COLOR_FF6347 = "#FF6347";
+    public static final String COLOR_FA8072 = "#FA8072";
+    public static final String COLOR_47799C = "#47799C";
+    public static final String COLOR_EE82EE = "#EE82EE";
+
     public class FileProperties {
         private FileProperties() {
         }
