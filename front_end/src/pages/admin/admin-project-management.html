@@ -137,29 +137,41 @@
         <td>{{item.startTime | date :'dd/MM/yyyy'}}</td>
         <td>{{item.endTime | date :'dd/MM/yyyy'}}</td>
         <td>
-          <a class="btn btn-warning" href="#" role="button"
-          data-bs-toggle="modal"
+          <a
+          href="#"
+                  data-bs-toggle="modal"
           data-bs-target="#exampleModalDetail"
           ng-click="detail($event,$index)"
-            ><i class="bi bi-eye"></i
-          ></a>
+                >
+                  <div
+                    class="btn_eye"
+                    data-toggle="tooltip"
+                    title="Xem chi tiết"
+                  >
+                    <img src="../../../assets/img/eye-fill.svg" />
+                  </div>
+                </a>
           <a
-            class="btn btn-primary"
-            href="#"
-            role="button"
-            class="btn btn-primary"
-            data-bs-toggle="modal"
-            data-bs-target="#exampleModalUpdate"
-            ng-click="detail($event,$index)"
-            ><i class="bi bi-pencil-square"></i
-          ></a>
+          href="#"
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModalUpdate"
+          ng-click="detail($event,$index)"
+                >
+                  <div
+                    class="btn_pencil"
+                    data-toggle="tooltip"
+                    title="Sửa thông tin giai đoạn"
+                  >
+                    <img src="../../../assets/img/pencil-square.svg" />
+                  </div>
+                </a>
         </td>
       </tr>
     </tbody>
   </table>
 </div>
-  <nav class="" aria-label="Page navigation example"  >
-    <ul class="pagination" >
+  <nav class=""  aria-label="Page navigation example"  >
+    <ul class="pagination" style="float: right; margin-bottom: 20px;">
       <li
         ng-click="currentPage > 0 ? actionPage(currentPage - 1) : null"
         ng-class="{ 'disabled': currentPage === 0 }"
@@ -228,7 +240,7 @@
                 />
               </a>
               <a ng-repeat-end></a>
-              <a class="btn btn-primary" 
+              <a  class="btn btn-success"
               href="#"  
               class="btn-people"
               data-bs-toggle="modal"
@@ -348,7 +360,7 @@
                   />
                 </a>
                 <a ng-repeat-end></a>
-                <a class="btn btn-primary" 
+                <a class="btn btn-success" 
                 href="#"  
                 class="btn-people"
                 data-bs-toggle="modal"
