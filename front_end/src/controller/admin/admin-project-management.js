@@ -261,6 +261,7 @@ window.AdminProjectManagementController = function (
 
   // detail
   $scope.indexProject = -1;
+  $scope.form_getOneMemberProject = {};
   $scope.detail = function (event, index) {
     event.preventDefault();
     let project = $scope.listProject[index];
@@ -277,6 +278,21 @@ window.AdminProjectManagementController = function (
     loadDataListMemberJoinProject(project.id);
   };
 
+  function getOneMemberProject (idMemberProject){
+    return $http
+      .get(member_ProjcetAPI+"/" + idMemberProject)
+      .then(
+        function (response) {
+          if (response.status === 200) {
+            $scope.form_getOneMemberProject = response.data;
+          }
+          return response;
+        },
+        function (errors) {
+          console.log(errors);
+        }
+      );
+  }
   // get member join project
   $scope.listMemberJoinProject = [];
   function loadDataListMemberJoinProject(idProject) {
@@ -302,7 +318,6 @@ window.AdminProjectManagementController = function (
   function chekcMemberJoinProject (idProject, idMember){
     AdMemberProjcetService.findAllMemberJoinProject(idProject).then(
       function () {
-        let list = [];
         list = AdMemberProjcetService.getMemberProject();
         $scope.listCheck = list.data.filter(function (obj1) {
             return obj1.memberId === idMember;
@@ -310,7 +325,7 @@ window.AdminProjectManagementController = function (
       }
     );
   }
-
+  
   $scope.addMemberProject = function (event, index) {
     event.preventDefault();
     let check = [];
@@ -347,16 +362,4 @@ window.AdminProjectManagementController = function (
     }
   };
 
- $scope.chekcMemberJoinProject = function toggleButtons() {
-    var button1 = document.getElementById("button1");
-    var button2 = document.getElementById("button2");
-    
-    if ( $scope.listMemberJoinProject === 0) {
-      button1.style.display = "block";
-      button2.style.display = "none";
-    } else {
-      button1.style.display = "none";
-      button2.style.display = "block";
-    }
-  }
 };

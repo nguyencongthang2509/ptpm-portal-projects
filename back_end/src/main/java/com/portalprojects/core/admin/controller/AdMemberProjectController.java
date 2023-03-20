@@ -57,7 +57,7 @@ public class AdMemberProjectController {
         cmd.setId(id);
         return new ResponseObject(adMemberProjectService.updateMemberProject(cmd));
     }
-    @PostMapping("/getOne")
+    @PostMapping("/get-one")
     public ResponseObject getOne(@RequestBody AdGetOneMemberProjectRequest rep) {
         return new ResponseObject(adMemberProjectService.getOne(rep));
     }
