@@ -8,6 +8,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.ToString;
+import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Nationalized;
 
 /**
@@ -21,10 +22,12 @@ import org.hibernate.annotations.Nationalized;
 public class Project extends PrimaryEntity {
 
     @Column(length = EntityProperties.LENGTH_CODE, nullable = false)
+    @Index(name = "idx_code")
     private String code;
 
     @Column(length = EntityProperties.LENGTH_NAME)
     @Nationalized
+    @Index(name = "idx_name")
     private String name;
 
     @Column(length = EntityProperties.LENGTH_DESCRIPTION)
@@ -40,6 +43,7 @@ public class Project extends PrimaryEntity {
     private Short progress;
 
     @Column(nullable = false)
+    @Index(name = "idx_status_project")
     private StatusProject statusProject;
 
 }

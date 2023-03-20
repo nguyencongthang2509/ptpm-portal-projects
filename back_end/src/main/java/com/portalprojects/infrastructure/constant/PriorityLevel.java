@@ -7,5 +7,5 @@ public enum PriorityLevel {
     QUAN_TRONG,
     CAO,
     TRUNG_BINH,
-    THAP
+    THAP,
 }

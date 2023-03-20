@@ -9,6 +9,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.ToString;
+import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Nationalized;
 
 /**
@@ -22,21 +23,25 @@ import org.hibernate.annotations.Nationalized;
 public class Todo extends PrimaryEntity {
 
     @Column(length = EntityProperties.LENGTH_CODE, nullable = false)
+    @Index(name = "idx_code")
     private String code;
 
     @Column(length = EntityProperties.LENGTH_NAME)
     @Nationalized
+    @Index(name = "idx_name")
     private String name;
 
     @Column(length = EntityProperties.LENGTH_DESCRIPTION)
     @Nationalized
     private String descriptions;
 
+    @Index(name = "idx_deadline")
     private Long deadline;
 
     private Long completionTime;
 
     @Column(nullable = false)
+    @Index(name = "idx_priority_level")
     private PriorityLevel priorityLevel;
 
     private Short progress;
@@ -46,5 +51,6 @@ public class Todo extends PrimaryEntity {
     private String note;
 
     @Column(nullable = false)
+    @Index(name = "idx_status_todo")
     private StatusTodo statusTodo;
 }

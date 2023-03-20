@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.ToString;
 
 import jakarta.persistence.Column;
+import org.hibernate.annotations.Index;
 
 /**
  * @author thangncph26123
@@ -19,8 +20,10 @@ import jakarta.persistence.Column;
 public class PeriodTodo extends PrimaryEntity {
 
     @Column(length = EntityProperties.LENGTH_ID)
+    @Index(name = "idx_period_id")
     private String periodId;
 
     @Column(length = EntityProperties.LENGTH_ID)
+    @Index(name = "idx_todo_id")
     private String todoId;
 }

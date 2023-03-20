@@ -68,7 +68,8 @@ li.list-group-item::before {
   display: none;
 }
 
-li.list-group-item, li.list-group-item * {
+li.list-group-item,
+li.list-group-item * {
   user-select: none;
 }
 
@@ -122,7 +123,7 @@ li.list-group-item, li.list-group-item * {
   margin-top: 10px;
   border-radius: 5px;
   box-shadow: 0 1px 0 rgba(9, 30, 66, 0.25);
-  width: 250px;
+  width: 275px;
 }
 
 .trello-card .card-title {
@@ -218,6 +219,25 @@ li.list-group-item, li.list-group-item * {
   background-color: #ffffff;
 }
 
+.btn-add-member {
+  border: 1px rgb(255, 255, 255) solid;
+  height: 35px;
+  width: 35px;
+  font-size: 12px;
+  border-radius: 50%;
+  background-color: rgb(240, 240, 240);
+  color: rgb(0, 0, 0);
+}
+
+.btn-add-label {
+  border: 1px rgb(255, 255, 255) solid;
+  height: 33px;
+  width: 35px;
+  font-size: 12px;
+  background-color: rgb(240, 240, 240);
+  color: rgb(0, 0, 0);
+}
+
 .modal_showMember {
   width: 500px !important;
 }
@@ -228,6 +248,8 @@ li.list-group-item, li.list-group-item * {
 
 .form_add_card {
   padding: 10px;
+  background-color: #d8d8db;
+  border-radius: 10px;
 }
 
 .listPeriod {
@@ -235,8 +257,11 @@ li.list-group-item, li.list-group-item * {
   margin-left: 10px;
 }
 
-.form-control.select{
+.form-control.select {
   font-size: 14px;
+  background-color: #ffffffb0;
+  color: rgb(0, 0, 0);
+  font-weight: 500;
 }
 
 .listPeriod__btn {
@@ -244,3 +269,284 @@ li.list-group-item, li.list-group-item * {
   margin-left: 5px;
 }
 
+.toggle-menu {
+  position: relative;
+  display: inline-block;
+  float: right;
+}
+
+.toggle-menu button {
+  padding: 5px;
+  font-size: 18px;
+  border: none;
+}
+
+.toggle-menu ul {
+  position: absolute;
+  top: 30px;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: none;
+}
+
+.toggle-menu button {
+  padding: 5px;
+  font-size: 18px;
+}
+
+.toggle-menu ul li a {
+  display: block;
+  padding: 5px;
+  text-decoration: none;
+  color: #333;
+}
+
+.toggle-menu button:hover {
+  background-color: transparent;
+  border-color: transparent;
+  color: inherit;
+  text-decoration: none;
+}
+
+.toggle-menu ul li a:hover {
+  background-color: #f2f2f2;
+}
+
+.label_todo {
+  display: inline-block;
+  padding: 0.2em 0.5em;
+  font-size: 0.8em;
+  font-weight: bold;
+  color: #fff;
+  background-color: #61bd4f;
+  border-radius: 3px;
+  margin-right: 0.2em;
+  height: 1.2em;
+  line-height: 0.7em;
+}
+
+.list_member_todo {
+  float: right;
+}
+
+.list_member_todo a:hover {
+  text-decoration: none;
+}
+
+.prioritylevel_todo {
+  display: inline-block;
+  padding: 0.2em 0.5em;
+  font-size: 0.8em;
+  font-weight: bold;
+  color: #fff;
+  border-radius: 3px;
+  height: 0.7em;
+  width: 50px;
+  line-height: 0.7em;
+  /* color: #7aa1e4; */
+}
+
+.prioritylevel_todo a:hover {
+  text-decoration: none;
+}
+
+.label_dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  margin-right: 3px;
+  background-color: rgb(255, 255, 255);
+}
+
+.member__label {
+  align-items: center;
+}
+
+.member_detail_todo {
+  float: left;
+  margin-right: 10px;
+}
+
+.member_detail_todo h6 {
+  margin-top: 2px;
+}
+
+.label_detail_todo {
+  flex-wrap: wrap;
+  font-size: 14px;
+}
+
+.span_custom_label {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-right: 5px;
+  margin-bottom: 10px;
+}
+
+.span_label {
+  display: flex;
+  align-items: center;
+  padding: 2px 6px;
+  border-radius: 3px;
+  color: #fff;
+  font-size: 12px;
+  margin-top: 8px;
+  margin-right: 5px;
+}
+
+.span_label_plus {
+  display: flex;
+  align-items: center;
+  border-radius: 3px;
+  text-align: center;
+  color: #000000;
+  margin-top: 8px;
+  font-size: 12px;
+  cursor: pointer;
+  background-color: #efeeee;
+  width: 33px;
+  height: 33px;
+}
+
+.span_label_plus i {
+  text-align: center;
+  margin-left: 9px;
+}
+
+@media screen and (max-width: 768px) {
+  .span_custom_label {
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+}
+
+.span_label {
+  padding: 5px;
+  color: white;
+  font-size: 15px;
+}
+
+.label_dot_detail {
+  display: inline-block;
+  width: 10px;
+  margin-right: 5px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: rgb(255, 255, 255);
+}
+
+.btn_add_to_card {
+  background-color: #61bd4f;
+}
+
+.btn_add_to_card {
+  margin-top: 10px;
+  padding-left: 5px;
+  border: none;
+  height: 35px;
+  border-radius: 3px;
+  background-color: #f1f1f1;
+  text-align: left;
+  font-size: 14px;
+}
+
+.content_checklist {
+  margin-left: 10px;
+}
+
+.modal-title {
+  width: 100% !important;
+}
+
+.title_detail_todo {
+  font-weight: 700;
+  border: none;
+  width: 95%;
+}
+
+.descipstions_custom {
+  margin-top: 20px;
+}
+
+.descipstions_custom span {
+  font-weight: 500;
+  font-size: 17px;
+}
+
+.textarea_custom_detail_todo {
+  width: 100%;
+  border: none;
+  height: 150px;
+  background-color: #f8f8f8;
+}
+
+.activity_custom,
+.checklist_custom {
+  margin-top: 20px;
+}
+
+.list_task_checklist {
+  margin-top: 10px;
+}
+
+.checkbox_list {
+  margin-top: 10px;
+}
+
+progress {
+  margin-left: 35px;
+  width: 93%;
+  height: 8px;
+  appearance: none;
+  -webkit-appearance: none;
+  border-radius: 10px;
+  background-color: #ddd;
+}
+
+progress::-webkit-progress-value {
+  background-color: #3ec74b;
+  border-radius: 10px;
+}
+
+progress::-moz-progress-bar {
+  background-color: #3ec74b;
+  border-radius: 10px;
+}
+
+progress::-ms-fill {
+  background-color: #3ec74b;
+  border-radius: 10px;
+}
+
+progress::-webkit-progress-bar {
+  background-color: #ddd;
+  border-radius: 10px;
+}
+
+progress::-moz-progress-bar {
+  height: 20px;
+  border-radius: 10px;
+  background-color: #3ec74b;
+}
+
+progress::-ms-fill {
+  background-color: #3ec74b;
+  border-radius: 10px;
+}
+
+progress::before {
+  content: attr(value) '%';
+  position: absolute;
+  font-size: 14px;
+  text-align: center;
+  margin-top: -7px;
+  left: 25px;
+  color: #000;
+  font-weight: 500;
+}
