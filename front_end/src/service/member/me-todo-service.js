@@ -30,9 +30,14 @@ app.service("MeTodoService", function ($http) {
 
 app.service("MeDetailTodoService", function ($http) {
   var todo = [];
+  var todoDetail = [];
 
   this.getTodo = function () {
     return todo;
+  };
+
+  this.getTodoDetail = function () {
+    return todoDetail;
   };
 
   this.setTodo = function (data) {
@@ -48,6 +53,24 @@ app.service("MeDetailTodoService", function ($http) {
         function (response) {
           if (response.status === 200) {
             todo = response.data.data;
+          }
+          return response;
+        },
+        function (errors) {
+          console.log(errors);
+        }
+      );
+  };
+
+  this.fetchDetailTodo = function (id) {
+    return $http
+      .get(
+        apiMemberTodo + "/detail/" + id
+      )
+      .then(
+        function (response) {
+          if (response.status === 200) {
+            todoDetail = response.data.data;
           }
           return response;
         },

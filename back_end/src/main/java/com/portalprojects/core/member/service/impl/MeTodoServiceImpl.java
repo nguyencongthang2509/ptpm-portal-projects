@@ -1,5 +1,6 @@
 package com.portalprojects.core.member.service.impl;
 
+import com.portalprojects.core.member.model.response.MeDetailTodoResponse;
 import com.portalprojects.core.member.model.response.MeTodoResponse;
 import com.portalprojects.core.member.repository.MeTodoRepository;
 import com.portalprojects.core.member.service.MeTodoService;
@@ -26,5 +27,10 @@ public class MeTodoServiceImpl implements MeTodoService {
     @Override
     public Todo findById(String id) {
         return meTodoRepository.findById(id).get();
+    }
+
+    @Override
+    public List<MeDetailTodoResponse> getDetailTodo(String idTodo) {
+        return meTodoRepository.getDetailTodo(idTodo);
     }
 }

@@ -22,7 +22,7 @@
         <a href="#member/period-project/{{projectId}}">
           <div
             class="btn_eye"
-            data-toggle="tooltip"
+            data-bs-toggle="tooltip"
             title="Xem chi tiết các giai đoạn"
           >
             <img src="../../../assets/img/eye-fill.svg" />
@@ -30,27 +30,27 @@
         </a>
       </div>
       <div class="list-member">
-        <a
-          ng-repeat-start="member in listMemberById | limitTo:4"
-          data-toggle="tooltip"
-          title="{{member.name}}"
-          href=""
-        >
+        <a ng-repeat-start="member in listMemberProject | limitTo:4" href="">
           <img
             class="rounded-circle"
             width="30px"
             height="30px"
+            my-tooltip
+            tooltip-content="{{member.name + ' ' + member.code}}"
             src="{{member.image}}"
             alt=""
           />
         </a>
         <a ng-repeat-end></a>
+        <button ng-show="checkNumberMember" class="btn-people">
+          +{{numberMemberMore}}
+        </button>
         <button
-          class="btn-people"
+          class="btn-people-detail"
           data-bs-toggle="modal"
           data-bs-target="#modal_showMember"
         >
-          +7
+          <img src="../../../assets/img/eye-fill.svg" />
         </button>
       </div>
     </div>
@@ -67,13 +67,12 @@
                 <a> {{item.name}} <br /><i class="bx bx-file"></i></a>
               </li>
               <li
-                class="list-group-item"
+                class="list-group-item add-card"
                 ng-click="addACard(xx.id)"
                 ng-hide="xx.checkShowAddCard"
               >
                 <i class="bx bx-plus"></i> Add a card
               </li>
-              <!-- <li class="list-group-item"> -->
               <div class="form_add_card" ng-show="xx.checkShowAddCard">
                 <input
                   type="text"
@@ -92,15 +91,14 @@
                   Close
                 </button>
               </div>
-              <!-- </li> -->
             </ul>
           </div>
         </div>
       </div>
-      <div ng-repeat="xx in listTask" style="width: auto">
+      <div ng-repeat="xx in listTask" style="width: auto; padding-left: 0">
         <div class="card trello-card">
+          <h6 class="card-title">{{xx.name}}</h6>
           <div class="card-body">
-            <h6 class="card-title">{{xx.name}}</h6>
             <ul
               class="list-group"
               dnd-list="xx.todoList"
@@ -122,13 +120,13 @@
                 style="list-style: none"
                 data-bs-toggle="modal"
                 data-bs-target="#modal_show_detail_todo"
-                ng-click="actionDetailTodo(item.id)"
+                ng-click="actionDetailTodo(item.id, $index, xx.id)"
               >
                 <div>
                   <span
                     ng-repeat="lb in item.labels"
-                    data-toggle="tooltip"
-                    title="{{lb.name}}"
+                    my-tooltip
+                    tooltip-content="{{lb.name}}"
                     class="label_todo"
                     ng-style="{ backgroundColor: lb.colorLabel }"
                     ><span class="label_dot"></span>{{lb.code}}</span
@@ -138,10 +136,10 @@
                   >{{item.name}}
                   <br />
                   <span
-                    data-toggle="tooltip"
-                    title="{{item.priorityLevel == 0 ? 'Quan trọng' :
-                    (item.priorityLevel == 1 ? 'Cao' : (item.priorityLevel == 2
-                    ? 'Trung bình' : 'Thấp'))}}"
+                    my-tooltip
+                    tooltip-content="{{item.priorityLevel == 0 ? 'Độ ưu tiên: Quan trọng' :
+                    (item.priorityLevel == 1 ? 'Độ ưu tiên: Cao' : (item.priorityLevel == 2
+                    ? 'Độ ưu tiên: Trung bình' : 'Độ ưu tiên: Thấp'))}}"
                     class="prioritylevel_todo"
                     ng-style="{ backgroundColor: item.priorityLevel == 0 ? 'red' : item.priorityLevel == 1 ? 'orange' : item.priorityLevel == 2 ? 'yellow' : 'green' }"
                   >
@@ -150,62 +148,73 @@
                 ></a>
                 <div class="list_member_todo">
                   <a
-                    ng-repeat="member in item.members"
-                    data-toggle="tooltip"
-                    title="{{member.name}}"
+                    ng-repeat="member in item.members track by $index"
+                    my-tooltip
+                    tooltip-content="{{member.name + ' ' + member.code}}"
                     href=""
                   >
                     <img
                       class="rounded-circle"
-                      width="27px"
-                      height="27px"
+                      width="30px"
+                      height="30px"
                       src="{{member.image}}"
                       alt=""
                     />
                   </a>
                 </div>
               </li>
-              <li
-                class="list-group-item"
-                ng-click="addACard(xx.id)"
-                ng-hide="xx.checkShowAddCard"
-              >
-                <i class="bx bx-plus"></i> Add a card
-              </li>
-              <!-- <li class="list-group-item"> -->
-              <div class="form_add_card" ng-show="xx.checkShowAddCard">
-                <input
-                  type="text"
-                  placeholder="Enter card title"
-                  class="form-control mb-2"
-                  name="inputTitle"
-                  ng-model="valueInput"
-                />
-                <button ng-click="addNewCard(xx.id)" class="btn btn-primary">
-                  Add card
-                </button>
-                <button
-                  class="btn btn-outline-secondary"
-                  ng-click="xx.checkShowAddCard = false"
-                >
-                  Close
-                </button>
-                <div class="toggle-menu">
-                  <button
-                    class="btn btn-outline-secondary custom"
-                    ng-click="toggleMenu()"
-                  >
-                    ...
+
+              <li style="z-index: 2">
+                <div class="form_add_card" ng-show="xx.checkShowAddCard">
+                  <input
+                    type="text"
+                    placeholder="Enter card title"
+                    class="form-control mb-2"
+                    name="inputTitle"
+                    ng-model="valueInput"
+                  />
+                  <button ng-click="addNewCard(xx.id)" class="btn btn-primary">
+                    Add card
                   </button>
-                  <ul ng-show="showMenu">
-                    <li><a href="#">Edit</a></li>
-                    <li><a href="#">Delete</a></li>
-                  </ul>
+                  <button
+                    class="btn btn-outline-secondary"
+                    ng-click="xx.checkShowAddCard = false"
+                  >
+                    Close
+                  </button>
+                  <div class="toggle-menu">
+                    <button
+                      class="btn btn-outline-secondary custom"
+                      ng-click="toggleMenu()"
+                    >
+                      ...
+                    </button>
+                    <ul ng-show="showMenu">
+                      <li><a href="#">Edit</a></li>
+                      <li><a href="#">Delete</a></li>
+                    </ul>
+                  </div>
                 </div>
-              </div>
+              </li>
+              <li
+                class="li_custom"
+                style="color: #e6e3e3; margin-top: 0; height: 5px"
+              >
+                <hr />
+              </li>
               <!-- </li> -->
             </ul>
           </div>
+          <ul class="ul_add-card">
+            <li
+              class="list-group-item add-card"
+              ng-click="addACard(xx.id)"
+              ng-hide="xx.checkShowAddCard"
+            >
+              <i class="bx bx-plus"></i> Add a card
+            </li>
+            <!-- <li class="list-group-item"> -->
+          </ul>
         </div>
       </div>
     </div>
@@ -263,6 +272,7 @@
       </div>
     </div>
   </div>
+
   <div
     class="modal fade"
     id="modal_show_detail_todo"
@@ -280,6 +290,7 @@
                 ><input
                   class="title_detail_todo"
                   type="text"
+                  name="toDoName"
                   value="{{detailTodo.name}}"
               /></b>
               <br />
@@ -303,8 +314,8 @@
                       <h6 style="font-size: 14px">Thành viên</h6>
                       <a
                         ng-repeat="member in detailTodo.listMemberDetailTodo"
-                        data-toggle="tooltip"
-                        title="{{member.name}}"
+                        my-tooltip
+                        tooltip-content="{{member.name + ' ' + member.code}}"
                         href=""
                       >
                         <img
@@ -315,7 +326,10 @@
                           alt=""
                         />
                       </a>
-                      <button class="btn-add-member">
+                      <button
+                        ng-click="openDialogAddMember($event)"
+                        class="btn-add-member"
+                      >
                         <i class="bx bx-plus"></i>
                       </button>
                     </div>
@@ -324,19 +338,40 @@
                       <div class="span_custom_label">
                         <span
                           ng-repeat="lb in detailTodo.listLabelDetailTodo"
-                          data-toggle="tooltip"
-                          title="{{lb.name}}"
+                          my-tooltip
+                          tooltip-content="{{lb.name}}"
                           class="span_label"
                           ng-style="{ backgroundColor: lb.colorLabel }"
                           ><span class="label_dot_detail"></span
                           >{{lb.code}}</span
                         >
-                        <span class="span_label_plus"
+                        <span
+                          ng-click="openDialogAddLabel($event)"
+                          class="span_label_plus"
                           ><i class="bx bx-plus"></i
                         ></span>
                       </div>
                     </div>
                   </div>
+
+                  <div class="priority-level-custom-todo">
+                    <div class="title-priority">Độ ưu tiên:</div>
+                    <span
+                      ng-style="{ color: detailTodo.priorityLevel == 0 ? 'red' : detailTodo.priorityLevel == 1 ? 'orange' : detailTodo.priorityLevel == 2 ? 'yellow' : 'green' }"
+                      ><b>
+                        {{detailTodo.priorityLevel == 0 ? 'Quan trọng' :
+                        (detailTodo.priorityLevel == 1 ? 'Cao' :
+                        (detailTodo.priorityLevel == 2 ? 'Trung bình' :
+                        'Thấp'))}}</b
+                      ></span
+                    >
+                    <span
+                      class="span-priority"
+                      ng-style="{ backgroundColor: detailTodo.priorityLevel == 0 ? 'red' : detailTodo.priorityLevel == 1 ? 'orange' : detailTodo.priorityLevel == 2 ? 'yellow' : 'green' }"
+                    >
+                    </span>
+                  </div>
+
                   <div class="descipstions_custom">
                     <i class="bx bx-menu"></i><span> Mô tả </span> <br />
                     <textarea
@@ -345,7 +380,10 @@
                       id=""
                       cols="30"
                       rows="10"
-                    ></textarea>
+                      spellcheck="false"
+                    >
+{{detailTodo.descriptions}}</textarea
+                    >
                   </div>
                   <div class="checklist_custom">
                     <i class="bx bx-task"></i>
@@ -353,19 +391,18 @@
                       Danh sách đầu việc</span
                     >
                     <div class="list_task_checklist">
-                      <progress value="50" max="100"></progress>
-                      <div class="checkbox_list">
+                      <progress value="0" max="100"></progress>
+                      <div
+                        ng-repeat="chklist in detailTodo.listTaskDetailTodo"
+                        class="checkbox_list"
+                      >
                         <input
                           type="checkbox"
+                          value="{{chklist.id}}"
                           class="form-check-input custom"
-                        /><span class="content_checklist"> Xem </span>
-                      </div>
-                      <div class="checkbox_list">
-                        <input
-                          type="checkbox"
-                          class="form-check-input custom"
-                        />
-                        <span class="content_checklist"> Xem </span>
+                        /><span class="content_checklist">
+                          {{chklist.name}}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -380,12 +417,165 @@
                 <div class="col-3">
                   <span style="font-size: 14px">Thêm vào thẻ</span>
                   <div class="row">
-                    <button class="btn_add_to_card">
+                    <button
+                      ng-click="openDialogAddMember($event)"
+                      class="btn_add_to_card"
+                    >
                       <i class="bx bx-user"></i> Thành viên
                     </button>
-                    <button class="btn_add_to_card">
+                    <div
+                      class="dialogAddMember"
+                      ng-show="showDialogAddMember"
+                      ng-style="dialogStyleAddMember"
+                    >
+                      <div class="dialog-contentAddMember">
+                        <button
+                          type="button"
+                          class="closeAddMember"
+                          ng-click="closeDialogAddMember()"
+                        >
+                          &times;
+                        </button>
+                        <h4 class="dialog-titleAddMember">Thành viên</h4>
+                        <div class="dialog-bodyAddMember">
+                          <div class="container-fluid">
+                            <div class="row">
+                              <input
+                                type="text"
+                                class="input_search_member"
+                                placeholder="Tìm kiếm thành viên"
+                                name="inputSearchMember"
+                                id=""
+                              />
+                            </div>
+                            <div style="margin-top: 10px; margin-bottom: 10px">
+                              <span style="font-size: 14px"
+                                >Danh sách thành viên</span
+                              >
+                            </div>
+                            <div class="d-flex flex-wrap">
+                              <a
+                                ng-repeat="member in listMemberProject"
+                                my-tooltip
+                                tooltip-content="{{member.name + ' ' + member.code}}"
+                                href=""
+                                ng-click="createOrDeleteAssign(member.id, detailTodo.id, member.checkMemberAssign)"
+                              >
+                                <img
+                                  class="rounded-circle"
+                                  width="35px"
+                                  height="35px"
+                                  src="{{member.image}}"
+                                  alt="" />
+                                <i
+                                  ng-show="member.checkMemberAssign"
+                                  class="bx bx-check custom"
+                                ></i
+                              ></a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <button
+                      ng-click="openDialogAddLabel($event)"
+                      class="btn_add_to_card"
+                    >
                       <i class="bx bx-label"></i> Nhãn
                     </button>
+                    <div
+                      class="dialogAddLabel"
+                      ng-show="showDialogAddLabel"
+                      ng-style="dialogStyleAddLabel"
+                    >
+                      <div class="dialog-contentAddLabel">
+                        <button
+                          type="button"
+                          class="closeAddLabel"
+                          ng-click="closeDialogAddLabel()"
+                        >
+                          &times;
+                        </button>
+                        <h4 class="dialog-titleAddLabel">Nhãn</h4>
+                        <div class="dialog-bodyAddLabel">
+                          <div class="container-fluid">
+                            <div class="row">
+                              <input
+                                type="text"
+                                class="input_search_label"
+                                placeholder="Tìm kiếm nhãn"
+                                name="inputSearchLabel"
+                                id=""
+                              />
+                            </div>
+                            <div style="margin-top: 10px; margin-bottom: 10px">
+                              <span style="font-size: 14px"
+                                >Danh sách nhãn</span
+                              >
+                            </div>
+                            <div
+                              ng-repeat="lb in listLabel"
+                              class="d-flex flex-wrap custom_label"
+                            >
+                              <input
+                                type="checkbox"
+                                ng-click="changeCheckboxLabel(lb.id, detailTodo.id, lb.checkLabel)"
+                                value="{{lb.id}}"
+                                class="form-check-input custom_label"
+                                name="checkbox_label"
+                                ng-checked="{{lb.checkLabel}}"
+                              />
+                              <span
+                                my-tooltip
+                                tooltip-content="{{lb.name}}"
+                                class="span_label_detail"
+                                ng-style="{ backgroundColor: lb.colorLabel }"
+                                ><span class="label_dot_detail"></span
+                                >{{lb.code}}</span
+                              >
+                              <i class="bx bx-pencil cusom_label"></i>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="btn_add_label">
+                          <button>
+                            <i class="bx bx-plus"></i> Thêm mới nhãn
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <button class="btn_add_to_card">
+                      <i class="bx bx-flag"></i>
+                      Độ ưu tiên
+                    </button>
+                    <div
+                      class="dialogAddLabel"
+                      ng-show="showDialogAddLabel"
+                      ng-style="dialogStyleAddLabel"
+                    >
+                      <div class="dialog-contentAddLabel">
+                        <button
+                          type="button"
+                          class="closeAddLabel"
+                          ng-click="closeDialogAddLabel()"
+                        >
+                          &times;
+                        </button>
+                        <h4 class="dialog-titleAddLabel">Độ ưu tiên</h4>
+                        <div class="dialog-bodyAddLabel">
+                          <div class="container-fluid">
+                            <div style="margin-top: 10px; margin-bottom: 10px">
+                              <span style="font-size: 14px">Danh sách</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="btn_add_label">
+                          <button>
+                            <i class="bx bx-plus"></i> Thêm mới nhãn
+                          </button>
+                        </div>
+                      </div>
+                    </div>
                     <button class="btn_add_to_card">
                       <i class="bx bx-task"></i> Đầu việc
                     </button>
@@ -401,4 +591,5 @@
       </div>
     </div>
   </div>
+  <!-- Dialog -->
 </div>

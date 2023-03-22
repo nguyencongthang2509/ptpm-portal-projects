@@ -29,10 +29,12 @@
     />
     <link rel="stylesheet" href="../js/plugin/toastr/build/toastr.css">
     <link href="../lib/vendor/boxicons/css/boxicons.min.css" rel="stylesheet" />
-    <link href="../lib/vendor/quill/quill.snow.css" rel="stylesheet" />
-    <link href="../lib/vendor/quill/quill.bubble.css" rel="stylesheet" />
-    <link href="../lib/vendor/remixicon/remixicon.css" rel="stylesheet" />
-    <link href="../lib/vendor/simple-datatables/style.css" rel="stylesheet" />
+    <!-- <link href="../lib/vendor/quill/quill.snow.css" rel="stylesheet" /> -->
+    <!-- <link href="../lib/vendor/quill/quill.bubble.css" rel="stylesheet" /> -->
+    <!-- <link href="../lib/vendor/remixicon/remixicon.css" rel="stylesheet" /> -->
+    
+
+    <!-- <link href="../lib/vendor/simple-datatables/style.css" rel="stylesheet" /> -->
 
     <link rel="stylesheet" href="../css/custom/style.css" />
   </head>
@@ -42,8 +44,8 @@
       <div id="header" class="header fixed-top d-flex align-items-center">
         <div class="d-flex align-items-center justify-content-between">
           <a href="index.html" class="logo d-flex align-items-center">
-            <!-- <img src="../assets/img/logo.png" alt="" /> -->
-            <span class="d-none d-lg-block">Portal Projects</span>
+            <img src="../assets/img/logoFpoly.jpg" alt="" />
+            <span class="d-none d-lg-block" style="font-size: 23px;">Portal Projects</span>
           </a>
           <i class="bi bi-list toggle-sidebar-btn"></i>
         </div>
@@ -363,24 +365,25 @@
     </aside>
     <section ng-view></section>
     <!-- <footer ng-include="'./layout/footer.html'"></footer> -->
-    <footer>
-      <div id="footer" class="footer">
-        <div class="copyright">
-          &copy; Copyright <strong><span>Portal Projects - 2023</span></strong
-          >. All Rights Reserved
-        </div>
-        <div class="credits">
+    <!-- <footer> -->
+      <!-- <div id="footer" class="footer"> -->
+        <!-- <div class="copyright"> -->
+          <!-- &copy; Copyright <strong><span>Portal Projects - 2023</span></strong -->
+          <!-- >. All Rights Reserved -->
+        <!-- </div> -->
+        <!-- <div class="credits"> -->
           <!-- All the links in the footer should remain intact. -->
           <!-- You can delete the links only if you purchased the pro version. -->
           <!-- Licensing information: https://bootstrapmade.com/license/ -->
           <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-          Designed by <a href="https://bootstrapmade.com/">Portal-Projects</a>
-        </div>
-      </div>
-    </footer>
+          <!-- Designed by <a href="https://bootstrapmade.com/">Portal-Projects</a> -->
+        <!-- </div> -->
+      <!-- </div> -->
+    <!-- </footer> -->
+    
+    <script src="../lib/vendor/bootstrap/js/bootstrap.bundle.min.js" data-bs-no-jquery></script>
 
     <!-- Thư viện -->
-
     <script src="../lib/angular.js"></script>
     <!-- 10 -->
     <script src="../lib/angular-route.js"></script>
@@ -388,28 +391,27 @@
     <script src="../lib/angular-css/angular-css.js"></script>
 
     <!-- 12 -->
-    <script src="../lib/vendor/apexcharts/apexcharts.min.js"></script>
+    <!-- <script src="../lib/vendor/apexcharts/apexcharts.min.js"></script> -->
 
     <script src="../js/plugin/jquery/dist/jquery.js"></script>
 
     <script src="../js/plugin/toastr/build/toastr.min.js"></script>
 
-    <script src="../lib/vendor/apexcharts/apexcharts.min.js"></script>
+    <!-- <script src="../lib/vendor/apexcharts/apexcharts.min.js"></script> -->
 
     <!-- 1 -->
-    <script src="../lib/vendor/bootstrap/js/bootstrap.bundle.js"></script>
     <!-- 2 -->
-    <script src="../lib/vendor/chart.js/chart.umd.js"></script>
+    <!-- <script src="../lib/vendor/chart.js/chart.umd.js"></script> -->
     <!-- 3 -->
-    <script src="../lib/vendor/echarts/echarts.min.js"></script>
+    <!-- <script src="../lib/vendor/echarts/echarts.min.js"></script> -->
     <!-- 4 -->
-    <script src="../lib/vendor/quill/quill.min.js"></script>
+    <!-- <script src="../lib/vendor/quill/quill.min.js"></script> -->
     <!-- 5 -->
-    <script src="../lib/vendor/simple-datatables/simple-datatables.js"></script>
+    <!-- <script src="../lib/vendor/simple-datatables/simple-datatables.js"></script> -->
     <!-- 6 -->
     <script src="../lib/vendor/tinymce/tinymce.min.js"></script>
     <!-- 7 -->
-    <script src="../lib/vendor/php-email-form/validate.js"></script>
+    <!-- <script src="../lib/vendor/php-email-form/validate.js"></script> -->
     <!-- 8 -->
     <script src="../js/custom/main.js"></script>
     <!-- 9 -->
@@ -425,15 +427,16 @@
     <script src="../lib/angular-dragdrop/src/angular-dragdrop.min.js"></script>
 
     <script src="../lib/angular-drag-and-drop-lists/angular-drag-and-drop-lists.js"></script>
+
     <script src="../lib/ng-file-upload-12.2.3/dist/ng-file-upload.js"></script>
     <!-- 13 -->
     <script src="https://rawgithub.com/gsklee/ngStorage/master/ngStorage.js"></script>
     <!-- 14 -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular-resource.min.js"></script>
     <!-- 15 -->
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-locale_vi-vn.js"></script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-locale_vi-vn.js"></script> -->
     <!-- 16 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script> -->
     <script src="./app.js"></script>
     <!-- API -->
     <script src="./config/api-admin.js"></script>
@@ -449,6 +452,8 @@
     <script src="./service/member/me-todo-service.js"></script>
     <script src="./service/member/me-assign-service.js"></script>
     <script src="./service/member/me-label-service.js"></script>
+    <script src="./service/member/me-member-project-service.js"></script>
+    <script src="./service/member/me-label-todo-service.js"></script>
     <!-- Controller -->
     <script src="./controller/admin/admin-project-management.js"></script>
     <script src="./controller/admin/admin-project-management-detail.js"></script>

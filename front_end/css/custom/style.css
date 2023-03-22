@@ -45,7 +45,7 @@ h6 {
 --------------------------------------------------------------*/
 #main {
   margin-top: 60px;
-  padding: 20px 30px;
+  padding: 5px 15px;
   transition: all 0.3s;
 }
 
@@ -1309,3 +1309,18 @@ h6 {
   padding: 4px;
   font-size: 14px;
 }
+
+body::-webkit-scrollbar {
+  width: 7px; 
+}
+
+body::-webkit-scrollbar-track {
+  background: #ffffff;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #77b2ec;
+  border-radius: 10px;
+}
+
+

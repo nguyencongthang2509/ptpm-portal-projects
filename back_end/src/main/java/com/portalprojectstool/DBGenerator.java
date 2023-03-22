@@ -13,7 +13,6 @@ import com.portalprojects.entity.Resource;
 import com.portalprojects.entity.Stakeholder;
 import com.portalprojects.entity.StakeholderProject;
 import com.portalprojects.entity.Todo;
-import com.portalprojects.infrastructure.constant.ColorLabel;
 import com.portalprojects.infrastructure.constant.Constants;
 import com.portalprojects.infrastructure.constant.PriorityLevel;
 import com.portalprojects.infrastructure.constant.RoleMemberProject;
@@ -292,8 +291,9 @@ public class DBGenerator implements CommandLineRunner {
         todo1.setDeadline(1679677200000L);
         todo1.setCompletionTime(null);
         todo1.setNote("Not note");
+        todo1.setTodoId(null);
         todo1.setPriorityLevel(PriorityLevel.QUAN_TRONG);
-        todo1.setStatusTodo(StatusTodo.DANG_DIEN_RA);
+        todo1.setStatusTodo(StatusTodo.VIEC_DANG_LAM);
         todo1.setId(todoRepository.save(todo1).getId());
 
         Todo todo2 = new Todo();
@@ -304,8 +304,9 @@ public class DBGenerator implements CommandLineRunner {
         todo2.setDeadline(1679677200000L);
         todo2.setCompletionTime(null);
         todo2.setNote("Not note");
+        todo2.setTodoId(null);
         todo2.setPriorityLevel(PriorityLevel.CAO);
-        todo2.setStatusTodo(StatusTodo.DANG_DIEN_RA);
+        todo2.setStatusTodo(StatusTodo.VIEC_DANG_LAM);
         todo2.setId(todoRepository.save(todo2).getId());
 
         Todo todo3 = new Todo();
@@ -316,6 +317,7 @@ public class DBGenerator implements CommandLineRunner {
         todo3.setDeadline(1679677200000L);
         todo3.setCompletionTime(null);
         todo3.setNote("Not note");
+        todo3.setTodoId(null);
         todo3.setPriorityLevel(PriorityLevel.TRUNG_BINH);
         todo3.setStatusTodo(StatusTodo.VIEC_CAN_LAM);
         todo3.setId(todoRepository.save(todo3).getId());
@@ -327,9 +329,10 @@ public class DBGenerator implements CommandLineRunner {
         todo4.setDescriptions("Không có mô tả");
         todo4.setDeadline(1679677200000L);
         todo4.setCompletionTime(null);
+        todo4.setTodoId(null);
         todo4.setNote("Not note");
         todo4.setPriorityLevel(PriorityLevel.THAP);
-        todo4.setStatusTodo(StatusTodo.DANG_DIEN_RA);
+        todo4.setStatusTodo(StatusTodo.VIEC_DANG_LAM);
         todo4.setId(todoRepository.save(todo4).getId());
 
         Todo todo5 = new Todo();
@@ -340,6 +343,7 @@ public class DBGenerator implements CommandLineRunner {
         todo5.setDeadline(1679677200000L);
         todo5.setCompletionTime(null);
         todo5.setNote("Not note");
+        todo5.setTodoId(null);
         todo5.setPriorityLevel(PriorityLevel.CAO);
         todo5.setStatusTodo(StatusTodo.VIEC_CAN_LAM);
         todo5.setId(todoRepository.save(todo5).getId());
@@ -351,6 +355,7 @@ public class DBGenerator implements CommandLineRunner {
         todo6.setDescriptions("Không có mô tả");
         todo6.setDeadline(1679677200000L);
         todo6.setCompletionTime(null);
+        todo6.setTodoId(null);
         todo6.setNote("Not note");
         todo6.setPriorityLevel(PriorityLevel.QUAN_TRONG);
         todo6.setStatusTodo(StatusTodo.VIEC_CAN_LAM);
@@ -358,15 +363,34 @@ public class DBGenerator implements CommandLineRunner {
 
         Todo todo7 = new Todo();
         todo7.setCode("Todo_7");
-        todo7.setName("Đăng xuất");
+        todo7.setName("CRUD các đầu việc");
         todo7.setProgress((short) 0);
         todo7.setDescriptions("Không có mô tả");
         todo7.setDeadline(1679677200000L);
         todo7.setCompletionTime(null);
+        todo7.setTodoId(null);
         todo7.setNote("Not note");
         todo7.setPriorityLevel(PriorityLevel.QUAN_TRONG);
-        todo7.setStatusTodo(StatusTodo.DANG_DIEN_RA);
+        todo7.setStatusTodo(StatusTodo.VIEC_DANG_LAM);
         todo7.setId(todoRepository.save(todo7).getId());
+
+        Todo todo7_2 = new Todo();
+        todo7_2.setCode("Todo_7_2");
+        todo7_2.setName("Sửa đầu việc");
+        todo7_2.setTodoId(todo7.getId());
+        todo7_2.setId(todoRepository.save(todo7_2).getId());
+
+        Todo todo7_1 = new Todo();
+        todo7_1.setCode("Todo_7_1");
+        todo7_1.setName("Thêm đầu việc");
+        todo7_1.setTodoId(todo7.getId());
+        todo7_1.setId(todoRepository.save(todo7_1).getId());
+
+        Todo todo7_3 = new Todo();
+        todo7_3.setCode("Todo_7_2");
+        todo7_3.setName("Xem đầu việc");
+        todo7_3.setTodoId(todo7.getId());
+        todo7_3.setId(todoRepository.save(todo7_3).getId());
 
         Todo todo8 = new Todo();
         todo8.setCode("Todo_8");
@@ -374,10 +398,11 @@ public class DBGenerator implements CommandLineRunner {
         todo8.setProgress((short) 0);
         todo8.setDescriptions("Không có mô tả");
         todo8.setDeadline(1679677200000L);
+        todo8.setTodoId(null);
         todo8.setCompletionTime(null);
         todo8.setNote("Not note");
         todo8.setPriorityLevel(PriorityLevel.CAO);
-        todo8.setStatusTodo(StatusTodo.DANG_DIEN_RA);
+        todo8.setStatusTodo(StatusTodo.VIEC_DANG_LAM);
         todo8.setId(todoRepository.save(todo8).getId());
 
         Todo todo9 = new Todo();
@@ -386,10 +411,11 @@ public class DBGenerator implements CommandLineRunner {
         todo9.setProgress((short) 0);
         todo9.setDescriptions("Không có mô tả");
         todo9.setDeadline(1679677200000L);
+        todo9.setTodoId(null);
         todo9.setCompletionTime(null);
         todo9.setNote("Not note");
         todo9.setPriorityLevel(PriorityLevel.TRUNG_BINH);
-        todo9.setStatusTodo(StatusTodo.DANG_DIEN_RA);
+        todo9.setStatusTodo(StatusTodo.VIEC_DANG_LAM);
         todo9.setId(todoRepository.save(todo9).getId());
 
         Todo todo10 = new Todo();
@@ -398,10 +424,11 @@ public class DBGenerator implements CommandLineRunner {
         todo10.setProgress((short) 0);
         todo10.setDescriptions("Không có mô tả");
         todo10.setDeadline(1679677200000L);
+        todo10.setTodoId(null);
         todo10.setCompletionTime(null);
         todo10.setNote("Not note");
         todo10.setPriorityLevel(PriorityLevel.THAP);
-        todo10.setStatusTodo(StatusTodo.DANG_DIEN_RA);
+        todo10.setStatusTodo(StatusTodo.VIEC_DANG_LAM);
         todo10.setId(todoRepository.save(todo10).getId());
 
         PeriodTodo periodTodo1 = new PeriodTodo();

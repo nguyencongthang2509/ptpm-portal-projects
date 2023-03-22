@@ -40,7 +40,6 @@ public class Todo extends PrimaryEntity {
 
     private Long completionTime;
 
-    @Column(nullable = false)
     @Index(name = "idx_priority_level")
     private PriorityLevel priorityLevel;
 
@@ -50,7 +49,9 @@ public class Todo extends PrimaryEntity {
     @Nationalized
     private String note;
 
-    @Column(nullable = false)
+    @Column(length = EntityProperties.LENGTH_ID)
+    private String todoId;
+
     @Index(name = "idx_status_todo")
     private StatusTodo statusTodo;
 }

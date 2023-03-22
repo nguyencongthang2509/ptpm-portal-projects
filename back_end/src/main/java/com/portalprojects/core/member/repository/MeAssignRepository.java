@@ -1,6 +1,8 @@
 package com.portalprojects.core.member.repository;
 
 import com.portalprojects.repository.AssignRepository;
+import jakarta.transaction.Transactional;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -16,4 +18,12 @@ public interface MeAssignRepository extends AssignRepository {
             WHERE a.id = :idTodo
             """, nativeQuery = true)
     List<String> getAllMemberByIdTodo(@Param("idTodo") String idTodo);
+
+    @Modifying
+    @Transactional
+    @Query(value = """
+            DELETE FROM assign a
+            WHERE a.member_id = :idMember AND a.todo_id = :idTodo
+            """, nativeQuery = true)
+    void delete(@Param("idMember") String idMember, @Param("idTodo") String idTodo);
 }

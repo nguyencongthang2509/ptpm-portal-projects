@@ -33,4 +33,9 @@ public class MeTodoController {
     public ResponseObject findById(@PathVariable("id") String id){
         return new ResponseObject(meTodoService.findById(id));
     }
+
+    @GetMapping("/detail/{id}")
+    public ResponseObject getAllTodoByIdPeriodAndStatusTodo(@PathVariable("id") String id){
+        return new ResponseObject(meTodoService.getDetailTodo(id));
+    }
 }

@@ -2,6 +2,8 @@ package com.portalprojects.core.member.repository;
 
 import com.portalprojects.core.member.model.response.MeLabelResponse;
 import com.portalprojects.repository.LabelRepository;
+import jakarta.transaction.Transactional;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -17,5 +19,10 @@ public interface MeLabelRepository extends LabelRepository {
             JOIN label c ON b.label_id = c.id WHERE a.id = :idTodo
             """, nativeQuery = true)
     List<MeLabelResponse> getAllLabelByIdTodo(@Param("idTodo") String idTodo);
+
+    @Query(value = """
+            SELECT c.id, c.code, c.name, c.color_label FROM label c
+            """, nativeQuery = true)
+    List<MeLabelResponse> getAll();
 
 }

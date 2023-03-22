@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author thangncph26123
  */
 @RestController
-@RequestMapping("/member")
+@RequestMapping("/member/project")
 @CrossOrigin(origins = {"*"}, maxAge = 4800, allowCredentials = "false")
 public class MeProjectController {
 

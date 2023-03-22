@@ -1,5 +1,6 @@
 window.MemberProjectIsParticipatingDetailController = function (
   $scope,
+  $http,
   $routeParams,
   MeDetailProjectService,
   MeMemberService,
@@ -8,7 +9,8 @@ window.MemberProjectIsParticipatingDetailController = function (
   MeTodoService,
   MeAssignService,
   MeLabelService,
-  MeDetailTodoService
+  MeDetailTodoService,
+  MeMemberProjectService
 ) {
   let idProject = $routeParams.id;
   $scope.projectId = idProject;
@@ -19,6 +21,7 @@ window.MemberProjectIsParticipatingDetailController = function (
       MeMemberService.fetchMembers(),
       MeResourceService.fetchResources(idProject),
       MeGetAllPeriodById.fetchPeriods(idProject),
+      MeMemberProjectService.fetchMembers(idProject),
     ]);
 
     $scope.detailProject = MeDetailProjectService.getProject();
@@ -34,7 +37,26 @@ window.MemberProjectIsParticipatingDetailController = function (
     } else {
       $scope.valueInput = "";
     }
+    $scope.currentPeriod = periodCurrent.id;
     $scope.loadDataTodo(periodCurrent.id);
+
+    $scope.listMemberProject = [];
+    const memberProject = MeMemberProjectService.getMembers();
+    memberProject.forEach((meId) => {
+      const member = $scope.listMemberById.find((me) => meId === me.id);
+      if (member) {
+        member.checkMemberAssign = false;
+        $scope.listMemberProject.push(member);
+      }
+    });
+
+    $scope.checkNumberMember = true;
+    $scope.numberMemberMore = $scope.listMemberProject.length - 5;
+    if ($scope.listMemberProject.length <= 5) {
+      $scope.checkNumberMember = false;
+    } else {
+      $scope.checkNumberMember = true;
+    }
   }
 
   fetchAllData(idProject);
@@ -49,7 +71,7 @@ window.MemberProjectIsParticipatingDetailController = function (
       },
       {
         id: 2,
-        name: "ĐANG DIỄN RA",
+        name: "VIỆC ĐANG LÀM",
         todoList: [],
         checkShowAddCard: false,
       },
@@ -61,12 +83,18 @@ window.MemberProjectIsParticipatingDetailController = function (
       },
       {
         id: 4,
-        name: "ĐÃ HOÀN THÀNH",
+        name: "CẦN ĐÁNH GIÁ",
         todoList: [],
         checkShowAddCard: false,
       },
       {
         id: 5,
+        name: "ĐÃ HOÀN THÀNH",
+        todoList: [],
+        checkShowAddCard: false,
+      },
+      {
+        id: 6,
         name: "TẠM HOÃN",
         todoList: [],
         checkShowAddCard: false,
@@ -98,7 +126,6 @@ window.MemberProjectIsParticipatingDetailController = function (
                 td.labels = MeLabelService.getLabels();
               });
             });
-
             return Promise.all([...assignPromises, ...labelPromises]);
           }
         });
@@ -150,6 +177,10 @@ window.MemberProjectIsParticipatingDetailController = function (
 
   $scope.addACard = function (value) {
     $scope.listTask[value - 1].checkShowAddCard = true;
+
+    setTimeout(() => {
+      document.querySelectorAll(".card-body")[value].scrollTop = 100000;
+    }, 1);
   };
 
   $scope.valueInput = "";
@@ -167,23 +198,245 @@ window.MemberProjectIsParticipatingDetailController = function (
 
   //Detail Todo
 
-  $scope.actionDetailTodo = function (id) {
-    MeDetailTodoService.fetchTodo(id).then(function () {
+  $scope.actionDetailTodo = function (id, index, idTask) {
+    $scope.indexTodoInTask = index;
+    $scope.idTask = idTask;
+    Promise.all([
+      MeDetailTodoService.fetchTodo(id),
+      MeAssignService.fetchMember(id),
+      MeLabelService.fetchLabel(id),
+      MeDetailTodoService.fetchDetailTodo(id),
+    ]).then(function () {
       $scope.detailTodo = MeDetailTodoService.getTodo();
-      $scope.detailTodo.listMemberDetailTodo = [];
-      $scope.detailTodo.listLabelDetailTodo = [];
-      MeAssignService.fetchMember(id).then(function () {
-        const idMembers = MeAssignService.getMembers();
-        idMembers.forEach((meId) => {
-          const member = $scope.listMemberById.find((me) => meId === me.id);
-          if (member) {
-            $scope.detailTodo.listMemberDetailTodo.push(member);
-          }
-        });
+      if ($scope.detailTodo.priorityLevel == "QUAN_TRONG") {
+        $scope.detailTodo.priorityLevel = 0;
+      } else if ($scope.detailTodo.priorityLevel == "CAO") {
+        $scope.detailTodo.priorityLevel = 1;
+      } else if ($scope.detailTodo.priorityLevel == "TRUNG_BINH") {
+        $scope.detailTodo.priorityLevel = 2;
+      } else if ($scope.detailTodo.priorityLevel == "THAP") {
+        $scope.detailTodo.priorityLevel = 3;
+      }
+      $scope.detailTodo.listMemberDetailTodo = $scope.listMemberById.filter(
+        (member) => MeAssignService.getMembers().includes(member.id)
+      );
+      $scope.detailTodo.listLabelDetailTodo = MeLabelService.getLabels();
+      $scope.detailTodo.listTaskDetailTodo =
+        MeDetailTodoService.getTodoDetail();
+
+      $scope.$apply();
+    });
+  };
+
+  // popup add member
+  $scope.showDialogAddMember = false;
+
+  $scope.openDialogAddMember = function (event) {
+    event.stopPropagation();
+    $scope.showDialogAddLabel = false;
+    if (!$scope.showDialogAddMember) {
+      $scope.showDialogAddMember = true;
+    } else {
+      $scope.showDialogAddMember = false;
+    }
+    $scope.dialogStyleAddMember = {
+      top: event.clientY - 100 + "px",
+      left: event.clientX - 450 + "px",
+    };
+
+    $scope.listMemberProject.forEach((meId) => {
+      let memberCheckAssign = $scope.detailTodo.listMemberDetailTodo.find(
+        (me) => meId.id === me.id
+      );
+      if (memberCheckAssign != null) {
+        meId.checkMemberAssign = true;
+      } else {
+        meId.checkMemberAssign = false;
+      }
+    });
+
+    $scope.clickOutPopupAddMember();
+  };
+
+  $scope.clickOutPopupAddMember = function () {
+    document.addEventListener(
+      "click",
+      function (event) {
+        if (
+          !document.querySelector(".dialogAddMember").contains(event.target)
+        ) {
+          $scope.$apply(function () {
+            $scope.closeDialogAddMember();
+          });
+        }
+      },
+      { once: true }
+    );
+  };
+
+  $scope.closeDialogAddMember = function () {
+    $scope.showDialogAddMember = false;
+  };
+
+  $scope.createAssign = function (idMember, idTodo) {
+    $http
+      .post(apiMemberAssign + "?idMember=" + idMember + "&idTodo=" + idTodo)
+      .then(function (response) {
+        $scope.actionReloadData(idMember, idTodo);
       });
-      MeLabelService.fetchLabel(id).then(function () {
-        $scope.detailTodo.listLabelDetailTodo = MeLabelService.getLabels();
+  };
+
+  $scope.deleteAssign = function (idMember, idTodo) {
+    $http
+      .delete(apiMemberAssign + "?idMember=" + idMember + "&idTodo=" + idTodo)
+      .then(function (response) {
+        $scope.actionReloadData(idMember, idTodo);
+      });
+  };
+
+  $scope.actionReloadData = function (idMember, idTodo) {
+    Promise.all([MeAssignService.fetchMember(idTodo)]).then(function () {
+      const idMembers = MeAssignService.getMembers();
+      let listMemberAfter = [];
+      idMembers.forEach((meId) => {
+        const member = $scope.listMemberById.find((me) => meId === me.id);
+        if (member) {
+          listMemberAfter.push(member);
+        }
+      });
+
+      $scope.listTask[$scope.idTask - 1].todoList[
+        $scope.indexTodoInTask
+      ].members = listMemberAfter;
+
+      $scope.detailTodo.listMemberDetailTodo = $scope.listMemberById.filter(
+        (member) => MeAssignService.getMembers().includes(member.id)
+      );
+      $scope.listMemberProject.forEach((meId) => {
+        let memberCheckAssign = $scope.detailTodo.listMemberDetailTodo.find(
+          (me) => meId.id === me.id
+        );
+        if (memberCheckAssign != null) {
+          meId.checkMemberAssign = true;
+        } else {
+          meId.checkMemberAssign = false;
+        }
+      });
+      $scope.$apply();
+    });
+    $scope.clickOutPopupAddMember();
+  };
+
+  $scope.createOrDeleteAssign = function (idMember, idTodo, memberCheckAssign) {
+    if (memberCheckAssign) {
+      $scope.deleteAssign(idMember, idTodo);
+    } else {
+      $scope.createAssign(idMember, idTodo);
+    }
+  };
+
+  // popup add labels
+  $scope.showDialogAddLabel = false;
+
+  $scope.openDialogAddLabel = function (event) {
+    $scope.showDialogAddMember = false;
+    event.stopPropagation();
+    if (!$scope.showDialogAddLabel) {
+      $scope.showDialogAddLabel = true;
+    } else {
+      $scope.showDialogAddLabel = false;
+    }
+    $scope.dialogStyleAddLabel = {
+      top: event.clientY - 100 + "px",
+      left: event.clientX - 450 + "px",
+    };
+
+    MeLabelService.fetchLabels().then(function () {
+      $scope.listLabel = MeLabelService.getAllLabels();
+
+      $scope.listLabel.forEach((lbAll) => {
+        let label = $scope.detailTodo.listLabelDetailTodo.find(
+          (lbDetail) => lbAll.id === lbDetail.id
+        );
+        if (label != null) {
+          lbAll.checkLabel = true;
+        } else {
+          lbAll.checkLabel = false;
+        }
       });
     });
+
+    $scope.clickOutPopupAddLabel();
+  };
+
+  $scope.clickOutPopupAddLabel = function () {
+    document.addEventListener(
+      "click",
+      function (event) {
+        if (!document.querySelector(".dialogAddLabel").contains(event.target)) {
+          $scope.$apply(function () {
+            $scope.closeDialogAddLabel();
+          });
+        }
+      },
+      { once: true }
+    );
+  };
+
+  $scope.closeDialogAddLabel = function () {
+    $scope.showDialogAddLabel = false;
+  };
+
+  $scope.createLabelTodo = function (idLabel, idTodo, checkLabel) {
+    $http
+      .post(apiMemberLabelTodo + "?idLabel=" + idLabel + "&idTodo=" + idTodo)
+      .then(function (response) {
+        $scope.actionReloadDataLabel(idLabel, idTodo);
+      });
+  };
+
+  $scope.deleteLabelTodo = function (idLabel, idTodo, checkLabel) {
+    $http
+      .delete(apiMemberLabelTodo + "?idLabel=" + idLabel + "&idTodo=" + idTodo)
+      .then(function (response) {
+        $scope.actionReloadDataLabel(idLabel, idTodo);
+      });
+  };
+
+  $scope.actionReloadDataLabel = function (idLabel, idTodo, checkLabel) {
+    Promise.all([
+      MeLabelService.fetchLabels(),
+      MeLabelService.fetchLabel(idTodo),
+      MeLabelService.fetchLabel(idTodo),
+    ]).then(function () {
+      $scope.detailTodo.listLabelDetailTodo = MeLabelService.getLabels();
+
+      $scope.listLabel = MeLabelService.getAllLabels();
+      $scope.listLabel.forEach((lbAll) => {
+        let label = $scope.detailTodo.listLabelDetailTodo.find(
+          (lbDetail) => lbAll.id === lbDetail.id
+        );
+        if (label != null) {
+          lbAll.checkLabel = true;
+        } else {
+          lbAll.checkLabel = false;
+        }
+      });
+
+      $scope.listTask[$scope.idTask - 1].todoList[
+        $scope.indexTodoInTask
+      ].labels = MeLabelService.getLabels();
+
+      $scope.$apply();
+    });
+    $scope.clickOutPopupAddLabel();
+  };
+
+  $scope.changeCheckboxLabel = function (idLabel, idTodo, checkLabel) {
+    if (checkLabel) {
+      $scope.deleteLabelTodo(idLabel, idTodo, checkLabel);
+    } else {
+      $scope.createLabelTodo(idLabel, idTodo, checkLabel);
+    }
   };
 };

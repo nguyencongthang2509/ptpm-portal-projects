@@ -1,5 +1,6 @@
 .card-title {
-  text-align: center;
+  margin-top: -5px;
+  margin-left: 5px;
 }
 
 body {
@@ -64,6 +65,21 @@ h4 {
   cursor: grabbing;
 }
 
+.list-group-item.add-card {
+  padding: 5px !important;
+  cursor: pointer;
+  background-color: transparent !important;
+}
+
+.ul_add-card {
+  margin-bottom: 3px;
+  margin-top: 5px;
+  margin-left: 10px;
+  width: 91%;
+  padding-left: 0px;
+  z-index: 2;
+}
+
 li.list-group-item::before {
   display: none;
 }
@@ -92,7 +108,10 @@ li.list-group-item * {
 
 .card-body {
   overflow-y: auto;
-  max-height: 550px;
+  max-height: 590px;
+  padding-left: 7px;
+  padding-right: 7px;
+  padding-bottom: 0px;
 }
 
 .card-body::-webkit-scrollbar {
@@ -101,27 +120,35 @@ li.list-group-item * {
 }
 
 .card-body::-webkit-scrollbar-track {
-  background-color: #f5f5f5;
-  background-color: transparent;
+  background-color: #ffffff;
+  border-radius: 10px;
 }
 
 .card-body::-webkit-scrollbar-thumb {
-  background-color: #c1c1c1;
+  background-color: #d3d3d3;
   border-radius: 10px;
 }
 
 .card-body::-webkit-scrollbar-thumb:hover {
-  background-color: #a8a8a8;
+  background-color: #cecece;
+}
+
+.card.trello-card h6 {
+  margin-left: 10px;
+  margin-top: -10px;
+  margin-bottom: -10px;
 }
 
 .trello-card {
-  background: linear-gradient(
+  /* background: linear-gradient(
     to bottom right,
     hsla(349, 26%, 75%, 0.5),
     hsl(203, 46%, 76%)
-  );
+  ); */
+  background-color: #f1f1f1;
   margin-top: 10px;
-  border-radius: 5px;
+  border-radius: 2px;
+  max-height: 595px;
   box-shadow: 0 1px 0 rgba(9, 30, 66, 0.25);
   width: 275px;
 }
@@ -130,9 +157,21 @@ li.list-group-item * {
   font-size: 14px;
   font-weight: 600;
   margin-bottom: 0;
-  color: white;
+  color: rgb(60, 60, 60);
 }
 
+.li_custom {
+  left: 0;
+  height: 530px !important;
+  width: 100%;
+  position: absolute;
+  z-index: 1;
+}
+
+.li_custom hr {
+  margin: 0;
+  padding: 0;
+}
 .trello-card .list-group {
   padding: 0;
   margin-bottom: 0;
@@ -143,8 +182,13 @@ li.list-group-item * {
   border: none;
   border-radius: 3px;
   user-select: none;
-  padding: 10px;
-  margin-bottom: 8px;
+  padding-top: 1px;
+  /* padding: 10px; */
+  z-index: 2;
+  padding-left: 5px;
+  padding-bottom: 5px;
+  padding-right: 5px;
+  margin-bottom: 4px;
   box-shadow: 0 1px 0 rgba(9, 30, 66, 0.25);
 }
 
@@ -156,9 +200,10 @@ li.list-group-item * {
 .trello-card .list-group-item:hover {
   background-color: #d2dbf0;
 }
+
 .container-custom-trello::-webkit-scrollbar {
   width: 5px;
-  height: 15px;
+  height: 13px;
   background-color: transparent;
 }
 
@@ -176,7 +221,7 @@ li.list-group-item * {
 }
 
 .container-custom-trello {
-  height: 600px;
+  height: 623px;
   display: flex;
   overflow-x: auto;
 }
@@ -202,11 +247,22 @@ li.list-group-item * {
 
 .btn-people {
   border: 1px white solid;
-  height: 30px;
-  width: 35px;
+  height: 32px;
+  width: 32px;
   font-size: 12px;
   border-radius: 50%;
   background-color: transparent;
+  color: white;
+}
+
+.btn-people-detail {
+  border: 1px white solid;
+  height: 34px;
+  width: 33px;
+  font-size: 12px;
+  line-height: 15px;
+  border-radius: 10px;
+  background-color: #3a75b4;
   color: white;
 }
 
@@ -214,6 +270,7 @@ li.list-group-item * {
   border: 1px white solid;
   height: 30px;
   width: 35px;
+  margin-bottom: 1px;
   font-size: 12px;
   border-radius: 50%;
   background-color: #ffffff;
@@ -249,7 +306,6 @@ li.list-group-item * {
 .form_add_card {
   padding: 10px;
   background-color: #d8d8db;
-  border-radius: 10px;
 }
 
 .listPeriod {
@@ -320,7 +376,6 @@ li.list-group-item * {
   display: inline-block;
   padding: 0.2em 0.5em;
   font-size: 0.8em;
-  font-weight: bold;
   color: #fff;
   background-color: #61bd4f;
   border-radius: 3px;
@@ -393,7 +448,7 @@ li.list-group-item * {
   display: flex;
   align-items: center;
   padding: 2px 6px;
-  border-radius: 3px;
+  border-radius: 2px;
   color: #fff;
   font-size: 12px;
   margin-top: 8px;
@@ -458,6 +513,7 @@ li.list-group-item * {
 
 .content_checklist {
   margin-left: 10px;
+  font-size: 14px;
 }
 
 .modal-title {
@@ -484,6 +540,8 @@ li.list-group-item * {
   border: none;
   height: 150px;
   background-color: #f8f8f8;
+  padding: 5px;
+  font-size: 15px;
 }
 
 .activity_custom,
@@ -541,7 +599,7 @@ progress::-ms-fill {
 }
 
 progress::before {
-  content: attr(value) '%';
+  content: attr(value) "%";
   position: absolute;
   font-size: 14px;
   text-align: center;
@@ -549,4 +607,223 @@ progress::before {
   left: 25px;
   color: #000;
   font-weight: 500;
+}
+
+/* Dialog */
+
+.dialogAddMember {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 300px;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  z-index: 999999999;
+}
+
+.dialogAddMember.show {
+  display: block;
+}
+
+.dialog-contentAddMember {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.dialog-titleAddMember {
+  margin: 0;
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+  font-size: 14px;
+}
+
+.dialog-bodyAddMember {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.d-flex.flex-wrap {
+  margin-bottom: 20px;
+}
+
+.closeAddMember {
+  position: absolute;
+  top: -6px;
+  right: 3px;
+  font-size: 30px;
+  font-weight: bold;
+  color: #888;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+/* Dialog nhãn */
+
+.dialogAddLabel {
+  position: absolute;
+  top: 0;
+  max-height: 470px;
+  left: -100%;
+  width: 300px;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  z-index: 999999999;
+}
+
+.dialogAddLabel.show {
+  display: block;
+}
+
+.btn_add_label {
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.btn_add_label button {
+  width: 250px;
+  height: 30px;
+  border: none;
+  font-size: 15px;
+}
+
+.dialog-contentAddLabel {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.dialog-titleAddLabel {
+  margin: 0;
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+  font-size: 14px;
+}
+
+.dialog-bodyAddLabel {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 10px;
+  max-height: 370px;
+}
+
+.closeAddLabel {
+  position: absolute;
+  top: -6px;
+  right: 3px;
+  font-size: 30px;
+  font-weight: bold;
+  color: #888;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+/*  */
+
+.input_search_member {
+  height: 35px;
+  margin-top: 15px;
+  border: 1px solid #81aece;
+}
+
+.input_search_label {
+  height: 35px;
+  width: 99%;
+  margin-top: 15px;
+  border: 1px solid #81aece;
+}
+
+.bx.bx-check.custom {
+  background-color: #2c7eae;
+  height: 19px;
+  text-align: center;
+  width: 19px;
+  margin-left: -15px;
+  margin-bottom: -20px;
+  color: white;
+  font-weight: bold;
+  border-radius: 1px;
+}
+
+.checkbox_label {
+  width: 17px;
+  background-color: #2c7eae;
+  color: #000;
+}
+
+.span_label_detail {
+  margin-left: 10px;
+  background-color: #57ac61;
+  height: 30px;
+  width: 190px;
+  padding: 5px;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  border-radius: 2px;
+  color: #fff;
+  margin-right: 5px;
+}
+
+.form-check-input.custom_label {
+  margin-top: 7px;
+  border-radius: 1px !important;
+}
+
+.d-flex.flex-wrap.custom_label {
+  margin-bottom: 3px;
+}
+
+.bx.bx-pencil.cusom_label {
+  margin-top: 5px;
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+.bx.bx-pencil.cusom_label :hover {
+  margin-top: 5px;
+  margin-left: 5px;
+}
+
+.dialog-bodyAddLabel::-webkit-scrollbar {
+  width: 7px;
+  background-color: transparent;
+}
+
+.dialog-bodyAddLabel::-webkit-scrollbar-track {
+  background-color: #f5f5f5;
+  background-color: transparent;
+}
+
+.dialog-bodyAddLabel::-webkit-scrollbar-thumb {
+  background-color: #c1c1c1;
+  border-radius: 10px;
+}
+
+.dialog-bodyAddLabel::-webkit-scrollbar-thumb:hover {
+  background-color: #a8a8a8;
+}
+
+.priority-level-custom-todo {
+  display: flex; 
+  margin-top: 15px;
+  font-size: 14px;
+  align-items: center; 
+  margin-bottom: -10px;
+}
+
+.title-priority {
+  margin-right: 5px;
+}
+
+.span-priority {
+  background-color: #ff0000;
+  width: 80px;
+  margin-left: 5px;
+  border-radius: 10px;
+  height: 8px;
+  margin-top: 3px;
+  cursor: pointer;
 }

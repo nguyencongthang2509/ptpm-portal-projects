@@ -1,5 +1,6 @@
 package com.portalprojects.core.member.repository;
 
+import com.portalprojects.core.member.model.response.MeDetailTodoResponse;
 import com.portalprojects.core.member.model.response.MeTodoResponse;
 import com.portalprojects.repository.TodoRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -18,4 +19,10 @@ public interface MeTodoRepository extends TodoRepository {
             AND a.status_todo = :statusTodo ORDER BY a.priority_level
             """, nativeQuery = true)
     List<MeTodoResponse> getToDoByPeriodAndPriorityLevel(@Param("idPeriod") String idPeriod, @Param("statusTodo") Integer statusTodo);
+
+    @Query(value = """
+            SELECT a.id, a.code, a.name, a.status_todo FROM to_do a WHERE a.todo_id = :idTodo
+            ORDER BY a.created_date DESC
+            """, nativeQuery = true)
+    List<MeDetailTodoResponse> getDetailTodo(@Param("idTodo") String idTodo);
 }
