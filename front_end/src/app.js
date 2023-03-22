@@ -6,6 +6,7 @@ var app = angular.module("myModule", [
   "ngStorage",
   "ngFileUpload",
   "ngLocale",
+  "ngWebSocket",
 ]);
 
 

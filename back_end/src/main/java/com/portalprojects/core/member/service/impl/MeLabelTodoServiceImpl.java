@@ -1,5 +1,7 @@
 package com.portalprojects.core.member.service.impl;
 
+import com.portalprojects.core.common.base.TaskObject;
+import com.portalprojects.core.member.model.request.MeCreateOrDeleteLabelTodoRequest;
 import com.portalprojects.core.member.repository.MeLabelTodoRepository;
 import com.portalprojects.core.member.service.MeLabelTodoService;
 import com.portalprojects.entity.LabelTodo;
@@ -18,17 +20,17 @@ public class MeLabelTodoServiceImpl implements MeLabelTodoService {
 
     @Override
     @Synchronized
-    public LabelTodo create(String idLabel, String idTodo) {
+    public TaskObject create(MeCreateOrDeleteLabelTodoRequest request) {
         LabelTodo labelTodo = new LabelTodo();
-        labelTodo.setTodoId(idTodo);
-        labelTodo.setLabelId(idLabel);
-        return meLabelTodoRepository.save(labelTodo);
+        labelTodo.setTodoId(request.getIdTodo());
+        labelTodo.setLabelId(request.getIdLabel());
+        return new TaskObject(meLabelTodoRepository.save(labelTodo), Integer.parseInt(request.getIdTask()), Integer.parseInt(request.getIndexTodoInTask()));
     }
 
     @Override
     @Synchronized
-    public Boolean delete(String idLabel, String idTodo) {
-        meLabelTodoRepository.delete(idLabel, idTodo);
-        return true;
+    public TaskObject delete(MeCreateOrDeleteLabelTodoRequest request) {
+        meLabelTodoRepository.delete(request.getIdLabel(), request.getIdTodo());
+        return new TaskObject(request.getIdTodo(), Integer.parseInt(request.getIdTask()), Integer.parseInt(request.getIndexTodoInTask()));
     }
 }

@@ -1,5 +1,7 @@
 package com.portalprojects.core.member.service;
 
+import com.portalprojects.core.common.base.TaskObject;
+import com.portalprojects.core.member.model.request.MeCreateOrDeleteLabelTodoRequest;
 import com.portalprojects.entity.LabelTodo;
 
 /**
@@ -7,7 +9,7 @@ import com.portalprojects.entity.LabelTodo;
  */
 public interface MeLabelTodoService {
 
-    LabelTodo create(String idLabel, String idTodo);
+    TaskObject create(MeCreateOrDeleteLabelTodoRequest request);
 
-    Boolean delete(String idLabel, String idTodo);
+    TaskObject delete(MeCreateOrDeleteLabelTodoRequest request);
 }

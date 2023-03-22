@@ -8,7 +8,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class MeCreateAssignRequest {
+public class MeCreateOrDeleteAssignRequest {
 
     private String idMember;
     private String idTodo;

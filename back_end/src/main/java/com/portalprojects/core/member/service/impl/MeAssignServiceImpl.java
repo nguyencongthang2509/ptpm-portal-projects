@@ -1,5 +1,7 @@
 package com.portalprojects.core.member.service.impl;
 
+import com.portalprojects.core.common.base.TaskObject;
+import com.portalprojects.core.member.model.request.MeCreateOrDeleteAssignRequest;
 import com.portalprojects.core.member.repository.MeAssignRepository;
 import com.portalprojects.core.member.service.MeAssignService;
 import com.portalprojects.entity.Assign;
@@ -25,17 +27,17 @@ public class MeAssignServiceImpl implements MeAssignService {
 
     @Override
     @Synchronized
-    public Assign create(String idMember, String idTodo) {
+    public TaskObject create(MeCreateOrDeleteAssignRequest request) {
         Assign assign = new Assign();
-        assign.setTodoId(idTodo);
-        assign.setMemberId(idMember);
-        return meAssignRepository.save(assign);
+        assign.setTodoId(request.getIdTodo());
+        assign.setMemberId(request.getIdMember());
+        return new TaskObject(meAssignRepository.save(assign), Integer.parseInt(request.getIdTask()), Integer.parseInt(request.getIndexTodoInTask()));
     }
 
     @Override
     @Synchronized
-    public Boolean delete(String idMember, String idTodo) {
-        meAssignRepository.delete(idMember, idTodo);
-        return true;
+    public TaskObject delete(MeCreateOrDeleteAssignRequest request) {
+        meAssignRepository.delete(request.getIdMember(), request.getIdTodo());
+        return new TaskObject(request.getIdTodo(), Integer.parseInt(request.getIdTask()), Integer.parseInt(request.getIndexTodoInTask()));
     }
 }

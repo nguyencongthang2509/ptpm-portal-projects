@@ -1,7 +1,7 @@
 package com.portalprojects.core.member.service;
 
-import com.portalprojects.entity.Assign;
-import org.springframework.data.repository.query.Param;
+import com.portalprojects.core.common.base.TaskObject;
+import com.portalprojects.core.member.model.request.MeCreateOrDeleteAssignRequest;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ public interface MeAssignService {
 
     List<String> getAllMemberByIdTodo(String idTodo);
 
-    Assign create(String idMember, String idTodo);
+    TaskObject create(MeCreateOrDeleteAssignRequest request);
 
-    Boolean delete(String idMember, String idTodo);
+    TaskObject delete(MeCreateOrDeleteAssignRequest request);
 }
