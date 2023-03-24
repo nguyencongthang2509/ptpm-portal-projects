@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
 /**
  * @author thangncph26123
  */
@@ -16,7 +14,7 @@ import java.util.List;
 public class TaskObject {
 
     private Object data;
-    private int idTask;
+    private int indexTask;
     private int indexTodoInTask;
 
 }

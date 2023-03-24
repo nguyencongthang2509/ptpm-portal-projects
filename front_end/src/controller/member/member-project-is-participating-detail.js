@@ -144,6 +144,27 @@ window.MemberProjectIsParticipatingDetailController = function (
 
   // Drag And Drop
 
+  $scope.onDragStartCard = function (item, index) {
+    $scope.draggedItem = item;
+    $scope.draggedIndex = index;
+    // console.log(item + " // " + index);
+    // alert(index);
+  };
+
+  $scope.onDropCard = function (item, index) {
+    // console.log(item);
+    // alert(index)
+  };
+
+  $scope.onDragEndCard = function (index) {
+    // alert(index);
+    // console.log($scope.draggedItem);
+    $scope.listTask.splice($scope.draggedIndex, 1);
+    $scope.listTask.splice(index - 1, 0, $scope.draggedItem);
+    $scope.draggedItem = null;
+    $scope.draggedIndex = null;
+  };
+
   $scope.selected = null;
   $scope.fromList = null;
   $scope.taskEnd = null;
@@ -181,6 +202,9 @@ window.MemberProjectIsParticipatingDetailController = function (
   // Add card
 
   $scope.addACard = function (value) {
+    $scope.listTask.forEach((item) => {
+      item.checkShowAddCard = false;
+    });
     $scope.listTask[value - 1].checkShowAddCard = true;
 
     setTimeout(() => {
@@ -203,9 +227,9 @@ window.MemberProjectIsParticipatingDetailController = function (
 
   //Detail Todo
 
-  $scope.actionDetailTodo = function (id, index, idTask) {
+  $scope.actionDetailTodo = function (id, index, indexTask) {
     $scope.indexTodoInTask = index;
-    $scope.idTask = idTask;
+    $scope.indexTask = indexTask;
     Promise.all([
       MeDetailTodoService.fetchTodo(id),
       MeAssignService.fetchMember(id),
@@ -213,15 +237,6 @@ window.MemberProjectIsParticipatingDetailController = function (
       MeDetailTodoService.fetchDetailTodo(id),
     ]).then(function () {
       $scope.detailTodo = MeDetailTodoService.getTodo();
-      if ($scope.detailTodo.priorityLevel == "QUAN_TRONG") {
-        $scope.detailTodo.priorityLevel = 0;
-      } else if ($scope.detailTodo.priorityLevel == "CAO") {
-        $scope.detailTodo.priorityLevel = 1;
-      } else if ($scope.detailTodo.priorityLevel == "TRUNG_BINH") {
-        $scope.detailTodo.priorityLevel = 2;
-      } else if ($scope.detailTodo.priorityLevel == "THAP") {
-        $scope.detailTodo.priorityLevel = 3;
-      }
       $scope.detailTodo.listMemberDetailTodo = $scope.listMemberById.filter(
         (member) => MeAssignService.getMembers().includes(member.id)
       );
@@ -239,6 +254,7 @@ window.MemberProjectIsParticipatingDetailController = function (
   $scope.openDialogAddMember = function (event) {
     event.stopPropagation();
     $scope.showDialogAddLabel = false;
+    $scope.showDialogAddPriorityLevel = false;
     if (!$scope.showDialogAddMember) {
       $scope.showDialogAddMember = true;
     } else {
@@ -284,38 +300,47 @@ window.MemberProjectIsParticipatingDetailController = function (
   };
 
   stompClient.connect({}, function (frame) {
-    console.log("Connected: " + frame);
+    // console.log("Connected: " + frame);
 
     stompClient.subscribe("/portal-projects/assign", function (message) {
       if (JSON.parse(message.body).data.data.todoId != null) {
         $scope.actionReloadData(
           JSON.parse(message.body).data.data.todoId,
-          JSON.parse(message.body).data.idTask,
+          JSON.parse(message.body).data.indexTask,
           JSON.parse(message.body).data.indexTodoInTask
         );
       } else {
         $scope.actionReloadData(
           JSON.parse(message.body).data.data,
-          JSON.parse(message.body).data.idTask,
+          JSON.parse(message.body).data.indexTask,
           JSON.parse(message.body).data.indexTodoInTask
         );
       }
     });
 
     stompClient.subscribe("/portal-projects/label-todo", function (message) {
+      console.log(message);
       if (JSON.parse(message.body).data.data.todoId != null) {
         $scope.actionReloadDataLabel(
           JSON.parse(message.body).data.data.todoId,
-          JSON.parse(message.body).data.idTask,
+          JSON.parse(message.body).data.indexTask,
           JSON.parse(message.body).data.indexTodoInTask
         );
       } else {
         $scope.actionReloadDataLabel(
           JSON.parse(message.body).data.data,
-          JSON.parse(message.body).data.idTask,
+          JSON.parse(message.body).data.indexTask,
           JSON.parse(message.body).data.indexTodoInTask
         );
       }
+    });
+
+    stompClient.subscribe("/portal-projects/todo", function (message) {
+      $scope.actionReloadDataPriorityTodo(
+        JSON.parse(message.body).data.data.id,
+        JSON.parse(message.body).data.indexTask,
+        JSON.parse(message.body).data.indexTodoInTask
+      );
     });
   });
 
@@ -323,7 +348,7 @@ window.MemberProjectIsParticipatingDetailController = function (
     let headers = {
       idMember: idMember,
       idTodo: idTodo,
-      idTask: $scope.idTask,
+      indexTask: $scope.indexTask,
       indexTodoInTask: $scope.indexTodoInTask,
     };
 
@@ -334,14 +359,14 @@ window.MemberProjectIsParticipatingDetailController = function (
     let headers = {
       idMember: idMember,
       idTodo: idTodo,
-      idTask: $scope.idTask,
+      indexTask: $scope.indexTask,
       indexTodoInTask: $scope.indexTodoInTask,
     };
 
     stompClient.send("/action/delete-assign", {}, JSON.stringify(headers));
   };
 
-  $scope.actionReloadData = function (idTodo, idTask, indexTodoInTask) {
+  $scope.actionReloadData = function (idTodo, indexTask, indexTodoInTask) {
     Promise.all([MeAssignService.fetchMember(idTodo)]).then(function () {
       const idMembers = MeAssignService.getMembers();
       let listMemberAfter = [];
@@ -352,7 +377,7 @@ window.MemberProjectIsParticipatingDetailController = function (
         }
       });
 
-      $scope.listTask[idTask - 1].todoList[indexTodoInTask].members =
+      $scope.listTask[indexTask].todoList[indexTodoInTask].members =
         listMemberAfter;
 
       if ($scope.detailTodo != null) {
@@ -388,6 +413,7 @@ window.MemberProjectIsParticipatingDetailController = function (
 
   $scope.openDialogAddLabel = function (event) {
     $scope.showDialogAddMember = false;
+    $scope.showDialogAddPriorityLevel = false;
     event.stopPropagation();
     if (!$scope.showDialogAddLabel) {
       $scope.showDialogAddLabel = true;
@@ -439,7 +465,7 @@ window.MemberProjectIsParticipatingDetailController = function (
     let headers = {
       idLabel: idLabel,
       idTodo: idTodo,
-      idTask: $scope.idTask,
+      indexTask: $scope.indexTask,
       indexTodoInTask: $scope.indexTodoInTask,
     };
 
@@ -450,14 +476,14 @@ window.MemberProjectIsParticipatingDetailController = function (
     let headers = {
       idLabel: idLabel,
       idTodo: idTodo,
-      idTask: $scope.idTask,
+      indexTask: $scope.indexTask,
       indexTodoInTask: $scope.indexTodoInTask,
     };
 
     stompClient.send("/action/delete-label-todo", {}, JSON.stringify(headers));
   };
 
-  $scope.actionReloadDataLabel = function (idTodo, idTask, indexTodoInTask) {
+  $scope.actionReloadDataLabel = function (idTodo, indexTask, indexTodoInTask) {
     Promise.all([
       MeLabelService.fetchLabels(),
       MeLabelService.fetchLabel(idTodo),
@@ -480,7 +506,7 @@ window.MemberProjectIsParticipatingDetailController = function (
         });
       }
 
-      $scope.listTask[idTask - 1].todoList[indexTodoInTask].labels =
+      $scope.listTask[indexTask].todoList[indexTodoInTask].labels =
         MeLabelService.getLabels();
 
       $scope.$apply();
@@ -495,4 +521,85 @@ window.MemberProjectIsParticipatingDetailController = function (
       $scope.createLabelTodo(idLabel, idTodo);
     }
   };
+
+  // Popup độ ưu tiên
+  $scope.showDialogAddPriorityLevel = false;
+
+  $scope.openDialogAddPriorityLevel = function (event) {
+    event.stopPropagation();
+    $scope.showDialogAddLabel = false;
+    $scope.showDialogAddMember = false;
+    if (!$scope.showDialogAddPriorityLevel) {
+      $scope.showDialogAddPriorityLevel = true;
+    } else {
+      $scope.showDialogAddPriorityLevel = false;
+    }
+    $scope.dialogStyleAddPriorityLevel = {
+      top: event.clientY - 100 + "px",
+      left: event.clientX - 450 + "px",
+    };
+
+    $scope.clickOutPopupAddPriorityLevel();
+  };
+
+  $scope.clickOutPopupAddPriorityLevel = function () {
+    document.addEventListener(
+      "click",
+      function (event) {
+        if (
+          !document
+            .querySelector(".dialogAddPriorityLevel")
+            .contains(event.target)
+        ) {
+          $scope.$apply(function () {
+            $scope.closeDialogAddPriorityLevel();
+          });
+        }
+      },
+      { once: true }
+    );
+  };
+
+  $scope.closeDialogAddPriorityLevel = function () {
+    $scope.showDialogAddPriorityLevel = false;
+  };
+
+  $scope.actionChangePriorityLevel = function (priorityLevel, idTodo) {
+    let obj = {
+      idTodo: idTodo,
+      priorityLevel: priorityLevel,
+      indexTask: $scope.indexTask,
+      indexTodoInTask: $scope.indexTodoInTask,
+    };
+
+    stompClient.send("/action/update-priority-todo", {}, JSON.stringify(obj));
+  };
+
+  $scope.actionReloadDataPriorityTodo = function (
+    idTodo,
+    indexTask,
+    indexTodoInTask
+  ) {
+    Promise.all([MeDetailTodoService.fetchTodo(idTodo)]).then(function () {
+      if ($scope.detailTodo != null) {
+        $scope.detailTodo.priorityLevel =
+          MeDetailTodoService.getTodo().priorityLevel;
+      }
+      let priorityLevel = MeDetailTodoService.getTodo().priorityLevel;
+      $scope.listTask[indexTask].todoList[indexTodoInTask].priorityLevel =
+        priorityLevel == "QUAN_TRONG"
+          ? 0
+          : priorityLevel == "CAO"
+          ? 1
+          : priorityLevel == "TRUNG_BINH"
+          ? 2
+          : 3;
+
+      $scope.$apply();
+    });
+
+    $scope.clickOutPopupAddPriorityLevel();
+  };
+
+  //
 };

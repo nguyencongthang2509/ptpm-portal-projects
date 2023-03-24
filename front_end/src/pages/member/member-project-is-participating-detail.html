@@ -22,8 +22,8 @@
         <a href="#member/period-project/{{projectId}}">
           <div
             class="btn_eye"
-            data-bs-toggle="tooltip"
-            title="Xem chi tiết các giai đoạn"
+            my-tooltip 
+            tooltip-content="Xem chi tiết giai đoạn"
           >
             <img src="../../../assets/img/eye-fill.svg" />
           </div>
@@ -73,7 +73,7 @@
               >
                 <i class="bx bx-plus"></i> Add a card
               </li>
-              <div class="form_add_card" ng-show="xx.checkShowAddCard">
+              <div class="form_add_resource_card" ng-show="xx.checkShowAddCard">
                 <input
                   type="text"
                   placeholder="Enter card title"
@@ -95,12 +95,24 @@
           </div>
         </div>
       </div>
-      <div ng-repeat="xx in listTask" style="width: auto; padding-left: 0">
+      <div
+        ng-repeat="xx in listTask track by $index"
+        dnd-draggable="xx"
+        dnd-dropzone="listTask"
+        dnd-list="listTask"
+        dnd-effect-allowed="move"
+        class="item"
+        dnd-drop="onDropCard(xx, $index)"
+        dnd-dragstart="onDragStartCard(xx, $index)"
+        dnd-dragend="onDragEndCard($index)"
+        style="width: auto; padding-left: 0"
+      >
         <div class="card trello-card">
           <h6 class="card-title">{{xx.name}}</h6>
           <div class="card-body">
             <ul
               class="list-group"
+              dnd-dropzone="xx.todoList"
               dnd-list="xx.todoList"
               ng-init="externalSources=['external']"
               dnd-allow-same-container
@@ -120,7 +132,7 @@
                 style="list-style: none"
                 data-bs-toggle="modal"
                 data-bs-target="#modal_show_detail_todo"
-                ng-click="actionDetailTodo(item.id, $index, xx.id)"
+                ng-click="actionDetailTodo(item.id, $index, $parent.$index)"
               >
                 <div>
                   <span
@@ -137,11 +149,9 @@
                   <br />
                   <span
                     my-tooltip
-                    tooltip-content="{{item.priorityLevel == 0 ? 'Độ ưu tiên: Quan trọng' :
-                    (item.priorityLevel == 1 ? 'Độ ưu tiên: Cao' : (item.priorityLevel == 2
-                    ? 'Độ ưu tiên: Trung bình' : 'Độ ưu tiên: Thấp'))}}"
+                    tooltip-content="{{item.priorityLevel == 0 ? 'Độ ưu tiên: Quan trọng' : item.priorityLevel == 1 ? 'Độ ưu tiên: Cao'  : item.priorityLevel == 2 ? 'Độ ưu tiên: Trung bình'  : 'Độ ưu tiên: Thấp' }}"
                     class="prioritylevel_todo"
-                    ng-style="{ backgroundColor: item.priorityLevel == 0 ? 'red' : item.priorityLevel == 1 ? 'orange' : item.priorityLevel == 2 ? 'yellow' : 'green' }"
+                    ng-style="{ backgroundColor: item.priorityLevel == 0 ? 'red' : item.priorityLevel == 1 ? 'orange' : item.priorityLevel == 2 ? 'yellow' : '#6bb973' }"
                   >
                   </span>
                   <br /><i class="bx bx-menu"></i
@@ -155,8 +165,8 @@
                   >
                     <img
                       class="rounded-circle"
-                      width="30px"
-                      height="30px"
+                      width="33px"
+                      height="33px"
                       src="{{member.image}}"
                       alt=""
                     />
@@ -166,27 +176,23 @@
 
               <li style="z-index: 2">
                 <div class="form_add_card" ng-show="xx.checkShowAddCard">
-                  <input
-                    type="text"
+                  <textarea
                     placeholder="Enter card title"
-                    class="form-control mb-2"
+                    class="input_add_custom"
                     name="inputTitle"
                     ng-model="valueInput"
-                  />
-                  <button ng-click="addNewCard(xx.id)" class="btn btn-primary">
+                  ></textarea>
+                  <button ng-click="addNewCard(xx.id)" class="btn_add_custom">
                     Add card
                   </button>
                   <button
-                    class="btn btn-outline-secondary"
+                    class="btn_close_custom"
                     ng-click="xx.checkShowAddCard = false"
                   >
-                    Close
+                    X
                   </button>
                   <div class="toggle-menu">
-                    <button
-                      class="btn btn-outline-secondary custom"
-                      ng-click="toggleMenu()"
-                    >
+                    <button class="btn_popup_custom" ng-click="toggleMenu()">
                       ...
                     </button>
                     <ul ng-show="showMenu">
@@ -357,17 +363,17 @@
                   <div class="priority-level-custom-todo">
                     <div class="title-priority">Độ ưu tiên:</div>
                     <span
-                      ng-style="{ color: detailTodo.priorityLevel == 0 ? 'red' : detailTodo.priorityLevel == 1 ? 'orange' : detailTodo.priorityLevel == 2 ? 'yellow' : 'green' }"
+                      ng-style="{ color: detailTodo.priorityLevel == 'QUAN_TRONG' ? 'red' : detailTodo.priorityLevel == 'CAO' ? 'orange' : detailTodo.priorityLevel == 'TRUNG_BINH' ? 'yellow' : '#6bb973' }"
                       ><b>
-                        {{detailTodo.priorityLevel == 0 ? 'Quan trọng' :
-                        (detailTodo.priorityLevel == 1 ? 'Cao' :
-                        (detailTodo.priorityLevel == 2 ? 'Trung bình' :
-                        'Thấp'))}}</b
+                        {{detailTodo.priorityLevel == 'QUAN_TRONG' ? 'Quan
+                        trọng' : (detailTodo.priorityLevel == 'CAO' ? 'Cao' :
+                        (detailTodo.priorityLevel == 'TRUNG_BINH' ? 'Trung bình'
+                        : 'Thấp'))}}</b
                       ></span
                     >
                     <span
                       class="span-priority"
-                      ng-style="{ backgroundColor: detailTodo.priorityLevel == 0 ? 'red' : detailTodo.priorityLevel == 1 ? 'orange' : detailTodo.priorityLevel == 2 ? 'yellow' : 'green' }"
+                      ng-style="{ backgroundColor: detailTodo.priorityLevel == 'QUAN_TRONG' ? 'red' : detailTodo.priorityLevel == 'CAO' ? 'orange' : detailTodo.priorityLevel == 'TRUNG_BINH' ? 'yellow' : '#6bb973' }"
                     >
                     </span>
                   </div>
@@ -544,38 +550,103 @@
                         </div>
                       </div>
                     </div>
-                    <button class="btn_add_to_card">
+                    <button
+                      ng-click="openDialogAddPriorityLevel($event)"
+                      class="btn_add_to_card"
+                    >
                       <i class="bx bx-flag"></i>
                       Độ ưu tiên
                     </button>
-                    <!-- <div
-                      class="dialogAddLabel"
-                      ng-show="showDialogAddLabel"
-                      ng-style="dialogStyleAddLabel"
+                    <div
+                      class="dialogAddPriorityLevel"
+                      ng-show="showDialogAddPriorityLevel"
+                      ng-style="dialogStyleAddPriorityLevel"
                     >
-                      <div class="dialog-contentAddLabel">
+                      <div class="dialog-contentAddPriorityLevel">
                         <button
                           type="button"
-                          class="closeAddLabel"
-                          ng-click="closeDialogAddLabel()"
+                          class="closeAddPriorityLevel"
+                          ng-click="closeDialogAddPriorityLevel()"
                         >
                           &times;
                         </button>
-                        <h4 class="dialog-titleAddLabel">Độ ưu tiên</h4>
-                        <div class="dialog-bodyAddLabel">
+                        <h4 class="dialog-titleAddPriorityLevel">Độ ưu tiên</h4>
+                        <div class="dialog-bodyAddPriorityLevel">
                           <div class="container-fluid">
-                            <div style="margin-top: 10px; margin-bottom: 10px">
-                              <span style="font-size: 14px">Danh sách</span>
+                            <div class="form-check">
+                              <div class="form-check-item">
+                                <label
+                                  style="
+                                    color: red;
+                                    font-weight: bold;
+                                    cursor: pointer;
+                                  "
+                                >
+                                  <input
+                                    type="radio"
+                                    ng-click="actionChangePriorityLevel(0, detailTodo.id)"
+                                    ng-checked="detailTodo.priorityLevel == 'QUAN_TRONG'"
+                                    class="form-check-input"
+                                    name="priorityLevel"
+                                  />Quan trọng
+                                </label>
+                              </div>
+                              <div class="form-check-item">
+                                <label
+                                  style="
+                                    color: orange;
+                                    font-weight: bold;
+                                    cursor: pointer;
+                                  "
+                                >
+                                  <input
+                                    type="radio"
+                                    ng-click="actionChangePriorityLevel(1, detailTodo.id)"
+                                    ng-checked="detailTodo.priorityLevel == 'CAO'"
+                                    class="form-check-input"
+                                    name="priorityLevel"
+                                  />Cao
+                                </label>
+                              </div>
+                              <div class="form-check-item">
+                                <label
+                                  style="
+                                    color: yellow;
+                                    font-weight: bold;
+                                    cursor: pointer;
+                                  "
+                                >
+                                  <input
+                                    type="radio"
+                                    ng-click="actionChangePriorityLevel(2, detailTodo.id)"
+                                    ng-checked="detailTodo.priorityLevel == 'TRUNG_BINH'"
+                                    class="form-check-input"
+                                    name="priorityLevel"
+                                  />Trung bình
+                                </label>
+                              </div>
+                              <div class="form-check-item">
+                                <label
+                                  style="
+                                    color: #6bb973;
+                                    font-weight: bold;
+                                    cursor: pointer;
+                                  "
+                                >
+                                  <input
+                                    type="radio"
+                                    ng-click="actionChangePriorityLevel(3, detailTodo.id)"
+                                    ng-checked="detailTodo.priorityLevel == 'THAP'"
+                                    class="form-check-input"
+                                    name="priorityLevel"
+                                  />Thấp
+                                </label>
+                              </div>
                             </div>
                           </div>
                         </div>
-                        <div class="btn_add_label">
-                          <button>
-                            <i class="bx bx-plus"></i> Thêm mới nhãn
-                          </button>
-                        </div>
                       </div>
-                    </div> -->
+                    </div>
                     <button class="btn_add_to_card">
                       <i class="bx bx-task"></i> Đầu việc
                     </button>

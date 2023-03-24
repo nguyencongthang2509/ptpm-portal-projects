@@ -1,5 +1,7 @@
 package com.portalprojects.core.member.service;
 
+import com.portalprojects.core.common.base.TaskObject;
+import com.portalprojects.core.member.model.request.MeUpdateTodoRequest;
 import com.portalprojects.core.member.model.response.MeDetailTodoResponse;
 import com.portalprojects.core.member.model.response.MeTodoResponse;
 import com.portalprojects.entity.Todo;
@@ -16,4 +18,6 @@ public interface MeTodoService {
     Todo findById(String id);
 
     List<MeDetailTodoResponse> getDetailTodo(String idTodo);
+
+    TaskObject updatePriorityLevel(MeUpdateTodoRequest request);
 }

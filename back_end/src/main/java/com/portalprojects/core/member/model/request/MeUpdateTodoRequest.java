@@ -8,10 +8,9 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class MeCreateOrDeleteAssignRequest {
-
-    private String idMember;
+public class MeUpdateTodoRequest {
     private String idTodo;
+    private Integer priorityLevel;
     private String indexTask;
     private String indexTodoInTask;
 }

@@ -1,12 +1,17 @@
 package com.portalprojects.core.member.controller;
 
 import com.portalprojects.core.common.base.ResponseObject;
+import com.portalprojects.core.member.model.request.MeCreateOrDeleteAssignRequest;
+import com.portalprojects.core.member.model.request.MeUpdateTodoRequest;
 import com.portalprojects.core.member.model.response.MeTodoResponse;
 import com.portalprojects.core.member.service.MeTodoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,5 +42,11 @@ public class MeTodoController {
     @GetMapping("/detail/{id}")
     public ResponseObject getAllTodoByIdPeriodAndStatusTodo(@PathVariable("id") String id){
         return new ResponseObject(meTodoService.getDetailTodo(id));
+    }
+
+    @MessageMapping("/update-priority-todo")
+    @SendTo("/portal-projects/todo")
+    public ResponseObject updatePriorityLevel(@RequestBody MeUpdateTodoRequest request) {
+        return new ResponseObject(meTodoService.updatePriorityLevel(request));
     }
 }

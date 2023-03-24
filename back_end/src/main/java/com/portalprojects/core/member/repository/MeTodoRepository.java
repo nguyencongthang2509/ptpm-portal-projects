@@ -3,6 +3,8 @@ package com.portalprojects.core.member.repository;
 import com.portalprojects.core.member.model.response.MeDetailTodoResponse;
 import com.portalprojects.core.member.model.response.MeTodoResponse;
 import com.portalprojects.repository.TodoRepository;
+import jakarta.transaction.Transactional;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -25,4 +27,5 @@ public interface MeTodoRepository extends TodoRepository {
             ORDER BY a.created_date DESC
             """, nativeQuery = true)
     List<MeDetailTodoResponse> getDetailTodo(@Param("idTodo") String idTodo);
+
 }

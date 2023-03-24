@@ -24,13 +24,13 @@ public class MeLabelTodoServiceImpl implements MeLabelTodoService {
         LabelTodo labelTodo = new LabelTodo();
         labelTodo.setTodoId(request.getIdTodo());
         labelTodo.setLabelId(request.getIdLabel());
-        return new TaskObject(meLabelTodoRepository.save(labelTodo), Integer.parseInt(request.getIdTask()), Integer.parseInt(request.getIndexTodoInTask()));
+        return new TaskObject(meLabelTodoRepository.save(labelTodo), Integer.parseInt(request.getIndexTask()), Integer.parseInt(request.getIndexTodoInTask()));
     }
 
     @Override
     @Synchronized
     public TaskObject delete(MeCreateOrDeleteLabelTodoRequest request) {
         meLabelTodoRepository.delete(request.getIdLabel(), request.getIdTodo());
-        return new TaskObject(request.getIdTodo(), Integer.parseInt(request.getIdTask()), Integer.parseInt(request.getIndexTodoInTask()));
+        return new TaskObject(request.getIdTodo(), Integer.parseInt(request.getIndexTask()), Integer.parseInt(request.getIndexTodoInTask()));
     }
 }

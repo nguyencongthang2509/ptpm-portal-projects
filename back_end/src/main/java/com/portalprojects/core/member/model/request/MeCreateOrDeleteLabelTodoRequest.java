@@ -12,6 +12,6 @@ public class MeCreateOrDeleteLabelTodoRequest {
 
     private String idLabel;
     private String idTodo;
-    private String idTask;
+    private String indexTask;
     private String indexTodoInTask;
 }

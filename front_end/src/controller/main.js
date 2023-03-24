@@ -10,9 +10,20 @@ app.directive("myTooltip", function () {
       $(element).attr("data-bs-toggle", "tooltip");
       $(element).attr("title", scope.tooltipContent);
       $(element).attr("data-bs-placement", "top");
-      $(element).attr("data-bs-color", "#FFFFFF"); 
-      $(element).attr("data-bs-text-color", "#FFFFFF"); 
       $(element).tooltip();
+      $(element).click(function () {
+        $(element).tooltip("dispose");
+      });
+      $(element).mouseenter(function () {
+        $(element).tooltip();
+      });
+      scope.$watch("tooltipContent", function (newVal) {
+        $(element).tooltip("dispose");
+        $(element).attr("data-bs-toggle", "tooltip");
+        $(element).attr("title", newVal);
+        $(element).attr("data-bs-placement", "top");
+        $(element).tooltip();
+      });
     },
   };
 });

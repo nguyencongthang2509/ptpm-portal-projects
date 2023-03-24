@@ -31,13 +31,13 @@ public class MeAssignServiceImpl implements MeAssignService {
         Assign assign = new Assign();
         assign.setTodoId(request.getIdTodo());
         assign.setMemberId(request.getIdMember());
-        return new TaskObject(meAssignRepository.save(assign), Integer.parseInt(request.getIdTask()), Integer.parseInt(request.getIndexTodoInTask()));
+        return new TaskObject(meAssignRepository.save(assign), Integer.parseInt(request.getIndexTask()), Integer.parseInt(request.getIndexTodoInTask()));
     }
 
     @Override
     @Synchronized
     public TaskObject delete(MeCreateOrDeleteAssignRequest request) {
         meAssignRepository.delete(request.getIdMember(), request.getIdTodo());
-        return new TaskObject(request.getIdTodo(), Integer.parseInt(request.getIdTask()), Integer.parseInt(request.getIndexTodoInTask()));
+        return new TaskObject(request.getIdTodo(), Integer.parseInt(request.getIndexTask()), Integer.parseInt(request.getIndexTodoInTask()));
     }
 }

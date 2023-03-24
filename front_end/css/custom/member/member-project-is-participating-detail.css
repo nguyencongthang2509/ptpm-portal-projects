@@ -61,8 +61,34 @@ h4 {
   border: none;
   padding: 5px 0;
   font-size: 14px;
-  list-style-type: none;
+  position: relative;
+  list-style: none;
   cursor: grabbing;
+  transition: box-shadow 0.15s ease;
+}
+
+.list-group-item.dndDragging {
+  opacity: 0.5;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.149);
+}
+
+.list-group-item.dndPlaceholder {
+  background-color: transparent;
+  border-radius: 3px;
+}
+
+.list-group-item.dndDraggingSource {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.list-group-item.dndDraggingSource.ng-leave {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.list-group-item.dndDraggingSource.ng-leave.ng-leave-active {
+  opacity: 0.5;
 }
 
 .list-group-item.add-card {
@@ -301,11 +327,6 @@ li.list-group-item * {
 
 .col-4 {
   width: 27%;
-}
-
-.form_add_card {
-  padding: 10px;
-  background-color: #d8d8db;
 }
 
 .listPeriod {
@@ -661,6 +682,18 @@ progress::before {
 }
 /* Dialog nhãn */
 
+.btn_add_label {
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.btn_add_label button {
+  width: 250px;
+  height: 30px;
+  border: none;
+  font-size: 15px;
+}
+
 .dialogAddLabel {
   position: absolute;
   top: 0;
@@ -674,18 +707,6 @@ progress::before {
 
 .dialogAddLabel.show {
   display: block;
-}
-
-.btn_add_label {
-  margin-bottom: 10px;
-  text-align: center;
-}
-
-.btn_add_label button {
-  width: 250px;
-  height: 30px;
-  border: none;
-  font-size: 15px;
 }
 
 .dialog-contentAddLabel {
@@ -710,6 +731,55 @@ progress::before {
 }
 
 .closeAddLabel {
+  position: absolute;
+  top: -6px;
+  right: 3px;
+  font-size: 30px;
+  font-weight: bold;
+  color: #888;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+/* Độ ưu tiên */
+
+.dialogAddPriorityLevel {
+  position: absolute;
+  top: 0;
+  max-height: 470px;
+  left: -100%;
+  width: 300px;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  z-index: 999999999;
+}
+
+.dialogAddPriorityLevel.show {
+  display: block;
+}
+
+.dialog-contentAddPriorityLevel {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.dialog-titleAddPriorityLevel {
+  margin: 0;
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+  font-size: 14px;
+}
+
+.dialog-bodyAddPriorityLevel {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 10px;
+  max-height: 370px;
+}
+
+.closeAddPriorityLevel {
   position: absolute;
   top: -6px;
   right: 3px;
@@ -807,10 +877,10 @@ progress::before {
 }
 
 .priority-level-custom-todo {
-  display: flex; 
+  display: flex;
   margin-top: 15px;
   font-size: 14px;
-  align-items: center; 
+  align-items: center;
   margin-bottom: -10px;
 }
 
@@ -826,4 +896,105 @@ progress::before {
   height: 8px;
   margin-top: 3px;
   cursor: pointer;
+}
+
+.form-check-item {
+  margin-top: 13px;
+  font-size: 15px;
+}
+
+.btn_add_custom {
+  margin-top: 10px;
+  color: white;
+  border: none;
+  background-color: #4a8fcf;
+  border-radius: 2px;
+  font-size: 14px;
+  padding: 5px;
+}
+
+.form_add_card {
+  padding: 10px;
+  background-color: #ffffff;
+}
+
+.form-control.mb-2 {
+  border: none;
+}
+
+.btn_close_custom {
+  border: none;
+  margin-left: 10px;
+  background-color: white;
+}
+
+.btn_close_custom :hover {
+  border: none;
+  background-color: white !important;
+}
+
+.btn_popup_custom {
+  border: none;
+  margin-top: 10px;
+  height: 15px;
+  background-color: white;
+}
+
+.btn_popup_custom :hover {
+  border: none;
+  margin-top: 10px;
+  background-color: white;
+}
+
+.input_add_custom {
+  width: 100%;
+  height: 50px;
+  font-size: 15px;
+  outline: none;
+  padding-left: 0;
+  padding-top: 0;
+  border: none;
+}
+
+.input_add_custom :focus {
+  width: 100%;
+  height: 50px;
+  font-size: 15px;
+  outline: none;
+  border: none;
+}
+
+.item {
+  position: relative;
+  cursor: grab;
+  transition: box-shadow 0.15s ease;
+  list-style: none;
+  opacity: 1;
+}
+
+.item.dndDragging {
+  opacity: 1 ;
+}
+
+.item.dndDragging:not(.dndDraggingSource) {
+  opacity: 1;
+}
+
+.item.dndPlaceholder {
+  background-color: transparent;
+  border-radius: 3px;
+}
+
+.item.dndDraggingSource {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.item.dndDraggingSource.ng-leave {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.item.dndDraggingSource.ng-leave.ng-leave-active {
+  opacity: 0.5;
 }
