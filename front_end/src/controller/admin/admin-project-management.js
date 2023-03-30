@@ -1,10 +1,11 @@
 window.AdminProjectManagementController = function (
   $scope,
   $http,
-  $location,
   AdGetAllProject,
   MeMemberService,
   AdMemberProjcetService,
+  getOneAdMemberProjcetService,
+  getOneAdProjcetService
 ) {
   $scope.listProject = [];
   $scope.form_project = {
@@ -79,9 +80,11 @@ window.AdminProjectManagementController = function (
   };
 
   // thêm project
+  $scope.project_creat = {};
   $scope.addProject = function () {
     console.log($scope.form_project);
     let check = 0;
+
     if ($scope.form_project.code === "") {
       ++check;
       $scope.errorCodeAdd = "Mã dự án không để trống";
@@ -150,9 +153,12 @@ window.AdminProjectManagementController = function (
               positionClass: "toast-top-center",
             });
             $("#exampleModal").modal("hide");
+            $("#modal_showMember").modal("show");
+            $scope.project_creat = response.data.data;
             loadDataListProject();
           },
           function (error) {
+            console.log(error);
             toastr.error(error.data.message, "Thông báo!", {
               closeButton: true,
               progressBar: true,
@@ -297,43 +303,103 @@ window.AdminProjectManagementController = function (
     );
   }
 
-   // thêm member vào dựu án 
-  $scope.listCheck = [];
-  function chekcMemberJoinProject (idProject, idMember){
-    AdMemberProjcetService.findAllMemberJoinProject(idProject).then(
-      function () {
-        let list = [];
-        list = AdMemberProjcetService.getMemberProject();
-        $scope.listCheck = list.data.filter(function (obj1) {
-            return obj1.memberId === idMember;
-        });
-      }
-    );
-  }
-
   $scope.addMemberProject = function (event, index) {
     event.preventDefault();
-    let check = [];
     let member = $scope.listMemberById[index];
-    let project = $scope.listProject[$scope.indexProject];
-    let api = member_ProjcetAPI ;
-    check =  $scope.listCheck;
-    if (check.length ===0) {
-      $http
-        .post(api, {
-          memberId : member.id,
-          projectId : project.id,
-          role : "2",
-          status : "0"
-        })
-        .then(
+    let project = $scope.project_creat;
+    let api = member_ProjcetAPI;
+    console.log(project);
+    $http
+      .post(api, {
+        memberId: member.id,
+        projectId: project.id,
+        role: "2",
+        status: "0",
+      })
+      .then(
+        function (response) {
+          toastr.success("Thêm thành công", "Thông báo!", {
+            closeButton: true,
+            progressBar: true,
+            positionClass: "toast-top-center",
+          });
+          $("#modal_showMember").modal("hide");
+          loadDataListProject();
+        },
+        function (error) {
+          toastr.error(error.data.message, "Thông báo!", {
+            closeButton: true,
+            progressBar: true,
+            positionClass: "toast-top-center",
+          });
+        }
+      );
+  };
+
+  // thêm member vào dựu án
+  $scope.listCheck = null;
+  function chekcMemberJoinProject(idProject, idMember) {
+    getOneAdMemberProjcetService
+      .getOneMemberProject(idMember, idProject)
+      .then(function () {
+        // list = AdMemberProjcetService.getMemberProject();
+        $scope.listCheck = getOneAdMemberProjcetService.getMemberProject();
+        console.log($scope.listCheck);
+      });
+  }
+  $scope.addMemberProjectUpdate = function (event, index) {
+    event.preventDefault();
+    let member = $scope.listMemberById[index];
+    let project = $scope.form_project_update.id;
+    let api = member_ProjcetAPI;
+    $http
+      .post(api, {
+        memberId: member.id,
+        projectId: project,
+        role: "2",
+        status: "0",
+      })
+      .then(
+        function (response) {
+          toastr.success("Thêm thành công", "Thông báo!", {
+            closeButton: true,
+            progressBar: true,
+            positionClass: "toast-top-center",
+          });
+          $("#modal_showMember_add_member").modal("hide");
+          loadDataListProject();
+        },
+        function (error) {
+          toastr.error(error.data.message, "Thông báo!", {
+            closeButton: true,
+            progressBar: true,
+            positionClass: "toast-top-center",
+          });
+        }
+      );
+  };
+
+  // delete menber join dự án
+  $scope.deleteMenberJoinProject = function (event, index) {
+
+    event.preventDefault();
+    let memberId = $scope.listMemberJoinProject[index].id;
+    let projectId = $scope.form_project_update.id;
+    let api = member_ProjcetAPI;
+    getOneAdMemberProjcetService
+      .getOneMemberProject(memberId, projectId)
+      .then(function () {
+        $scope.ktar = getOneAdMemberProjcetService.getMemberProject();
+        console.log($scope.ktar);
+        $http.delete(api + "/" + $scope.ktar.id).then(
           function (response) {
-            toastr.success("Thêm thành công", "Thông báo!", {
+            toastr.success("Xóa thành công", "Thông báo!", {
               closeButton: true,
               progressBar: true,
               positionClass: "toast-top-center",
             });
-            $("#modal_showMember").modal("hide");
+            $("#exampleModal_delete_memberJoinProject").modal("hide");
+            $("#modal_showMember_update").modal("hide");
             loadDataListProject();
           },
           function (error) {
@@ -344,19 +410,6 @@ window.AdminProjectManagementController = function (
             });
           }
         );
-    }
+      });
   };
-
- $scope.chekcMemberJoinProject = function toggleButtons() {
-    var button1 = document.getElementById("button1");
-    var button2 = document.getElementById("button2");
-    
-    if ( $scope.listMemberJoinProject === 0) {
-      button1.style.display = "block";
-      button2.style.display = "none";
-    } else {
-      button1.style.display = "none";
-      button2.style.display = "block";
-    }
-  }
 };

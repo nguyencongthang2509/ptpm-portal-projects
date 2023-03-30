@@ -41,6 +41,10 @@ public class AdProjectServiceImpl implements AdProjectService {
 
     @Override
     public Project createProject(@Valid AdCearteProjectRepuest command) {
+        String checkCode = adProjectRepository.getProjectByCode(command.getCode());
+        if (checkCode != null) {
+            throw new RestApiException(Message.CODE_PROJECT_ALREADY_EXISTS);
+        }
         Project project = formUtils.convertToObject(Project.class, command);
         return adProjectRepository.save(project);
     }
@@ -89,4 +93,6 @@ public class AdProjectServiceImpl implements AdProjectService {
         project.setEndTime(comand.getEndTime());
         return adProjectRepository.save(project);
     }
+
+
 }

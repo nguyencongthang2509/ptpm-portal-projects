@@ -49,5 +49,11 @@ public interface AdProjectRepository extends ProjectRepository {
             """ ,nativeQuery = true)
     Page<AdProjectReponse> findByNameProject(@Param("rep") AdFindProjectRepuest rep, Pageable page);
 
-
+    @Query(value = """
+             SELECT  pro.code                  
+             FROM project pro 
+             WHERE 
+                  pro.code = :codeProject  
+            """ ,nativeQuery = true)
+    String getProjectByCode (@Param("codeProject") String  codeProject );
 }

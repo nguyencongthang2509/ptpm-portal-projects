@@ -60,11 +60,7 @@ public class AdProjectController {
 
     @PostMapping
     public ResponseObject addProject(@RequestBody AdCearteProjectRepuest cmd) {
-        try {
-            return new ResponseObject(adProjectService.createProject(cmd));
-        } catch (Exception e) {
-            return new ResponseObject(e);
-        }
+        return new ResponseObject(adProjectService.createProject(cmd));
     }
 
     @DeleteMapping("/{id}")

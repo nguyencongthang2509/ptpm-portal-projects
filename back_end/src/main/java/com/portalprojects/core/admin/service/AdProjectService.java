@@ -17,15 +17,16 @@ import java.util.List;
 
 public interface AdProjectService {
 
-    List<Project> findAllProject (Pageable pageable);
+    List<Project> findAllProject(Pageable pageable);
 
-    Project createProject (@Valid final AdCearteProjectRepuest command);
+    Project createProject(@Valid final AdCearteProjectRepuest command);
 
     PageableObject<AdProjectReponse> searchProject(final AdFindProjectRepuest rep);
 
     Project findProjectById(final String id);
 
-    Boolean removeProject (final String id);
+    Boolean removeProject(final String id);
 
-    Project updateProject (final AdUpdateProjectRequest comand);
+    Project updateProject(final AdUpdateProjectRequest comand);
+
 }

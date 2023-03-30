@@ -48,6 +48,7 @@ app.service("getOneAdProjcetService", function ($http) {
       }
     );
   };
+ 
 });
 
 app.service("AdGetAllProject", function ($http) {
@@ -144,4 +145,32 @@ app.service("AdMemberProjcetService", function ($http) {
         }
       );
   };
+});
+
+app.service("getOneAdMemberProjcetService", function ($http) {
+  var memberProject = {};
+
+  this.getMemberProject = function () {
+    return memberProject;
+  };
+
+  this.setMemberProject = function (data) {
+    memberProject = data;
+  };
+
+  this.getOneMemberProject = function (idMember ,idProject){
+    return $http
+      .get( member_ProjcetAPI +"/get-one?idProject="+idProject+"&idMember="+idMember)
+      .then(
+        function (response) {
+          if (response.status === 200) {
+            memberProject = response.data.data;
+          }
+          return response;
+        },
+        function (errors) {
+          console.log(errors);
+        }
+      );
+  }
 });

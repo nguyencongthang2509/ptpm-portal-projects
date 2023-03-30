@@ -2,18 +2,19 @@ package com.portalprojects.core.admin.controller;
 
 import com.portalprojects.core.admin.model.request.AdCearteMemberProjectRequest;
 import com.portalprojects.core.admin.model.request.AdFindProjectRepuest;
-import com.portalprojects.core.admin.model.request.AdGetOneMemberProjectRequest;
 import com.portalprojects.core.admin.model.request.AdUpdateMemberProjectRequest;
 import com.portalprojects.core.admin.service.AdMemberProjectService;
 import com.portalprojects.core.common.base.ResponseObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -44,11 +45,7 @@ public class AdMemberProjectController {
 
     @PostMapping
     public ResponseObject addMemberProject(@RequestBody AdCearteMemberProjectRequest cmd) {
-        try {
-            return new ResponseObject(adMemberProjectService.createMemberProject(cmd));
-        } catch (Exception e) {
-            return new ResponseObject(e);
-        }
+           return new ResponseObject(adMemberProjectService.createMemberProject(cmd));
     }
 
     @PutMapping("/{id}")
@@ -57,8 +54,15 @@ public class AdMemberProjectController {
         cmd.setId(id);
         return new ResponseObject(adMemberProjectService.updateMemberProject(cmd));
     }
-    @PostMapping("/getOne")
-    public ResponseObject getOne(@RequestBody AdGetOneMemberProjectRequest rep) {
-        return new ResponseObject(adMemberProjectService.getOne(rep));
+
+    @DeleteMapping("/{id}")
+    public ResponseObject deleteMemberProject(@PathVariable("id") String id){
+        return new ResponseObject(adMemberProjectService.delete(id));
+    }
+
+    @GetMapping("/get-one")
+    public ResponseObject getOne(@RequestParam("idProject") String idProject ,
+                                 @RequestParam("idMember") String idMember) {
+        return new ResponseObject(adMemberProjectService.getOne(idMember,idProject));
     }
 }
