@@ -2,7 +2,6 @@ package com.portalprojects.core.admin.service.impl;
 
 import com.portalprojects.core.admin.model.request.AdCearteMemberProjectRequest;
 import com.portalprojects.core.admin.model.request.AdFindProjectRepuest;
-import com.portalprojects.core.admin.model.request.AdGetOneMemberProjectRequest;
 import com.portalprojects.core.admin.model.request.AdUpdateMemberProjectRequest;
 import com.portalprojects.core.admin.model.response.AdMemberProjectReponse;
 import com.portalprojects.core.admin.repository.AdMemberProjectRepository;
@@ -46,6 +45,10 @@ public class AdMemberProjectServiceImpl implements AdMemberProjectService {
 
     @Override
     public MemberProject createMemberProject(AdCearteMemberProjectRequest command) {
+        AdMemberProjectReponse reponse = adMemberProjectRepository.getOne(command.getProjectId(), command.getMemberId());
+        if (reponse != null) {
+            throw new RestApiException(Message.CODE_MENBER_PROJECT_ALREADY_EXISTS);
+        }
         MemberProject memberProject = formUtils.convertToObject(MemberProject.class, command);
         return adMemberProjectRepository.save(memberProject);
     }
@@ -60,8 +63,18 @@ public class AdMemberProjectServiceImpl implements AdMemberProjectService {
     }
 
     @Override
-    public AdMemberProjectReponse getOne(AdGetOneMemberProjectRequest command) {
-        AdMemberProjectReponse reponse = adMemberProjectRepository.getOne(command);
+    public AdMemberProjectReponse getOne(final String idMember, final String idProject) {
+        AdMemberProjectReponse reponse = adMemberProjectRepository.getOne(idProject, idMember);
         return reponse;
+    }
+
+    @Override
+    public Boolean delete(String id) {
+        Optional<MemberProject> optional = adMemberProjectRepository.findById(id);
+        if (!optional.isPresent()) {
+            throw new RestApiException(Message.MEMBER_PROJECT_NOT_EXISTS);
+        }
+        adMemberProjectRepository.delete(optional.get());
+        return true;
     }
 }

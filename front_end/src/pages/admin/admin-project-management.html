@@ -102,7 +102,7 @@
           >
             Thoát
           </button>
-          <button type="button" class="btn btn-primary" ng-click="addProject()">
+          <button type="button" class="btn btn-primary" ng-click="addProject()" >
             Thêm
           </button>
         </div>
@@ -221,12 +221,11 @@
           ></button>
         </div>
         <!-- ------------- -->
-        <br>
         <div class="row">
           <div class="content-title" style="text-align: right;">
             <div class="list-member">
               <a
-                ng-repeat-start="member in listMemberById | limitTo:4"
+                ng-repeat-start="member in listMemberJoinProject | limitTo:4"
                 data-toggle="tooltip"
                 title="{{member.name}}"
                 href=""
@@ -244,8 +243,7 @@
               href="#"  
               class="btn-people"
               data-bs-toggle="modal"
-              data-bs-target="#modal_showMember"
-               ng-click="chekcMemberJoinProject()"
+              data-bs-target="#modal_showMember_update"
               role="button" style="margin: 7px;"> <i class="bi bi-plus-circle"></i></a>
             </div>
           </div>
@@ -476,7 +474,7 @@
     </div>
   </div>
 
-  <!-- modal thành viên  -->
+  <!-- modal thêm  thành viên  -->
   <div
   class="modal fade"
   id="modal_showMember"
@@ -488,7 +486,7 @@
     <div class="modal-content">
       <form id="form_member">
         <div class="modal-header">
-          <h5 class="modal-title">Danh sách các thành viên tham gia dự án</h5>
+          <h5 class="modal-title">Danh sách các thành viên</h5>
           <button
             type="button"
             class="btn-close"
@@ -498,10 +496,29 @@
         </div>
         <div class="modal-body">
           <div class="container">
+            <!-- search merber  -->
+            <input
+            class="form-control me-2"
+            type="text"
+            ng-model="searchtxt.name" 
+            placeholder="Search for names.."
+            aria-label="Search"
+            style="width: 400px"
+          />
               <div class="custom_member">
-                <table class="table table-borderless">
+                <table class="table table-borderless" >
+                  <thead>
+                    <tr>
+                      <th scope="col" style="display: none">ID</th>
+                      <th scope="col" ></th>
+                      <th scope="col">Họ và tên</th>
+                      <th scope="col">Chức vụ</th>
+                    </tr>
+                  </thead>
                   <tbody>
-                    <tr ng-repeat="member in listMemberById">
+                    <!-- <tr ng-repeat="member in listMemberById  | filter : searchtxt "> -->
+                    <tr ng-repeat="member in filteredItems = (listMemberById | filter: searchtxt )">
+                      <td style="display: none">{{member.id}}</td>
                       <td><img
                         class="rounded-circle"
                         width="50px"
@@ -512,8 +529,7 @@
                       <td>{{member.name}}</td>
                       <td>{{member.role == 0 ? "Quản lý" : "Thành viên"}}</td>
                       <td>
-                        <a class="btn btn-primary" id="button1"  ng-click="addMemberProject($event,$index)" href="#" role="button">Thêm</a>
-                        <a class="btn btn-primary" id="button2"  href="#" role="button">Xóa</a>
+                        <a class="btn btn-primary" id="button1"  ng-click="addMemberProject($event,listMemberById.indexOf(member))" href="#" role="button">Thêm</a>
                       </td>
                     </tr>
                   </tbody>
@@ -587,5 +603,162 @@
       </form>
     </div>
   </div>
+</div>
+
+ <!-- model upate thành vien  -->
+ <div
+ class="modal fade"
+ id="modal_showMember_update"
+ tabindex="-1"
+ aria-labelledby="exampleModalLabel"
+ aria-hidden="true"
+>
+ <div class="modal-dialog modal-lg modal-lg" role="document">
+   <div class="modal-content">
+     <form id="form_member">
+       <div class="modal-header">
+         <h5 class="modal-title">Danh sách các thành viên</h5>
+         <button
+           type="button"
+           class="btn-close"
+           data-bs-dismiss="modal"
+           aria-label="Close"
+         ></button>
+       </div>
+       <div class="modal-body">
+         <div class="container">
+           <!-- search merber  -->
+           <input
+           class="form-control me-2"
+           type="text"
+           ng-model="searchtxt.name" 
+           placeholder="Search for names.."
+           aria-label="Search"
+           style="width: 400px"
+         />
+         <br/>
+        <button type="button" class="btn btn-primary"  
+        data-bs-toggle="modal"
+        data-bs-target="#modal_showMember_add_member">Thêm thành viên</button>
+
+             <div class="custom_member">
+               <table class="table table-borderless" >
+                 <thead>
+                   <tr>
+                     <th scope="col" style="display: none">ID</th>
+                     <th scope="col" ></th>
+                     <th scope="col">Họ và tên</th>
+                     <th scope="col">Chức vụ</th>
+                   </tr>
+                 </thead>
+                 <tbody>
+                   <!-- <tr ng-repeat="member in listMemberById  | filter : searchtxt "> -->
+                   <tr ng-repeat="member in filteredItems = (listMemberJoinProject | filter: searchtxt )">
+                     <td style="display: none">{{member.id}}</td>
+                     <td><img
+                       class="rounded-circle"
+                       width="50px"
+                       height="50px"
+                       src="{{member.image}}"
+                       alt=""
+                     /></td>
+                     <td>{{member.name}}</td>
+                     <td>{{member.role == 0 ? "Quản lý" : "Thành viên"}}</td>
+                     <td>
+                       <a class="btn btn-danger" id="button1"  ng-click="deleteMenberJoinProject($event,listMemberJoinProject.indexOf(member)) " href="#" role="button"><i class="bi bi-trash"></i></a>
+                     </td>
+                   </tr>
+                 </tbody>
+               </table>
+             </div>
+         </div>
+       </div>
+       <div class="modal-footer">
+         <button
+           type="button"
+           class="btn btn-outline-secondary btn btn-light"
+           data-bs-dismiss="modal"
+         >
+           Hủy
+         </button>
+       </div>
+     </form>
+   </div>
+ </div>
+</div>
+<div
+class="modal fade"
+id="modal_showMember_add_member"
+tabindex="-1"
+aria-labelledby="exampleModalLabel"
+aria-hidden="true"
+>
+<div class="modal-dialog modal-lg modal-lg" role="document">
+  <div class="modal-content">
+    <form id="form_member">
+      <div class="modal-header">
+        <h5 class="modal-title">Danh sách các thành viên</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <!-- search merber  -->
+          <input
+          class="form-control me-2"
+          type="text"
+          ng-model="searchtxt.name" 
+          placeholder="Search for names.."
+          aria-label="Search"
+          style="width: 400px"
+        />
+            <div class="custom_member">
+              <table class="table table-borderless" >
+                <thead>
+                  <tr>
+                    <th scope="col" style="display: none">ID</th>
+                    <th scope="col" ></th>
+                    <th scope="col">Họ và tên</th>
+                    <th scope="col">Chức vụ</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- <tr ng-repeat="member in listMemberById  | filter : searchtxt "> -->
+                  <tr ng-repeat="member in filteredItems = (listMemberById | filter: searchtxt )">
+                    <td style="display: none">{{member.id}}</td>
+                    <td><img
+                      class="rounded-circle"
+                      width="50px"
+                      height="50px"
+                      src="{{member.image}}"
+                      alt=""
+                    /></td>
+                    <td>{{member.name}}</td>
+                    <td>{{member.role == 0 ? "Quản lý" : "Thành viên"}}</td>
+                    <td>
+                      <a class="btn btn-primary" id="button1"  ng-click="addMemberProjectUpdate($event,listMemberById.indexOf(member))" href="#" role="button">Thêm</a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-outline-secondary btn btn-light"
+          data-bs-dismiss="modal"
+        >
+          Hủy
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
 </div>
 </div>

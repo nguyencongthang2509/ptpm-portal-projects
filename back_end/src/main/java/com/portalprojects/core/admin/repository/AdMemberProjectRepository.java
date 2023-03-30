@@ -1,7 +1,6 @@
 package com.portalprojects.core.admin.repository;
 
 import com.portalprojects.core.admin.model.request.AdFindProjectRepuest;
-import com.portalprojects.core.admin.model.request.AdGetOneMemberProjectRequest;
 import com.portalprojects.core.admin.model.response.AdMemberProjectReponse;
 import com.portalprojects.entity.MemberProject;
 import com.portalprojects.repository.MemberProjectRepository;
@@ -33,7 +32,7 @@ public interface AdMemberProjectRepository extends MemberProjectRepository {
              ( :#{#rep.name} IS NULL 
                 OR :#{#rep.name} LIKE '' 
                 OR pro.name LIKE %:#{#rep.name}% )          
-            """ ,nativeQuery = true)
+            """, nativeQuery = true)
     List<AdMemberProjectReponse> findByName(@Param("rep") AdFindProjectRepuest rep);
 
     @Query(value = """
@@ -48,7 +47,7 @@ public interface AdMemberProjectRepository extends MemberProjectRepository {
              JOIN project pro ON pro.id = mp.project_id
              WHERE  
                   pro.id = :idProject     
-            """ ,nativeQuery = true)
+            """, nativeQuery = true)
     List<AdMemberProjectReponse> findAllMemberJoinProject(@Param("idProject") String idProject);
 
     @Query(value = """
@@ -62,7 +61,9 @@ public interface AdMemberProjectRepository extends MemberProjectRepository {
              FROM member_project mp 
             JOIN project pro ON pro.id = mp.project_id
              WHERE  
-                  mp.member_id = :#{#rep.idMember}  AND  mp.project_id= :#{#rep.idProject}
-            """ ,nativeQuery = true)
-    AdMemberProjectReponse getOne (@Param("rep") AdGetOneMemberProjectRequest rep);
+                  mp.member_id = :idMember  AND mp.project_id = :idProject
+            """, nativeQuery = true)
+    AdMemberProjectReponse getOne(@Param("idProject") String idProject, @Param("idMember") String idMember);
+
+
 }

@@ -2,7 +2,6 @@ package com.portalprojects.core.admin.service;
 
 import com.portalprojects.core.admin.model.request.AdCearteMemberProjectRequest;
 import com.portalprojects.core.admin.model.request.AdFindProjectRepuest;
-import com.portalprojects.core.admin.model.request.AdGetOneMemberProjectRequest;
 import com.portalprojects.core.admin.model.request.AdUpdateMemberProjectRequest;
 import com.portalprojects.core.admin.model.response.AdMemberProjectReponse;
 import com.portalprojects.entity.MemberProject;
@@ -25,5 +24,7 @@ public interface AdMemberProjectService {
 
     MemberProject updateMemberProject (@Valid final AdUpdateMemberProjectRequest command);
 
-    AdMemberProjectReponse getOne (final AdGetOneMemberProjectRequest command);
+    AdMemberProjectReponse getOne (final  String idMember , final String idProject);
+
+    Boolean delete (@Valid final String id);
 }
