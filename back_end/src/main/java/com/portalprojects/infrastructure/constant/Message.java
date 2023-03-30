@@ -18,7 +18,8 @@ public enum Message {
     PERIOD_OVERLAP(PropertiesReader.getProperty(PropertyKeys.PERIOD_OVERLAP)),
     PERIOD_NOT_EXISTS(PropertiesReader.getProperty(PropertyKeys.PERIOD_NOT_EXISTS)) ,
     MEMBER_PROJECT_NOT_EXISTS(PropertiesReader.getProperty(PropertyKeys.MEMBER_PROJECT_NOT_EXISTS)) ,
-    TO_DO_NOT_EXISTS(PropertiesReader.getProperty(PropertyKeys.TO_DO_NOT_EXISTS)) ;
+    TO_DO_NOT_EXISTS(PropertiesReader.getProperty(PropertyKeys.TO_DO_NOT_EXISTS)) ,
+    DESCRIPTIONS_TOO_LONG(PropertiesReader.getProperty(PropertyKeys.DESCRIPTIONS_TOO_LONG)) ;
 
     private String message;
 

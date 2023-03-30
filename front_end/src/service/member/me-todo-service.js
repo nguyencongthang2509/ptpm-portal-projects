@@ -9,10 +9,10 @@ app.service("MeTodoService", function ($http) {
     todo = data;
   };
 
-  this.fetchTodo = function (idPeriod, statusTodo) {
+  this.fetchTodo = function (idPeriod, idTodoList) {
     return $http
       .get(
-        apiMemberTodo + "?idPeriod=" + idPeriod + "&statusTodo=" + statusTodo
+        apiMemberTodo + "?idPeriod=" + idPeriod + "&idTodoList=" + idTodoList
       )
       .then(
         function (response) {

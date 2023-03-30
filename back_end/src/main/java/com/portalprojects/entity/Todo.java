@@ -52,6 +52,9 @@ public class Todo extends PrimaryEntity {
     @Column(length = EntityProperties.LENGTH_ID)
     private String todoId;
 
+    @Column(length = EntityProperties.LENGTH_ID)
+    private String todoListId;
+
     @Index(name = "idx_status_todo")
     private StatusTodo statusTodo;
 }

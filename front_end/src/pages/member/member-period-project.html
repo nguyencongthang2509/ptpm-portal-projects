@@ -1,19 +1,24 @@
 <div id="main" class="main">
   <div class="title_project">
-    <h5>Quản lý giai đoạn của dự án: {{detailProject.name}}</h5>
+    <a href="#member/project-is-participating">Danh sách dự án </a> 
+    <a href="#member/project-is-participating/{{detailProject.id}}"
+      > / {{detailProject.name}}</a
+    > 
+    <a href="#member/period-project/{{detailProject.id}}">/ Giai đoạn</a>
   </div>
-  <div class="add_new_period">
-    <button
-      data-bs-toggle="modal"
-      data-bs-target="#modal_show_add"
-      class="btn btn-primary"
-      ng-click="clearFormAdd()"
-    >
-      <i class="bx bx-plus"></i>Thêm mới giai đoạn
-    </button>
-  </div>
+
   <br />
   <div class="card-body">
+    <div class="add_new_period">
+      <button
+        data-bs-toggle="modal"
+        data-bs-target="#modal_show_add"
+        class="btn btn-primary"
+        ng-click="clearFormAdd()"
+      >
+        <i class="bx bx-plus"></i>Thêm mới giai đoạn
+      </button>
+    </div>
     <div class="table_search">
       <input
         type="text"
@@ -29,10 +34,12 @@
     <div class="table-responsive mt-4">
       <div>
         <table
-          style="text-align: center"
-          class="table table-striped table-hover"
+          id="example"
+          class="table table-striped table-bordered table-hover"
+          cellspacing="0"
+          width="100%"
         >
-          <thead>
+          <thead style="background-color: rgb(149, 194, 246)">
             <th width="50px">STT</th>
             <th>Mã</th>
             <th>Tên</th>

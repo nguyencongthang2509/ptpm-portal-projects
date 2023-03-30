@@ -7,8 +7,8 @@ import com.portalprojects.core.member.model.request.MeUpdatePeriodRequest;
 import com.portalprojects.core.member.model.response.MePeriodResponse;
 import com.portalprojects.entity.Period;
 import com.portalprojects.infrastructure.projection.SimpleEntityProj;
+import jakarta.validation.Valid;
 
-import javax.validation.Valid;
 import java.util.List;
 
 /**

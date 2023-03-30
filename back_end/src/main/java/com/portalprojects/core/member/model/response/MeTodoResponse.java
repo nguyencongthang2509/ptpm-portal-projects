@@ -20,4 +20,16 @@ public interface MeTodoResponse extends IsIdentified {
 
     @Value("#{target.priority_level}")
     String getPriorityLevel();
+
+    @Value("#{target.descriptions}")
+    String getDescriptions();
+
+    @Value("#{target.deadline}")
+    Long getDeadline();
+
+    @Value("#{target.number_todo_complete}")
+    Short getNumberTodoComplete();
+
+    @Value("#{target.number_todo}")
+    Short getNumberTodo();
 }

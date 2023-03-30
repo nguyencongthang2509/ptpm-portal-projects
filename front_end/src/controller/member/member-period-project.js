@@ -6,6 +6,7 @@ window.MemberPeriodProjectController = function (
   MeGetAllPeriod,
   MeDetailPeriod
 ) {
+  document.body.style.backgroundImage = "url('" + "')";
   let idProject = $routeParams.id;
   $scope.projectId = idProject;
 

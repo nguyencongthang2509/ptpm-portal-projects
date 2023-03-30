@@ -13,6 +13,7 @@ import com.portalprojects.entity.Resource;
 import com.portalprojects.entity.Stakeholder;
 import com.portalprojects.entity.StakeholderProject;
 import com.portalprojects.entity.Todo;
+import com.portalprojects.entity.TodoList;
 import com.portalprojects.infrastructure.constant.Constants;
 import com.portalprojects.infrastructure.constant.PriorityLevel;
 import com.portalprojects.infrastructure.constant.RoleMemberProject;
@@ -33,6 +34,7 @@ import com.portalprojects.repository.ProjectRepository;
 import com.portalprojects.repository.ResourceRepository;
 import com.portalprojects.repository.StakeholderProjectRepository;
 import com.portalprojects.repository.StakeholderRepository;
+import com.portalprojects.repository.TodoListRepository;
 import com.portalprojects.repository.TodoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -91,6 +93,9 @@ public class DBGenerator implements CommandLineRunner {
 
     @Autowired
     private TodoRepository todoRepository;
+
+    @Autowired
+    private TodoListRepository todoListRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -195,6 +200,48 @@ public class DBGenerator implements CommandLineRunner {
         project1.setStatusProject(StatusProject.DANG_DIEN_RA);
         project1.setId((projectRepository.save(project1).getId()));
 
+        TodoList todoList1 = new TodoList();
+        todoList1.setCode("TodoList_1");
+        todoList1.setName("VIỆC CẦN LÀM");
+        todoList1.setProjectId(project1.getId());
+        todoList1.setIndexTodoList(Byte.parseByte("0"));
+        todoList1.setId((todoListRepository.save(todoList1).getId()));
+
+        TodoList todoList2 = new TodoList();
+        todoList2.setCode("TodoList_2");
+        todoList2.setProjectId(project1.getId());
+        todoList2.setName("VIỆC ĐANG LÀM");
+        todoList2.setIndexTodoList(Byte.parseByte("1"));
+        todoList2.setId((todoListRepository.save(todoList2).getId()));
+
+        TodoList todoList3 = new TodoList();
+        todoList3.setCode("TodoList_3");
+        todoList3.setProjectId(project1.getId());
+        todoList3.setName("CẦN SỬA");
+        todoList3.setIndexTodoList(Byte.parseByte("2"));
+        todoList3.setId((todoListRepository.save(todoList3).getId()));
+
+        TodoList todoList4 = new TodoList();
+        todoList4.setCode("TodoList_4");
+        todoList4.setName("CẦN ĐÁNH GIÁ");
+        todoList4.setProjectId(project1.getId());
+        todoList4.setIndexTodoList(Byte.parseByte("3"));
+        todoList4.setId((todoListRepository.save(todoList4).getId()));
+
+        TodoList todoList5 = new TodoList();
+        todoList5.setCode("TodoList_5");
+        todoList5.setName("ĐÃ HOÀN THÀNH");
+        todoList5.setProjectId(project1.getId());
+        todoList5.setIndexTodoList(Byte.parseByte("4"));
+        todoList5.setId((todoListRepository.save(todoList5).getId()));
+
+        TodoList todoList6 = new TodoList();
+        todoList6.setCode("TodoList_6");
+        todoList6.setName("TẠM HOÃN");
+        todoList6.setProjectId(project1.getId());
+        todoList6.setIndexTodoList(Byte.parseByte("5"));
+        todoList6.setId((todoListRepository.save(todoList6).getId()));
+
         ProjectCategory projectCategory1 = new ProjectCategory();
         projectCategory1.setCategoryId(category2.getId());
         projectCategory1.setProjectId(project1.getId());
@@ -245,6 +292,27 @@ public class DBGenerator implements CommandLineRunner {
         memberProject4.setStatus(StatusWork.DANG_LAM);
         memberProject4.setId(memberProjectRepository.save(memberProject4).getId());
 
+        MemberProject memberProject5 = new MemberProject();
+        memberProject5.setMemberId("f6b388e6-bdd4-11ed-afa1-0242ac120002");
+        memberProject5.setProjectId(project1.getId());
+        memberProject5.setRole(RoleMemberProject.DEV);
+        memberProject5.setStatus(StatusWork.DANG_LAM);
+        memberProject5.setId(memberProjectRepository.save(memberProject5).getId());
+
+        MemberProject memberProject6 = new MemberProject();
+        memberProject6.setMemberId("02e78c02-bdd5-11ed-afa1-0242ac120002");
+        memberProject6.setProjectId(project1.getId());
+        memberProject6.setRole(RoleMemberProject.TESTER);
+        memberProject6.setStatus(StatusWork.DANG_LAM);
+        memberProject6.setId(memberProjectRepository.save(memberProject6).getId());
+
+        MemberProject memberProject7 = new MemberProject();
+        memberProject7.setMemberId("0791e31a-bdd5-11ed-afa1-0242ac120002");
+        memberProject7.setProjectId(project1.getId());
+        memberProject7.setRole(RoleMemberProject.DEV);
+        memberProject7.setStatus(StatusWork.DANG_LAM);
+        memberProject7.setId(memberProjectRepository.save(memberProject7).getId());
+
         Resource resource1 = new Resource();
         resource1.setCode("Resource_1");
         resource1.setName("Link github");
@@ -291,9 +359,10 @@ public class DBGenerator implements CommandLineRunner {
         todo1.setDeadline(1679677200000L);
         todo1.setCompletionTime(null);
         todo1.setNote("Not note");
+        todo1.setTodoListId(todoList1.getId());
         todo1.setTodoId(null);
         todo1.setPriorityLevel(PriorityLevel.QUAN_TRONG);
-        todo1.setStatusTodo(StatusTodo.VIEC_DANG_LAM);
+        todo1.setStatusTodo(StatusTodo.CHUA_HOAN_THANH);
         todo1.setId(todoRepository.save(todo1).getId());
 
         Todo todo2 = new Todo();
@@ -302,11 +371,12 @@ public class DBGenerator implements CommandLineRunner {
         todo2.setProgress((short) 0);
         todo2.setDescriptions("Không có mô tả");
         todo2.setDeadline(1679677200000L);
+        todo2.setTodoListId(todoList1.getId());
         todo2.setCompletionTime(null);
         todo2.setNote("Not note");
         todo2.setTodoId(null);
         todo2.setPriorityLevel(PriorityLevel.CAO);
-        todo2.setStatusTodo(StatusTodo.VIEC_DANG_LAM);
+        todo2.setStatusTodo(StatusTodo.CHUA_HOAN_THANH);
         todo2.setId(todoRepository.save(todo2).getId());
 
         Todo todo3 = new Todo();
@@ -315,11 +385,12 @@ public class DBGenerator implements CommandLineRunner {
         todo3.setProgress((short) 0);
         todo3.setDescriptions("Không có mô tả");
         todo3.setDeadline(1679677200000L);
+        todo3.setTodoListId(todoList1.getId());
         todo3.setCompletionTime(null);
         todo3.setNote("Not note");
         todo3.setTodoId(null);
         todo3.setPriorityLevel(PriorityLevel.TRUNG_BINH);
-        todo3.setStatusTodo(StatusTodo.VIEC_CAN_LAM);
+        todo3.setStatusTodo(StatusTodo.CHUA_HOAN_THANH);
         todo3.setId(todoRepository.save(todo3).getId());
 
         Todo todo4 = new Todo();
@@ -329,10 +400,11 @@ public class DBGenerator implements CommandLineRunner {
         todo4.setDescriptions("Không có mô tả");
         todo4.setDeadline(1679677200000L);
         todo4.setCompletionTime(null);
+        todo4.setTodoListId(todoList2.getId());
         todo4.setTodoId(null);
         todo4.setNote("Not note");
         todo4.setPriorityLevel(PriorityLevel.THAP);
-        todo4.setStatusTodo(StatusTodo.VIEC_DANG_LAM);
+        todo4.setStatusTodo(StatusTodo.CHUA_HOAN_THANH);
         todo4.setId(todoRepository.save(todo4).getId());
 
         Todo todo5 = new Todo();
@@ -341,54 +413,60 @@ public class DBGenerator implements CommandLineRunner {
         todo5.setProgress((short) 0);
         todo5.setDescriptions("Không có mô tả");
         todo5.setDeadline(1679677200000L);
+        todo5.setTodoListId(todoList2.getId());
         todo5.setCompletionTime(null);
         todo5.setNote("Not note");
         todo5.setTodoId(null);
         todo5.setPriorityLevel(PriorityLevel.CAO);
-        todo5.setStatusTodo(StatusTodo.VIEC_CAN_LAM);
+        todo5.setStatusTodo(StatusTodo.CHUA_HOAN_THANH);
         todo5.setId(todoRepository.save(todo5).getId());
 
         Todo todo6 = new Todo();
         todo6.setCode("Todo_6");
         todo6.setName("Đăng nhập");
         todo6.setProgress((short) 0);
-        todo6.setDescriptions("Không có mô tả");
+        todo6.setDescriptions("");
         todo6.setDeadline(1679677200000L);
+        todo6.setTodoListId(todoList2.getId());
         todo6.setCompletionTime(null);
         todo6.setTodoId(null);
         todo6.setNote("Not note");
-        todo6.setPriorityLevel(PriorityLevel.QUAN_TRONG);
-        todo6.setStatusTodo(StatusTodo.VIEC_CAN_LAM);
+        todo6.setPriorityLevel(null);
+        todo6.setStatusTodo(StatusTodo.CHUA_HOAN_THANH);
         todo6.setId(todoRepository.save(todo6).getId());
 
         Todo todo7 = new Todo();
         todo7.setCode("Todo_7");
         todo7.setName("CRUD các đầu việc");
-        todo7.setProgress((short) 0);
+        todo7.setProgress((short) 33);
         todo7.setDescriptions("Không có mô tả");
         todo7.setDeadline(1679677200000L);
+        todo7.setTodoListId(todoList2.getId());
         todo7.setCompletionTime(null);
         todo7.setTodoId(null);
         todo7.setNote("Not note");
         todo7.setPriorityLevel(PriorityLevel.QUAN_TRONG);
-        todo7.setStatusTodo(StatusTodo.VIEC_DANG_LAM);
+        todo7.setStatusTodo(StatusTodo.CHUA_HOAN_THANH);
         todo7.setId(todoRepository.save(todo7).getId());
 
         Todo todo7_2 = new Todo();
         todo7_2.setCode("Todo_7_2");
         todo7_2.setName("Sửa đầu việc");
         todo7_2.setTodoId(todo7.getId());
+        todo7_2.setStatusTodo(StatusTodo.CHUA_HOAN_THANH);
         todo7_2.setId(todoRepository.save(todo7_2).getId());
 
         Todo todo7_1 = new Todo();
         todo7_1.setCode("Todo_7_1");
         todo7_1.setName("Thêm đầu việc");
         todo7_1.setTodoId(todo7.getId());
+        todo7_1.setStatusTodo(StatusTodo.CHUA_HOAN_THANH);
         todo7_1.setId(todoRepository.save(todo7_1).getId());
 
         Todo todo7_3 = new Todo();
         todo7_3.setCode("Todo_7_2");
         todo7_3.setName("Xem đầu việc");
+        todo7_3.setStatusTodo(StatusTodo.DA_HOAN_THANH);
         todo7_3.setTodoId(todo7.getId());
         todo7_3.setId(todoRepository.save(todo7_3).getId());
 
@@ -400,9 +478,10 @@ public class DBGenerator implements CommandLineRunner {
         todo8.setDeadline(1679677200000L);
         todo8.setTodoId(null);
         todo8.setCompletionTime(null);
+        todo8.setTodoListId(todoList2.getId());
         todo8.setNote("Not note");
         todo8.setPriorityLevel(PriorityLevel.CAO);
-        todo8.setStatusTodo(StatusTodo.VIEC_DANG_LAM);
+        todo8.setStatusTodo(StatusTodo.CHUA_HOAN_THANH);
         todo8.setId(todoRepository.save(todo8).getId());
 
         Todo todo9 = new Todo();
@@ -412,10 +491,11 @@ public class DBGenerator implements CommandLineRunner {
         todo9.setDescriptions("Không có mô tả");
         todo9.setDeadline(1679677200000L);
         todo9.setTodoId(null);
+        todo9.setTodoListId(todoList2.getId());
         todo9.setCompletionTime(null);
         todo9.setNote("Not note");
         todo9.setPriorityLevel(PriorityLevel.TRUNG_BINH);
-        todo9.setStatusTodo(StatusTodo.VIEC_DANG_LAM);
+        todo9.setStatusTodo(StatusTodo.CHUA_HOAN_THANH);
         todo9.setId(todoRepository.save(todo9).getId());
 
         Todo todo10 = new Todo();
@@ -425,10 +505,11 @@ public class DBGenerator implements CommandLineRunner {
         todo10.setDescriptions("Không có mô tả");
         todo10.setDeadline(1679677200000L);
         todo10.setTodoId(null);
+        todo10.setTodoListId(todoList2.getId());
         todo10.setCompletionTime(null);
         todo10.setNote("Not note");
         todo10.setPriorityLevel(PriorityLevel.THAP);
-        todo10.setStatusTodo(StatusTodo.VIEC_DANG_LAM);
+        todo10.setStatusTodo(StatusTodo.CHUA_HOAN_THANH);
         todo10.setId(todoRepository.save(todo10).getId());
 
         PeriodTodo periodTodo1 = new PeriodTodo();
@@ -620,6 +701,88 @@ public class DBGenerator implements CommandLineRunner {
         assign8.setMemberId("d21b02c0-bdd4-11ed-afa1-0242ac120002");
         assign8.setTodoId(todo10.getId());
         assign8.setId(assignRepository.save(assign8).getId());
+
+        //
+
+        Project project2 = new Project();
+        project2.setCode("Project_2");
+        project2.setName("Module quản lý dự án aaaaaaaaaaaaaa");
+        project2.setStartTime(1678294800000L);
+        project2.setEndTime(1685379600000L);
+        project2.setProgress(Short.parseShort("0"));
+        project2.setDescriptions("Mục đích của dự án là để quản lý các dự án của bộ môn PTPM");
+        project2.setStatusProject(StatusProject.DANG_DIEN_RA);
+        project2.setId((projectRepository.save(project2).getId()));
+
+        TodoList todoList1_2 = new TodoList();
+        todoList1_2.setCode("TodoList_1");
+        todoList1_2.setName("VIỆC CẦN LÀM");
+        todoList1_2.setProjectId(project2.getId());
+        todoList1_2.setIndexTodoList(Byte.parseByte("0"));
+        todoList1_2.setId((todoListRepository.save(todoList1_2).getId()));
+
+        TodoList todoList2_2 = new TodoList();
+        todoList2_2.setCode("TodoList_2");
+        todoList2_2.setProjectId(project2.getId());
+        todoList2_2.setName("VIỆC ĐANG LÀM");
+        todoList2_2.setIndexTodoList(Byte.parseByte("1"));
+        todoList2_2.setId((todoListRepository.save(todoList2).getId()));
+
+        ProjectCategory projectCategory1_1 = new ProjectCategory();
+        projectCategory1.setCategoryId(category2.getId());
+        projectCategory1.setProjectId(project2.getId());
+        projectCategory1.setId(projectCategoryRepository.save(projectCategory1_1).getId());
+
+        MemberProject memberProject1_2 = new MemberProject();
+        memberProject1_2.setMemberId("c5cf1e20-bdd4-11ed-afa1-0242ac120002");
+        memberProject1_2.setProjectId(project2.getId());
+        memberProject1_2.setRole(RoleMemberProject.MANAGER);
+        memberProject1_2.setStatus(StatusWork.DANG_LAM);
+        memberProject1_2.setId(memberProjectRepository.save(memberProject1_2).getId());
+
+        Period period1_2 = new Period();
+        period1_2.setCode("period_1");
+        period1_2.setName("Giai đoạn thiết kế database");
+        period1_2.setStartTime(1678294800000L);
+        period1_2.setEndTime(1682355600000L);
+        period1_2.setTarget("Hoàn thiện khung database");
+        period1_2.setProgress(Short.parseShort("0"));
+        period1_2.setStatusPeriod(StatusPeriod.DANG_DIEN_RA);
+        period1_2.setDescriptions("Giai đoạn quan trọng 1");
+        period1_2.setProjectId(project2.getId());
+        period1_2.setId(periodRepository.save(period1_2).getId());
+
+        Period period2_2 = new Period();
+        period2_2.setCode("period_2");
+        period2_2.setName("Giai đoạn thiết kế giao diện");
+        period2_2.setStartTime(1682355600000L);
+        period2_2.setEndTime(1685379600000L);
+        period2_2.setTarget("Hoàn thiện khung database");
+        period2_2.setProgress(Short.parseShort("0"));
+        period2_2.setStatusPeriod(StatusPeriod.CHUA_DIEN_RA);
+        period2_2.setDescriptions("Giai đoạn quan trọng 2");
+        period2_2.setProjectId(project2.getId());
+        period2_2.setId(periodRepository.save(period2_2).getId());
+
+        Todo todo1_2 = new Todo();
+        todo1_2.setCode("Todo_1");
+        todo1_2.setName("CRUD bảng category");
+        todo1_2.setProgress((short) 0);
+        todo1_2.setDescriptions("Không có mô tả");
+        todo1_2.setDeadline(1679677200000L);
+        todo1_2.setCompletionTime(null);
+        todo1_2.setNote("Not note");
+        todo1_2.setTodoListId(todoList1_2.getId());
+        todo1_2.setTodoId(null);
+        todo1_2.setPriorityLevel(PriorityLevel.QUAN_TRONG);
+        todo1_2.setStatusTodo(StatusTodo.CHUA_HOAN_THANH);
+        todo1_2.setId(todoRepository.save(todo1_2).getId());
+
+        PeriodTodo periodTodo1_2 = new PeriodTodo();
+        periodTodo1_2.setPeriodId(period1_2.getId());
+        periodTodo1_2.setTodoId(todo1_2.getId());
+        periodTodo1_2.setId(periodTodoRepository.save(periodTodo1_2).getId());
+
     }
 
     public static void main(String[] args) {

@@ -6,8 +6,8 @@ import com.portalprojects.core.admin.model.request.AdGetOneMemberProjectRequest;
 import com.portalprojects.core.admin.model.request.AdUpdateMemberProjectRequest;
 import com.portalprojects.core.admin.model.response.AdMemberProjectReponse;
 import com.portalprojects.entity.MemberProject;
+import jakarta.validation.Valid;
 
-import javax.validation.Valid;
 import java.util.List;
 
 /**

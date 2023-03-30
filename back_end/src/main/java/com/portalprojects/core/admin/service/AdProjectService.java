@@ -6,9 +6,9 @@ import com.portalprojects.core.admin.model.request.AdUpdateProjectRequest;
 import com.portalprojects.core.admin.model.response.AdProjectReponse;
 import com.portalprojects.core.common.base.PageableObject;
 import com.portalprojects.entity.Project;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Pageable;
 
-import javax.validation.Valid;
 import java.util.List;
 
 /**

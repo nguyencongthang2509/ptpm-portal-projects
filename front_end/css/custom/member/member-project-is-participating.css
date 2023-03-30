@@ -16,7 +16,15 @@
   height: 550px;
 }
 
-
+body {
+  /* font-family: "Open Sans", sans-serif; */
+  font-family: var(--bs-body-font-family);
+  font-size: var(--bs-body-font-size);
+  font-weight: var(--bs-body-font-weight);
+  background: #f6f9ff;
+  color: #444444;
+  height: calc(100vh - 110px);
+}
 
 .card:hover {
   transform: translateY(-20px);

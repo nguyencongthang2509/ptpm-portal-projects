@@ -1,6 +1,6 @@
 package com.portalprojects.core.member.service.impl;
 
-import com.portalprojects.core.common.base.TaskObject;
+import com.portalprojects.core.common.base.TodoObject;
 import com.portalprojects.core.member.model.request.MeCreateOrDeleteAssignRequest;
 import com.portalprojects.core.member.repository.MeAssignRepository;
 import com.portalprojects.core.member.service.MeAssignService;
@@ -27,17 +27,19 @@ public class MeAssignServiceImpl implements MeAssignService {
 
     @Override
     @Synchronized
-    public TaskObject create(MeCreateOrDeleteAssignRequest request) {
+    public TodoObject create(MeCreateOrDeleteAssignRequest request) {
         Assign assign = new Assign();
         assign.setTodoId(request.getIdTodo());
         assign.setMemberId(request.getIdMember());
-        return new TaskObject(meAssignRepository.save(assign), Integer.parseInt(request.getIndexTask()), Integer.parseInt(request.getIndexTodoInTask()));
+        TodoObject todoObject = TodoObject.builder().data(meAssignRepository.save(assign)).indexTask(Integer.parseInt(request.getIndexTask())).indexTodoInTask(Integer.parseInt(request.getIndexTodoInTask())).build();
+        return todoObject;
     }
 
     @Override
     @Synchronized
-    public TaskObject delete(MeCreateOrDeleteAssignRequest request) {
+    public TodoObject delete(MeCreateOrDeleteAssignRequest request) {
         meAssignRepository.delete(request.getIdMember(), request.getIdTodo());
-        return new TaskObject(request.getIdTodo(), Integer.parseInt(request.getIndexTask()), Integer.parseInt(request.getIndexTodoInTask()));
+        TodoObject todoObject = TodoObject.builder().data(request.getIdTodo()).indexTask(Integer.parseInt(request.getIndexTask())).indexTodoInTask(Integer.parseInt(request.getIndexTodoInTask())).build();
+        return  todoObject;
     }
 }

@@ -27,12 +27,11 @@
       href="../lib/vendor/bootstrap-icons/bootstrap-icons.css"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="../js/plugin/toastr/build/toastr.css">
+    <link rel="stylesheet" href="../js/plugin/toastr/build/toastr.css" />
     <link href="../lib/vendor/boxicons/css/boxicons.min.css" rel="stylesheet" />
     <!-- <link href="../lib/vendor/quill/quill.snow.css" rel="stylesheet" /> -->
     <!-- <link href="../lib/vendor/quill/quill.bubble.css" rel="stylesheet" /> -->
     <!-- <link href="../lib/vendor/remixicon/remixicon.css" rel="stylesheet" /> -->
-    
 
     <!-- <link href="../lib/vendor/simple-datatables/style.css" rel="stylesheet" /> -->
 
@@ -40,12 +39,15 @@
   </head>
   <body ng-controller="myCtrl">
     <!-- <header ng-include="'./layout/header.html'"></header> -->
+    <div ng-include="'./layout/loading.html'"></div>
     <header>
       <div id="header" class="header fixed-top d-flex align-items-center">
         <div class="d-flex align-items-center justify-content-between">
-          <a href="index.html" class="logo d-flex align-items-center">
-            <img src="../assets/img/logoFpoly.jpg" alt="" />
-            <span class="d-none d-lg-block" style="font-size: 23px;">Portal Projects</span>
+          <a class="logo d-flex align-items-center">
+            <img src="../assets/img/logo_ptpm.jpg" alt="" />
+            <span class="d-none d-lg-block" style="font-size: 23px; color: white;"
+              >Portal Projects</span
+            >
           </a>
           <i class="bi bi-list toggle-sidebar-btn"></i>
         </div>
@@ -366,22 +368,22 @@
     <section ng-view></section>
     <!-- <footer ng-include="'./layout/footer.html'"></footer> -->
     <!-- <footer> -->
-      <!-- <div id="footer" class="footer"> -->
-        <!-- <div class="copyright"> -->
-          <!-- &copy; Copyright <strong><span>Portal Projects - 2023</span></strong -->
-          <!-- >. All Rights Reserved -->
-        <!-- </div> -->
-        <!-- <div class="credits"> -->
-          <!-- All the links in the footer should remain intact. -->
-          <!-- You can delete the links only if you purchased the pro version. -->
-          <!-- Licensing information: https://bootstrapmade.com/license/ -->
-          <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-          <!-- Designed by <a href="https://bootstrapmade.com/">Portal-Projects</a> -->
-        <!-- </div> -->
-      <!-- </div> -->
+    <!-- <div id="footer" class="footer"> -->
+    <!-- <div class="copyright"> -->
+    <!-- &copy; Copyright <strong><span>Portal Projects - 2023</span></strong -->
+    <!-- >. All Rights Reserved -->
+    <!-- </div> -->
+    <!-- <div class="credits"> -->
+    <!-- All the links in the footer should remain intact. -->
+    <!-- You can delete the links only if you purchased the pro version. -->
+    <!-- Licensing information: https://bootstrapmade.com/license/ -->
+    <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
+    <!-- Designed by <a href="https://bootstrapmade.com/">Portal-Projects</a> -->
+    <!-- </div> -->
+    <!-- </div> -->
     <!-- </footer> -->
-    
-    <script src="../lib/vendor/bootstrap/js/bootstrap.bundle.min.js" data-bs-no-jquery></script>
+
+    <script src="../lib/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Thư viện -->
     <script src="../lib/angular.js"></script>
@@ -460,6 +462,7 @@
     <script src="./service/member/me-label-service.js"></script>
     <script src="./service/member/me-member-project-service.js"></script>
     <script src="./service/member/me-label-todo-service.js"></script>
+    <script src="./service/member/me-todo-list-service.js"></script>
     <!-- Controller -->
     <script src="./controller/admin/admin-project-management.js"></script>
     <script src="./controller/admin/admin-project-management-detail.js"></script>

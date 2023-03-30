@@ -15,13 +15,15 @@ import com.portalprojects.infrastructure.constant.StatusPeriod;
 import com.portalprojects.infrastructure.exception.rest.RestApiException;
 import com.portalprojects.infrastructure.projection.SimpleEntityProj;
 import com.portalprojects.util.PeriodHelper;
+import jakarta.validation.Valid;
+import lombok.Synchronized;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
-import javax.validation.Valid;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -32,6 +34,7 @@ import java.util.Optional;
  * @author thangncph26123
  */
 @Service
+@Validated
 public class MePeriodServiceImpl implements MePeriodService {
 
     @Autowired
@@ -66,6 +69,7 @@ public class MePeriodServiceImpl implements MePeriodService {
     }
 
     @Override
+    @Synchronized
     public Period create(@Valid final MeBasePeriodRequest meCreatePeriodRequest) {
         MeBasePeriodRequest request = new MeBasePeriodRequest();
         request.setStartTime(meCreatePeriodRequest.getStartTime());
@@ -96,6 +100,7 @@ public class MePeriodServiceImpl implements MePeriodService {
     }
 
     @Override
+    @Synchronized
     public Period update(@Valid final MeUpdatePeriodRequest meUpdatePeriodRequest) {
         Optional<Period> periodCheck = mePeriodRepository.findById(meUpdatePeriodRequest.getId());
 

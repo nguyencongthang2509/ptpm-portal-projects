@@ -7,14 +7,12 @@ import lombok.Setter;
 /**
  * @author thangncph26123
  */
-
 @Getter
 @Setter
 @AllArgsConstructor
-public class TaskObject {
+public class TodoListObject {
 
     private Object data;
-    private int indexTask;
-    private int indexTodoInTask;
-
+    private int indexBefore;
+    private int indexAfter;
 }

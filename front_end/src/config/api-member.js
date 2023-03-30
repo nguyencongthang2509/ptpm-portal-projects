@@ -12,3 +12,4 @@ window.apiMemberAssign = apiURL + "/assign";
 window.apiMemberLabel = apiURL + "/label";
 window.apiMemnerProject = apiURL + "/member-project";
 window.apiMemberLabelTodo = apiURL + "/label-todo";
+window.apiMemberTodoList = apiURL + "/todo-list";

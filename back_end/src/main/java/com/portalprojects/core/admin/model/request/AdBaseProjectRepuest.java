@@ -1,11 +1,10 @@
 package com.portalprojects.core.admin.model.request;
 
 import com.portalprojects.infrastructure.constant.StatusProject;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.Setter;
-
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 
 /**
  * @author NguyenVinh

@@ -5,6 +5,7 @@ import com.portalprojects.core.member.model.request.MeCreateOrDeleteAssignReques
 import com.portalprojects.core.member.model.request.MeCreateOrDeleteLabelTodoRequest;
 import com.portalprojects.core.member.service.MeLabelTodoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -23,15 +24,19 @@ public class MeLabelTodoController {
     @Autowired
     private MeLabelTodoService meLabelTodoService;
 
-    @MessageMapping("/create-label-todo")
-    @SendTo("/portal-projects/label-todo")
-    public ResponseObject create(@RequestBody MeCreateOrDeleteLabelTodoRequest request) {
+    @MessageMapping("/create-label-todo/{projectId}/{periodId}")
+    @SendTo("/portal-projects/label-todo/{projectId}/{periodId}")
+    public ResponseObject create(@RequestBody MeCreateOrDeleteLabelTodoRequest request,
+                                 @DestinationVariable String projectId,
+                                 @DestinationVariable String periodId) {
         return new ResponseObject(meLabelTodoService.create(request));
     }
 
-    @MessageMapping("/delete-label-todo")
-    @SendTo("/portal-projects/label-todo")
-    public ResponseObject delete(@RequestBody MeCreateOrDeleteLabelTodoRequest request) {
+    @MessageMapping("/delete-label-todo/{projectId}/{periodId}")
+    @SendTo("/portal-projects/label-todo/{projectId}/{periodId}")
+    public ResponseObject delete(@RequestBody MeCreateOrDeleteLabelTodoRequest request,
+                                 @DestinationVariable String projectId,
+                                 @DestinationVariable String periodId) {
         return new ResponseObject(meLabelTodoService.delete(request));
     }
 }

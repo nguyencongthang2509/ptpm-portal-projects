@@ -2,6 +2,22 @@
   float: left;
 }
 
+body {
+  /* font-family: "Open Sans", sans-serif; */
+  font-family: var(--bs-body-font-family);
+  font-size: var(--bs-body-font-size);
+  font-weight: var(--bs-body-font-weight);
+  background: #f6f9ff;
+  color: #444444;
+  height: calc(100vh - 110px);
+}
+
+.title_project a{
+  float: left;
+  color: rgb(97, 96, 96);
+  font-size: 15px;
+}
+
 .add_new_period {
   float: right;
 }
@@ -30,4 +46,3 @@
 .table.table-striped.table-hover {
   font-size: 14px;
 }
-
