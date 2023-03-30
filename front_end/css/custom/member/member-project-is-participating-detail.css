@@ -434,7 +434,7 @@ li.list-group-item * {
   width: 5px;
   height: 12px;
   background-color: rgba(128, 128, 128, 0.318);
-  border-radius: 10px;
+  border-radius: 5px;
 }
 
 #modal_show_detail_todo::-webkit-scrollbar-track {

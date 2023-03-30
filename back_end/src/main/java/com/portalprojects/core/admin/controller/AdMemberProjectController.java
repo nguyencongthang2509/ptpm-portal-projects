@@ -29,40 +29,40 @@ public class AdMemberProjectController {
     private AdMemberProjectService adMemberProjectService;
 
     @GetMapping()
-    public ResponseObject view (){
+    public ResponseObject view() {
         return new ResponseObject(adMemberProjectService.getAll());
     }
 
     @GetMapping("/search")
-    public ResponseObject search (final AdFindProjectRepuest rep){
+    public ResponseObject search(final AdFindProjectRepuest rep) {
         return new ResponseObject(adMemberProjectService.searchProject(rep));
     }
 
     @GetMapping("/list-member-projetc/{id}")
-    public ResponseObject findAllMemberJoinProject ( @PathVariable("id") String idProject){
+    public ResponseObject findAllMemberJoinProject(@PathVariable("id") String idProject) {
         return new ResponseObject(adMemberProjectService.findAllMemberJoinProject(idProject));
     }
 
     @PostMapping
     public ResponseObject addMemberProject(@RequestBody AdCearteMemberProjectRequest cmd) {
-           return new ResponseObject(adMemberProjectService.createMemberProject(cmd));
+        return new ResponseObject(adMemberProjectService.createMemberProject(cmd));
     }
 
     @PutMapping("/{id}")
     public ResponseObject updateMemberProjcet(@PathVariable("id") String id,
-                                        @RequestBody AdUpdateMemberProjectRequest cmd) {
+                                              @RequestBody AdUpdateMemberProjectRequest cmd) {
         cmd.setId(id);
         return new ResponseObject(adMemberProjectService.updateMemberProject(cmd));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseObject deleteMemberProject(@PathVariable("id") String id){
+    public ResponseObject deleteMemberProject(@PathVariable("id") String id) {
         return new ResponseObject(adMemberProjectService.delete(id));
     }
 
     @GetMapping("/get-one")
-    public ResponseObject getOne(@RequestParam("idProject") String idProject ,
+    public ResponseObject getOne(@RequestParam("idProject") String idProject,
                                  @RequestParam("idMember") String idMember) {
-        return new ResponseObject(adMemberProjectService.getOne(idMember,idProject));
+        return new ResponseObject(adMemberProjectService.getOne(idMember, idProject));
     }
 }

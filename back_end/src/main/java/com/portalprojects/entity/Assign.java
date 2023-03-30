@@ -6,6 +6,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.Index;
 
@@ -14,7 +16,8 @@ import org.hibernate.annotations.Index;
  */
 
 @Entity
-@Data
+@Getter
+@Setter
 @ToString
 @Table(name = "assign")
 public class Assign extends PrimaryEntity {

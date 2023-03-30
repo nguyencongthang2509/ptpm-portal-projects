@@ -23,7 +23,7 @@ public interface AdMemberProjectReponse extends IsIdentified {
      @Value("#{target.role}")
      String getRole();
 
-     @Value("#{target.status}")
+     @Value("#{target.status_work}")
      String getStatus();
 
      @Value("#{target.name}")

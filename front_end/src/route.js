@@ -12,6 +12,21 @@ app.config(function ($routeProvider, $locationProvider) {
       controller: AdminProjectManagementDetailController,
       css: "../css/custom/admin/admin-project-management-detail.css",
     })
+    .when("/admin/category-management", {
+      templateUrl: "./pages/admin/admin-category-management.html",
+      controller: AdminCategoryManagementController,
+      css: "../css/custom/admin/admin-category-management.css",
+    })
+    .when("/admin/label-management", {
+      templateUrl: "./pages/admin/admin-label-management.html",
+      controller: AdminLabelManagementController,
+      css: "../css/custom/admin/admin-label-management.css",
+    })
+    .when("/admin/stakeholder-management", {
+      templateUrl: "./pages/admin/admin-stakeholder-management.html",
+      controller: AdminStakeholderManagementController,
+      css: "../css/custom/admin/admin-stakeholder-management.css",
+    })
     // Member
     .when("/member/project-is-participating", {
       templateUrl: "./pages/member/member-project-is-participating.html",

@@ -7,6 +7,7 @@ window.AdminProjectManagementController = function (
   getOneAdMemberProjcetService,
   getOneAdProjcetService
 ) {
+  document.body.style.backgroundImage = "url('" + "')";
   $scope.listProject = [];
   $scope.form_project = {
     id: "",

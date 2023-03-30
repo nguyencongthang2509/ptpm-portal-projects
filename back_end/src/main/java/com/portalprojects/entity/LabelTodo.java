@@ -6,6 +6,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 import jakarta.persistence.Column;
@@ -16,7 +18,8 @@ import org.hibernate.annotations.Index;
  */
 
 @Entity
-@Data
+@Getter
+@Setter
 @ToString
 @Table(name = "label_todo")
 public class LabelTodo extends PrimaryEntity {

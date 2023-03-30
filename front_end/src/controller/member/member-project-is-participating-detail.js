@@ -150,6 +150,7 @@ window.MemberProjectIsParticipatingDetailController = function (
     } else {
       $scope.checkNumberMember = true;
     }
+    $scope.$apply();
   }
 
   fetchAllData(idProject);
@@ -200,6 +201,9 @@ window.MemberProjectIsParticipatingDetailController = function (
 
   $scope.changePeriod = function () {
     localStorage.setItem(idProject, $scope.valuePeriod);
+    $location
+      .path("/member/project-is-participating/" + idProject)
+      .search({ idPeriod: localStorage.getItem(idProject) });
     $scope.loadDataTodo(localStorage.getItem(idProject));
   };
 

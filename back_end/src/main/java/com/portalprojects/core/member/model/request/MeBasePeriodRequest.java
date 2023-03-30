@@ -19,8 +19,12 @@ public class MeBasePeriodRequest {
 
     private String descriptions;
 
+    @NotEmpty
+    @NotBlank
     private String startTime;
 
+    @NotEmpty
+    @NotBlank
     private String endTime;
 
     private String target;

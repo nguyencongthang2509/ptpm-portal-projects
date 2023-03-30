@@ -4,6 +4,9 @@ window.AdminProjectManagementDetailController = function (
   $location,
   AdProjcetService
 ) {
+
+  document.body.style.backgroundImage = "url('" + "')";
+  
   $scope.listProject = [];
   $scope.form_project = {
     code: "",

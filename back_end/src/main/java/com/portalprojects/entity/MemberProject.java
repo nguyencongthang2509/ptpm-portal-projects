@@ -9,6 +9,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 /**
@@ -16,7 +18,8 @@ import lombok.ToString;
  */
 
 @Entity
-@Data
+@Getter
+@Setter
 @ToString
 @Table(name = "member_project")
 public class MemberProject extends PrimaryEntity {
@@ -31,5 +34,5 @@ public class MemberProject extends PrimaryEntity {
     private RoleMemberProject role;
 
     @Column(nullable = false)
-    private StatusWork status;
+    private StatusWork statusWork;
 }

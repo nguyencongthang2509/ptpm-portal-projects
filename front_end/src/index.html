@@ -29,11 +29,6 @@
     />
     <link rel="stylesheet" href="../js/plugin/toastr/build/toastr.css" />
     <link href="../lib/vendor/boxicons/css/boxicons.min.css" rel="stylesheet" />
-    <!-- <link href="../lib/vendor/quill/quill.snow.css" rel="stylesheet" /> -->
-    <!-- <link href="../lib/vendor/quill/quill.bubble.css" rel="stylesheet" /> -->
-    <!-- <link href="../lib/vendor/remixicon/remixicon.css" rel="stylesheet" /> -->
-
-    <!-- <link href="../lib/vendor/simple-datatables/style.css" rel="stylesheet" /> -->
 
     <link rel="stylesheet" href="../css/custom/style.css" />
   </head>
@@ -345,6 +340,24 @@
               <span>Quản lý dự án</span>
             </a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link collapsed" href="#admin/category-management">
+              <i class="bi bi-person"></i>
+              <span>Quản lý thể loại</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link collapsed" href="#admin/label-management">
+              <i class="bi bi-person"></i>
+              <span>Quản lý nhãn</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link collapsed" href="#admin/stakeholder-management">
+              <i class="bi bi-person"></i>
+              <span>Quản lý bên liên quan</span>
+            </a>
+          </li>
           <li class="nav-heading">Member</li>
           <li class="nav-item">
             <a
@@ -391,34 +404,15 @@
     <script src="../lib/angular-route.js"></script>
     <!-- 11 -->
     <script src="../lib/angular-css/angular-css.js"></script>
-
     <!-- 12 -->
-    <!-- <script src="../lib/vendor/apexcharts/apexcharts.min.js"></script> -->
-
     <script src="../js/plugin/jquery/dist/jquery.js"></script>
 
     <script src="../js/plugin/toastr/build/toastr.min.js"></script>
 
-    <!-- <script src="../lib/vendor/apexcharts/apexcharts.min.js"></script> -->
-
-    <!-- 1 -->
-    <!-- 2 -->
-    <!-- <script src="../lib/vendor/chart.js/chart.umd.js"></script> -->
-    <!-- 3 -->
-    <!-- <script src="../lib/vendor/echarts/echarts.min.js"></script> -->
-    <!-- 4 -->
-    <!-- <script src="../lib/vendor/quill/quill.min.js"></script> -->
-    <!-- 5 -->
-    <!-- <script src="../lib/vendor/simple-datatables/simple-datatables.js"></script> -->
-    <!-- 6 -->
     <script src="../lib/vendor/tinymce/tinymce.min.js"></script>
-    <!-- 7 -->
-    <!-- <script src="../lib/vendor/php-email-form/validate.js"></script> -->
     <!-- 8 -->
     <script src="../js/custom/main.js"></script>
     <!-- 9 -->
-
-    <!-- <script src="../lib/angular-dragdrop/src/angular-dragdrop.min.js"></script> -->
 
     <script src="../lib/angular.js"></script>
     <!-- 10 -->
@@ -442,9 +436,6 @@
     <!-- 14 -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular-resource.min.js"></script>
     <!-- 15 -->
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-locale_vi-vn.js"></script> -->
-    <!-- 16 -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script> -->
     <script src="./app.js"></script>
     <!-- API -->
     <script src="./config/api-admin.js"></script>
@@ -466,6 +457,9 @@
     <!-- Controller -->
     <script src="./controller/admin/admin-project-management.js"></script>
     <script src="./controller/admin/admin-project-management-detail.js"></script>
+    <script src="./controller/admin/admin-stakeholder-management.js"></script>
+    <script src="./controller/admin/admin-label-management.js"></script>
+    <script src="./controller/admin/admin-category-management.js"></script>
     <script src="./controller/member/member-project-is-participating.js"></script>
     <script src="./controller/member/member-project-is-participating-detail.js"></script>
     <script src="./controller/member/member-period-project.js"></script>
