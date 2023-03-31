@@ -3,13 +3,13 @@ package com.portalprojectstool;
 import com.portalprojects.entity.Assign;
 import com.portalprojects.entity.Category;
 import com.portalprojects.entity.Label;
+import com.portalprojects.entity.LabelProject;
 import com.portalprojects.entity.LabelTodo;
 import com.portalprojects.entity.MemberProject;
 import com.portalprojects.entity.Period;
 import com.portalprojects.entity.PeriodTodo;
 import com.portalprojects.entity.Project;
 import com.portalprojects.entity.ProjectCategory;
-import com.portalprojects.entity.Resource;
 import com.portalprojects.entity.Stakeholder;
 import com.portalprojects.entity.StakeholderProject;
 import com.portalprojects.entity.Todo;
@@ -18,6 +18,7 @@ import com.portalprojects.infrastructure.constant.Constants;
 import com.portalprojects.infrastructure.constant.PriorityLevel;
 import com.portalprojects.infrastructure.constant.RoleMemberProject;
 import com.portalprojects.infrastructure.constant.RoleStakeholderProject;
+import com.portalprojects.infrastructure.constant.StatusLabel;
 import com.portalprojects.infrastructure.constant.StatusPeriod;
 import com.portalprojects.infrastructure.constant.StatusProject;
 import com.portalprojects.infrastructure.constant.StatusTodo;
@@ -31,7 +32,7 @@ import com.portalprojects.repository.PeriodTodoRepository;
 import com.portalprojects.repository.PeriodRepository;
 import com.portalprojects.repository.ProjectCategoryRepository;
 import com.portalprojects.repository.ProjectRepository;
-import com.portalprojects.repository.ResourceRepository;
+import com.portalprojects.repository.LabelProjectRepository;
 import com.portalprojects.repository.StakeholderProjectRepository;
 import com.portalprojects.repository.StakeholderRepository;
 import com.portalprojects.repository.TodoListRepository;
@@ -83,7 +84,7 @@ public class DBGenerator implements CommandLineRunner {
     private ProjectRepository projectRepository;
 
     @Autowired
-    private ResourceRepository resourceRepository;
+    private LabelProjectRepository labelProjectRepository;
 
     @Autowired
     private StakeholderProjectRepository stakeholderProjectRepository;
@@ -118,22 +119,26 @@ public class DBGenerator implements CommandLineRunner {
         label1.setCode("Bug");
         label1.setName("Sự cố hoặc lỗi");
         label1.setColorLabel(Constants.COLOR_FF4500);
+        label1.setStatusLabel(StatusLabel.FIX_CUNG);
         label1.setId(labelRepository.save(label1).getId());
 
         Label label2 = new Label();
         label2.setCode("Feature");
         label2.setName("Tính năng mới hoặc cải tiến");
+        label2.setStatusLabel(StatusLabel.FIX_CUNG);
         label2.setColorLabel(Constants.COLOR_47799C);
         label2.setId(labelRepository.save(label2).getId());
 
         Label label3 = new Label();
         label3.setCode("Enhancement");
+        label3.setStatusLabel(StatusLabel.FIX_CUNG);
         label3.setName("Cải tiến hoặc bổ sung tính năng hiện có");
         label3.setColorLabel(Constants.COLOR_FA8072);
         label3.setId(labelRepository.save(label3).getId());
 
         Label label4 = new Label();
         label4.setCode("Design");
+        label4.setStatusLabel(StatusLabel.FIX_CUNG);
         label4.setName("Thiết kế giao diện người dùng và thiết kế hệ thống");
         label4.setColorLabel(Constants.COLOR_ADFF2F);
         label4.setId(labelRepository.save(label4).getId());
@@ -142,22 +147,26 @@ public class DBGenerator implements CommandLineRunner {
         label5.setCode("Marketing");
         label5.setName("Marketing, quảng cáo và PR");
         label5.setColorLabel(Constants.COLOR_7AA1E4);
+        label5.setStatusLabel(StatusLabel.FIX_CUNG);
         label5.setId(labelRepository.save(label5).getId());
 
         Label label6 = new Label();
         label6.setCode("Content");
         label6.setName("Viết nội dung");
         label6.setColorLabel(Constants.COLOR_FFA500);
+        label6.setStatusLabel(StatusLabel.FIX_CUNG);
         label6.setId(labelRepository.save(label6).getId());
 
         Label label7 = new Label();
         label7.setCode("Research");
         label7.setName("Nghiên cứu, phân tích dữ liệu");
         label7.setColorLabel(Constants.COLOR_FFD700);
+        label7.setStatusLabel(StatusLabel.FIX_CUNG);
         label7.setId(labelRepository.save(label7).getId());
 
         Label label8 = new Label();
         label8.setCode("Infrastructure");
+        label8.setStatusLabel(StatusLabel.FIX_CUNG);
         label8.setName("Hạ tầng, máy chủ, cơ sở dữ liệu và mạng");
         label8.setColorLabel(Constants.COLOR_FF6347);
         label8.setId(labelRepository.save(label8).getId());
@@ -165,12 +174,14 @@ public class DBGenerator implements CommandLineRunner {
         Label label9 = new Label();
         label9.setCode("Documentation");
         label9.setName("Viết tài liệu hướng dẫn");
+        label9.setStatusLabel(StatusLabel.FIX_CUNG);
         label9.setColorLabel(Constants.COLOR_FFFF00);
         label9.setId(labelRepository.save(label9).getId());
 
         Label label10 = new Label();
         label10.setCode("Support");
         label10.setName("Hỗ trợ");
+        label10.setStatusLabel(StatusLabel.FIX_CUNG);
         label10.setColorLabel(Constants.COLOR_EE82EE);
         label10.setId(labelRepository.save(label10).getId());
 
@@ -199,6 +210,56 @@ public class DBGenerator implements CommandLineRunner {
         project1.setDescriptions("Mục đích của dự án là để quản lý các dự án của bộ môn PTPM");
         project1.setStatusProject(StatusProject.DANG_DIEN_RA);
         project1.setId((projectRepository.save(project1).getId()));
+
+        LabelProject labelProject1 = new LabelProject();
+        labelProject1.setLabelId(label1.getId());
+        labelProject1.setProjectId(project1.getId());
+        labelProject1.setId((labelProjectRepository.save(labelProject1).getId()));
+
+        LabelProject labelProject2 = new LabelProject();
+        labelProject2.setLabelId(label2.getId());
+        labelProject2.setProjectId(project1.getId());
+        labelProject2.setId((labelProjectRepository.save(labelProject2).getId()));
+
+        LabelProject labelProject3 = new LabelProject();
+        labelProject3.setLabelId(label3.getId());
+        labelProject3.setProjectId(project1.getId());
+        labelProject3.setId((labelProjectRepository.save(labelProject3).getId()));
+
+        LabelProject labelProject4 = new LabelProject();
+        labelProject4.setLabelId(label4.getId());
+        labelProject4.setProjectId(project1.getId());
+        labelProject4.setId((labelProjectRepository.save(labelProject4).getId()));
+
+        LabelProject labelProject5 = new LabelProject();
+        labelProject5.setLabelId(label5.getId());
+        labelProject5.setProjectId(project1.getId());
+        labelProject5.setId((labelProjectRepository.save(labelProject5).getId()));
+
+        LabelProject labelProject6 = new LabelProject();
+        labelProject6.setLabelId(label6.getId());
+        labelProject6.setProjectId(project1.getId());
+        labelProject6.setId((labelProjectRepository.save(labelProject6).getId()));
+
+        LabelProject labelProject7 = new LabelProject();
+        labelProject7.setLabelId(label7.getId());
+        labelProject7.setProjectId(project1.getId());
+        labelProject7.setId((labelProjectRepository.save(labelProject7).getId()));
+
+        LabelProject labelProject8 = new LabelProject();
+        labelProject8.setLabelId(label8.getId());
+        labelProject8.setProjectId(project1.getId());
+        labelProject8.setId((labelProjectRepository.save(labelProject8).getId()));
+
+        LabelProject labelProject9 = new LabelProject();
+        labelProject9.setLabelId(label9.getId());
+        labelProject9.setProjectId(project1.getId());
+        labelProject9.setId((labelProjectRepository.save(labelProject9).getId()));
+
+        LabelProject labelProject10 = new LabelProject();
+        labelProject10.setLabelId(label10.getId());
+        labelProject10.setProjectId(project1.getId());
+        labelProject10.setId((labelProjectRepository.save(labelProject10).getId()));
 
         TodoList todoList1 = new TodoList();
         todoList1.setCode("TodoList_1");
@@ -268,64 +329,50 @@ public class DBGenerator implements CommandLineRunner {
         memberProject1.setMemberId("db39ebf0-bdd4-11ed-afa1-0242ac120002");
         memberProject1.setProjectId(project1.getId());
         memberProject1.setRole(RoleMemberProject.MANAGER);
-        memberProject1.setStatus(StatusWork.DANG_LAM);
+        memberProject1.setStatusWork(StatusWork.DANG_LAM);
         memberProject1.setId(memberProjectRepository.save(memberProject1).getId());
 
         MemberProject memberProject2 = new MemberProject();
         memberProject2.setMemberId("c5cf1e20-bdd4-11ed-afa1-0242ac120002");
         memberProject2.setProjectId(project1.getId());
         memberProject2.setRole(RoleMemberProject.LEADER);
-        memberProject2.setStatus(StatusWork.DANG_LAM);
+        memberProject2.setStatusWork(StatusWork.DANG_LAM);
         memberProject2.setId(memberProjectRepository.save(memberProject2).getId());
 
         MemberProject memberProject3 = new MemberProject();
         memberProject3.setMemberId("d21b02c0-bdd4-11ed-afa1-0242ac120002");
         memberProject3.setProjectId(project1.getId());
         memberProject3.setRole(RoleMemberProject.DEV);
-        memberProject3.setStatus(StatusWork.DANG_LAM);
+        memberProject3.setStatusWork(StatusWork.DANG_LAM);
         memberProject3.setId(memberProjectRepository.save(memberProject3).getId());
 
         MemberProject memberProject4 = new MemberProject();
         memberProject4.setMemberId("f01c9f36-bdd4-11ed-afa1-0242ac120002");
         memberProject4.setProjectId(project1.getId());
         memberProject4.setRole(RoleMemberProject.TESTER);
-        memberProject4.setStatus(StatusWork.DANG_LAM);
+        memberProject4.setStatusWork(StatusWork.DANG_LAM);
         memberProject4.setId(memberProjectRepository.save(memberProject4).getId());
 
         MemberProject memberProject5 = new MemberProject();
         memberProject5.setMemberId("f6b388e6-bdd4-11ed-afa1-0242ac120002");
         memberProject5.setProjectId(project1.getId());
         memberProject5.setRole(RoleMemberProject.DEV);
-        memberProject5.setStatus(StatusWork.DANG_LAM);
+        memberProject5.setStatusWork(StatusWork.DANG_LAM);
         memberProject5.setId(memberProjectRepository.save(memberProject5).getId());
 
         MemberProject memberProject6 = new MemberProject();
         memberProject6.setMemberId("02e78c02-bdd5-11ed-afa1-0242ac120002");
         memberProject6.setProjectId(project1.getId());
         memberProject6.setRole(RoleMemberProject.TESTER);
-        memberProject6.setStatus(StatusWork.DANG_LAM);
+        memberProject6.setStatusWork(StatusWork.DANG_LAM);
         memberProject6.setId(memberProjectRepository.save(memberProject6).getId());
 
         MemberProject memberProject7 = new MemberProject();
         memberProject7.setMemberId("0791e31a-bdd5-11ed-afa1-0242ac120002");
         memberProject7.setProjectId(project1.getId());
         memberProject7.setRole(RoleMemberProject.DEV);
-        memberProject7.setStatus(StatusWork.DANG_LAM);
+        memberProject7.setStatusWork(StatusWork.DANG_LAM);
         memberProject7.setId(memberProjectRepository.save(memberProject7).getId());
-
-        Resource resource1 = new Resource();
-        resource1.setCode("Resource_1");
-        resource1.setName("Link github");
-        resource1.setProjectId(project1.getId());
-        resource1.setContent("https://github.com/FPLHN-FACTORY/ptpm-portal-projects");
-        resource1.setId(resourceRepository.save(resource1).getId());
-
-        Resource resource2 = new Resource();
-        resource2.setCode("Resource_2");
-        resource2.setName("Link document");
-        resource2.setProjectId(project1.getId());
-        resource2.setContent("https://app.diagrams.net/#G1jHd124HSsQD_dwaXW_FJVguVM8Vf73oZ");
-        resource2.setId(resourceRepository.save(resource2).getId());
 
         Period period1 = new Period();
         period1.setCode("period_1");
@@ -737,7 +784,7 @@ public class DBGenerator implements CommandLineRunner {
         memberProject1_2.setMemberId("c5cf1e20-bdd4-11ed-afa1-0242ac120002");
         memberProject1_2.setProjectId(project2.getId());
         memberProject1_2.setRole(RoleMemberProject.MANAGER);
-        memberProject1_2.setStatus(StatusWork.DANG_LAM);
+        memberProject1_2.setStatusWork(StatusWork.DANG_LAM);
         memberProject1_2.setId(memberProjectRepository.save(memberProject1_2).getId());
 
         Period period1_2 = new Period();

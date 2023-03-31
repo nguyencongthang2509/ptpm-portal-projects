@@ -16,6 +16,14 @@
   height: 550px;
 }
 
+.row {
+  height: 100% !important;
+}
+
+.container-fluid, #main, section {
+  height: 100% !important;
+}
+
 body {
   /* font-family: "Open Sans", sans-serif; */
   font-family: var(--bs-body-font-family);

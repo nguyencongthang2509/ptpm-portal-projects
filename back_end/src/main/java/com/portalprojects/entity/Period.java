@@ -7,6 +7,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.Nationalized;
 
@@ -14,7 +16,8 @@ import org.hibernate.annotations.Nationalized;
  * @author thangncph26123
  */
 @Entity
-@Data
+@Getter
+@Setter
 @ToString
 @Table(name = "period")
 public class Period extends PrimaryEntity {

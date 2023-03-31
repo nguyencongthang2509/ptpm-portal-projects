@@ -1,6 +1,5 @@
 package com.portalprojects.core.member.model.response;
 
-import com.portalprojects.entity.Resource;
 import com.portalprojects.entity.Todo;
 import com.portalprojects.entity.base.IsIdentified;
 import org.springframework.beans.factory.annotation.Value;

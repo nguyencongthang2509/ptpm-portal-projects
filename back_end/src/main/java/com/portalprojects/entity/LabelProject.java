@@ -2,33 +2,29 @@ package com.portalprojects.entity;
 
 import com.portalprojects.entity.base.PrimaryEntity;
 import com.portalprojects.infrastructure.constant.EntityProperties;
-import com.portalprojects.infrastructure.constant.RoleStakeholderProject;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.Index;
 
 /**
  * @author thangncph26123
  */
-
 @Entity
 @Getter
 @Setter
 @ToString
-@Table(name = "stakeholder_project")
-public class StakeholderProject extends PrimaryEntity {
+@Table(name = "label_project")
+public class LabelProject extends PrimaryEntity {
 
     @Column(length = EntityProperties.LENGTH_ID)
-    private String stakeholderId;
-
-    @Column(length = EntityProperties.LENGTH_ID)
+    @Index(name = "idx_project_id")
     private String projectId;
 
-    @Column(nullable = false)
-    private RoleStakeholderProject role;
+    @Column(length = EntityProperties.LENGTH_ID)
+    @Index(name = "idx_label_id")
+    private String labelId;
 }

@@ -25,7 +25,7 @@ public interface AdMemberProjectRepository extends MemberProjectRepository {
                      mp.member_id,
                      mp.project_id,
                      mp.role,
-                     mp.status,
+                     mp.status_work,
              FROM member_project mp 
              JOIN project pro ON pro.id = mp.project_id
              WHERE  
@@ -41,7 +41,7 @@ public interface AdMemberProjectRepository extends MemberProjectRepository {
                      mp.member_id,
                      mp.project_id,
                      mp.role,
-                     mp.status,
+                     mp.status_work,
                      pro.name
              FROM member_project mp 
              JOIN project pro ON pro.id = mp.project_id
@@ -56,7 +56,7 @@ public interface AdMemberProjectRepository extends MemberProjectRepository {
                      mp.member_id,
                      mp.project_id,
                      mp.role,
-                     mp.status,
+                     mp.status_work,
                      pro.name
              FROM member_project mp 
             JOIN project pro ON pro.id = mp.project_id

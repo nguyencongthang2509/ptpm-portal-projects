@@ -7,6 +7,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Nationalized;
@@ -16,7 +18,8 @@ import org.hibernate.annotations.Nationalized;
  */
 
 @Entity
-@Data
+@Getter
+@Setter
 @ToString
 @Table(name = "project")
 public class Project extends PrimaryEntity {
