@@ -26,8 +26,8 @@ public class MeLabelServiceImpl implements MeLabelService {
     }
 
     @Override
-    public List<MeLabelResponse> getAll() {
-        return meLabelRepository.getAll();
+    public List<MeLabelResponse> getAll(String idProject) {
+        return meLabelRepository.getAll(idProject);
     }
 
 }

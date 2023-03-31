@@ -193,9 +193,7 @@
                 dnd-dragend="onDragEnd(item, xx, $event, $index)"
                 dnd-moved="draggedItem = item"
                 style="list-style: none"
-                data-bs-toggle="modal"
-                data-bs-target="#modal_show_detail_todo"
-                ng-click="actionDetailTodo(item.id, $index, $parent.$index, xx)"
+                ng-click="actionDetailTodo($event, item.id, $index, $parent.$index, xx)"
               >
                 <div>
                   <span
@@ -244,7 +242,7 @@
                   {{item.numberTodoComplete}}/{{item.numberTodo}}</span
                 >
                 <span
-                  ng-if="item.numberTodo > 0 && item.progressOfTodo != 100"
+                  ng-if="item.progressOfTodo > 0 && item.progressOfTodo != 100"
                   my-tooltip
                   tooltip-content="Tiến độ: {{item.progressOfTodo}} %"
                   class="progress_show_todo"
@@ -259,6 +257,18 @@
                   style="background-color: #4a95ea"
                   ><i class="bx bx-line-chart"></i>
                   {{item.progressOfTodo}}%</span
+                >
+                <span
+                  ng-if="item.deadline != null"
+                  ng-mouseenter="showDeadlineView = true"
+                  ng-mouseleave="showDeadlineView = false"
+                  class="deadline_show_todo"
+                  ><input
+                    ng-show="showDeadlineView"
+                    class="checkbox_deadline_show"
+                    type="checkbox"
+                  /><i class="bx bx-time" ng-hide="showDeadlineView"></i>
+                  {{item.deadlineString}}</span
                 >
                 <div class="list_member_todo">
                   <a
@@ -617,7 +627,16 @@
                     >
                     </span>
                   </div>
-
+                  <div ng-if="detailTodo.deadline != null" class="deadline_detail_todo">
+                    Ngày hạn:
+                    <input type="checkbox" class="form-check-input deadline" />
+                    <span
+                      ng-click="openDialogAddDeadline($event)"
+                      class="span_convert_date_string"
+                    >
+                      {{detailTodo.convertDate}}</span
+                    >
+                  </div>
                   <div class="descipstions_custom">
                     <i class="bx bx-menu"></i><span> Mô tả </span> <br />
                     <textarea
@@ -702,7 +721,7 @@
                             class="remove_todo_in_checklist"
                             ng-click="removeTodoInCheckList(chklist.id)"
                           >
-                            X
+                            <i class="bx bx-minus"></i>
                           </button>
                         </div>
                       </div>
@@ -1017,6 +1036,7 @@
                               <input
                                 class="input_deadline"
                                 type="datetime-local"
+                                ng-model="timeDeadline"
                                 name=""
                               />
                               <div style="margin-top: 15px">
@@ -1085,8 +1105,18 @@
                                 >
                               </div>
 
-                              <button class="save_due_date">Lưu</button>
-                              <button class="remove_due_date">Xóa</button>
+                              <button
+                                ng-click="saveDueDate()"
+                                class="save_due_date"
+                              >
+                                Lưu
+                              </button>
+                              <button
+                                ng-click="removeDueDate()"
+                                class="remove_due_date"
+                              >
+                                Xóa
+                              </button>
                             </div>
                           </div>
                         </div>
@@ -1099,7 +1129,7 @@
                       ng-click="openDialogAddMember($event)"
                       class="btn_add_to_card"
                     >
-                     <i class="bx bx-trash"></i> Xóa thẻ
+                      <i class="bx bx-trash"></i> Xóa thẻ
                     </button>
                   </div>
                 </div>

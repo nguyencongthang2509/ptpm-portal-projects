@@ -1,6 +1,8 @@
 window.MemberProjectIsParticipatingDetailController = function (
   $scope,
+  $rootScope,
   $http,
+  $route,
   $timeout,
   $location,
   $routeParams,
@@ -13,7 +15,8 @@ window.MemberProjectIsParticipatingDetailController = function (
   MeLabelService,
   MeDetailTodoService,
   MeMemberProjectService,
-  MeTodoListService
+  MeTodoListService,
+  ConvertLongToDateString
 ) {
   document.body.style.backgroundImage =
     "url('" + localStorage.getItem("itemBackgroundImage") + "')";
@@ -22,6 +25,148 @@ window.MemberProjectIsParticipatingDetailController = function (
     localStorage.setItem("itemBackgroundImage", item);
     document.body.style.backgroundImage =
       "url('" + localStorage.getItem("itemBackgroundImage") + "')";
+  };
+
+  const socket = new SockJS(
+    "http://localhost:6789/portal-projects-websocket-endpoint"
+  );
+  const stompClient = Stomp.over(socket);
+
+  let idProject = $routeParams.id;
+  $scope.projectId = $routeParams.id;
+
+  // Get All
+  async function fetchAllData(idProject) {
+    await Promise.all([
+      MeDetailProjectService.fetchProject($routeParams.id),
+      MeMemberService.fetchMembers(),
+      // MeResourceService.fetchResources($routeParams.id),
+      MeGetAllPeriodById.fetchPeriods($routeParams.id),
+      MeMemberProjectService.fetchMembers($routeParams.id),
+      MeTodoListService.fetchTodoList($routeParams.id),
+    ]);
+
+    $scope.detailProject = MeDetailProjectService.getProject();
+    $scope.listMemberById = MeMemberService.getMembers();
+    // $scope.listResource = MeResourceService.getResources();
+    $scope.listPeriodById = MeGetAllPeriodById.getPeriods();
+    $scope.listTask = MeTodoListService.getTodoList();
+
+    let periodCurrent = $scope.listPeriodById.filter((pe) => {
+      return pe.status == 1;
+    })[0];
+    if (periodCurrent) {
+      $scope.valuePeriod = periodCurrent.id;
+    } else {
+      $scope.valueInput = "";
+    }
+
+    $scope.periodCurrentId = localStorage.getItem($routeParams.id);
+
+    if (periodCurrent != null && $scope.periodCurrentId == null) {
+      localStorage.setItem($routeParams.id, $scope.valuePeriod);
+      $scope.periodCurrentId = $scope.valuePeriod;
+    }
+
+    if ($scope.periodCurrentId != null) {
+      $location
+        .path("/member/project-is-participating/" + $routeParams.id)
+        .search({ idPeriod: $scope.periodCurrentId });
+      $scope.loadDataTodo($scope.periodCurrentId);
+    }
+
+    $scope.listMemberProject = [];
+    const memberProject = MeMemberProjectService.getMembers();
+    memberProject.forEach((meId) => {
+      const member = $scope.listMemberById.find((me) => meId === me.id);
+      if (member) {
+        member.checkMemberAssign = false;
+        $scope.listMemberProject.push(member);
+      }
+    });
+
+    $scope.checkNumberMember = true;
+    $scope.numberMemberMore = $scope.listMemberProject.length - 5;
+    if ($scope.listMemberProject.length <= 5) {
+      $scope.checkNumberMember = false;
+    } else {
+      $scope.checkNumberMember = true;
+    }
+    $scope.$apply();
+  }
+
+  fetchAllData($routeParams.id);
+
+  $rootScope.$watch(
+    function () {
+      return $location.search().idPeriod;
+    },
+    function (newVal, oldVal) {
+      if (!$rootScope.ignoreUpdate && newVal !== oldVal) {
+        if (newVal != null) {
+          localStorage.setItem($routeParams.id, newVal);
+          $location
+            .path("/member/project-is-participating/" + $routeParams.id)
+            .search({ idPeriod: newVal });
+          $scope.valuePeriod = newVal;
+          $scope.loadDataTodo(newVal);
+        }
+      }
+      $rootScope.ignoreUpdate = false;
+    }
+  );
+
+  $scope.changePeriod = function () {
+    localStorage.setItem($routeParams.id, $scope.valuePeriod);
+    $location.search("idPeriod", $scope.valuePeriod).replace();
+    $scope.loadDataTodo($scope.valuePeriod);
+  };
+
+  $scope.loadDataTodo = function (idPeriod) {
+    $scope.listTask.forEach((item) => {
+      item.todoList = [];
+      item.checkShowAddCard = false;
+    });
+
+    Promise.all(
+      $scope.listTask.map((item) => {
+        return MeTodoService.fetchTodo(idPeriod, item.id).then(function () {
+          item.todoList = MeTodoService.getTodo();
+          if (item.todoList != []) {
+            const assignPromises = item.todoList.map((td) => {
+              if (td.numberTodo != 0) {
+                td.progressOfTodo = parseInt(
+                  (td.numberTodoComplete / td.numberTodo) * 100
+                );
+              }
+              if (td.deadline != null) {
+                ConvertLongToDateString.setMonthDay(td.deadline);
+                td.deadlineString = ConvertLongToDateString.getMonthDay();
+              }
+              return MeAssignService.fetchMember(td.id).then(function () {
+                td.members = [];
+                const idMembers = MeAssignService.getMembers();
+                idMembers.forEach((meId) => {
+                  const member = $scope.listMemberById.find(
+                    (me) => meId === me.id
+                  );
+                  if (member) {
+                    td.members.push(member);
+                  }
+                });
+              });
+            });
+
+            const labelPromises = item.todoList.map((td) => {
+              return MeLabelService.fetchLabel(td.id).then(function () {
+                td.labels = MeLabelService.getLabels();
+              });
+            });
+            return Promise.all([...assignPromises, ...labelPromises]);
+          }
+        });
+      })
+    );
   };
 
   const menuButton = document.querySelector(".more-menu");
@@ -86,127 +231,6 @@ window.MemberProjectIsParticipatingDetailController = function (
     closeMenu(changebackgroundMenu, handleDocumentClickNewMenu);
   });
 
-  const socket = new SockJS(
-    "http://localhost:6789/portal-projects-websocket-endpoint"
-  );
-  const stompClient = Stomp.over(socket);
-
-  let idProject = $routeParams.id;
-  $scope.projectId = idProject;
-
-  // Get All
-  async function fetchAllData(idProject) {
-    await Promise.all([
-      MeDetailProjectService.fetchProject(idProject),
-      MeMemberService.fetchMembers(),
-      // MeResourceService.fetchResources(idProject),
-      MeGetAllPeriodById.fetchPeriods(idProject),
-      MeMemberProjectService.fetchMembers(idProject),
-      MeTodoListService.fetchTodoList(idProject),
-    ]);
-
-    $scope.detailProject = MeDetailProjectService.getProject();
-    $scope.listMemberById = MeMemberService.getMembers();
-    // $scope.listResource = MeResourceService.getResources();
-    $scope.listPeriodById = MeGetAllPeriodById.getPeriods();
-    $scope.listTask = MeTodoListService.getTodoList();
-
-    let periodCurrent = $scope.listPeriodById.filter((pe) => {
-      return pe.status == 1;
-    })[0];
-    if (periodCurrent) {
-      $scope.valuePeriod = periodCurrent.id;
-    } else {
-      $scope.valueInput = "";
-    }
-
-    let periodCurrentId = localStorage.getItem(idProject);
-
-    if (periodCurrent != null && periodCurrentId == null) {
-      localStorage.setItem(idProject, $scope.valuePeriod);
-    }
-
-    if (periodCurrentId != null) {
-      $location
-        .path("/member/project-is-participating/" + idProject)
-        .search({ idPeriod: periodCurrentId });
-      $scope.loadDataTodo(periodCurrentId);
-    }
-
-    $scope.listMemberProject = [];
-    const memberProject = MeMemberProjectService.getMembers();
-    memberProject.forEach((meId) => {
-      const member = $scope.listMemberById.find((me) => meId === me.id);
-      if (member) {
-        member.checkMemberAssign = false;
-        $scope.listMemberProject.push(member);
-      }
-    });
-
-    $scope.checkNumberMember = true;
-    $scope.numberMemberMore = $scope.listMemberProject.length - 5;
-    if ($scope.listMemberProject.length <= 5) {
-      $scope.checkNumberMember = false;
-    } else {
-      $scope.checkNumberMember = true;
-    }
-    $scope.$apply();
-  }
-
-  fetchAllData(idProject);
-
-  $scope.loadDataTodo = function (idPeriod) {
-    $scope.listTask.forEach((item) => {
-      item.todoList = [];
-      item.checkShowAddCard = false;
-    });
-
-    Promise.all(
-      $scope.listTask.map((item) => {
-        return MeTodoService.fetchTodo(idPeriod, item.id).then(function () {
-          item.todoList = MeTodoService.getTodo();
-          if (item.todoList != []) {
-            const assignPromises = item.todoList.map((td) => {
-              if (td.numberTodo != 0) {
-                td.progressOfTodo = parseInt(
-                  (td.numberTodoComplete / td.numberTodo) * 100
-                );
-              }
-
-              return MeAssignService.fetchMember(td.id).then(function () {
-                td.members = [];
-                const idMembers = MeAssignService.getMembers();
-                idMembers.forEach((meId) => {
-                  const member = $scope.listMemberById.find(
-                    (me) => meId === me.id
-                  );
-                  if (member) {
-                    td.members.push(member);
-                  }
-                });
-              });
-            });
-
-            const labelPromises = item.todoList.map((td) => {
-              return MeLabelService.fetchLabel(td.id).then(function () {
-                td.labels = MeLabelService.getLabels();
-              });
-            });
-            return Promise.all([...assignPromises, ...labelPromises]);
-          }
-        });
-      })
-    );
-  };
-
-  $scope.changePeriod = function () {
-    localStorage.setItem(idProject, $scope.valuePeriod);
-    $location
-      .path("/member/project-is-participating/" + idProject)
-      .search({ idPeriod: localStorage.getItem(idProject) });
-    $scope.loadDataTodo(localStorage.getItem(idProject));
-  };
-
   // Drag And Drop
 
   $scope.onDragStartCard = function (item, index) {
@@ -217,7 +241,7 @@ window.MemberProjectIsParticipatingDetailController = function (
   };
 
   $scope.onDropCard = function (item, index) {
-    let periodCurrentId = localStorage.getItem(idProject);
+    let periodCurrentId = localStorage.getItem($routeParams.id);
     if ($scope.itemDrag == null || $scope.itemDrag.indexTodoList != null) {
       if ($scope.draggedIndex === index || $scope.draggedIndex == -1) {
         return;
@@ -229,7 +253,11 @@ window.MemberProjectIsParticipatingDetailController = function (
           indexAfter: index,
         };
         stompClient.send(
-          "/action/update-todo-list" + "/" + idProject + "/" + periodCurrentId,
+          "/action/update-todo-list" +
+            "/" +
+            $routeParams.id +
+            "/" +
+            periodCurrentId,
           {},
           JSON.stringify(obj)
         );
@@ -310,47 +338,67 @@ window.MemberProjectIsParticipatingDetailController = function (
   let descriptions = "";
 
   //Detail Todo
-  $scope.actionDetailTodo = function (id, index, indexTask, itemListTask) {
-    $scope.indexTodoInTask = index;
-    $scope.indexTask = indexTask;
-    $scope.showDialogShowMenu = false;
-    $scope.itemListTask = itemListTask;
-    Promise.all([
-      MeDetailTodoService.fetchTodo(id),
-      MeAssignService.fetchMember(id),
-      MeLabelService.fetchLabel(id),
-      MeDetailTodoService.fetchDetailTodo(id),
-    ]).then(function () {
-      $scope.detailTodo = MeDetailTodoService.getTodo();
-      $scope.detailTodo.listMemberDetailTodo = $scope.listMemberById.filter(
-        (member) => MeAssignService.getMembers().includes(member.id)
-      );
-      $scope.detailTodo.listLabelDetailTodo = MeLabelService.getLabels();
-      $scope.detailTodo.listTaskDetailTodo =
-        MeDetailTodoService.getTodoDetail();
-
-      $scope.detailTodo.listTaskDetailTodo.forEach((item) => {
-        item.checkShowFormUpdateTodoInTask = false;
-      });
-
-      descriptions = $scope.detailTodo.descriptions;
-
-      let count = $scope.detailTodo.listTaskDetailTodo.filter(function (todo) {
-        return todo.statusTodo === 1;
-      }).length;
-
-      $scope.resetHeightTextarea();
-
-      let progressValue = 0;
-      if ($scope.detailTodo.listTaskDetailTodo.length > 0) {
-        progressValue = parseInt(
-          (count / $scope.detailTodo.listTaskDetailTodo.length) * 100
+  $scope.actionDetailTodo = function (
+    event,
+    id,
+    index,
+    indexTask,
+    itemListTask
+  ) {
+    if (
+      event.target.className != "deadline_show_todo ng-binding ng-scope" &&
+      event.target.className != "deadline_show_todo ng-binding" &&
+      event.target.className != "bx bx-time" &&
+      event.target.className != "rounded-circle" &&
+      event.target.className != "checkbox_deadline_show"
+    ) {
+      $("#modal_show_detail_todo").modal("show");
+      $scope.indexTodoInTask = index;
+      $scope.indexTask = indexTask;
+      $scope.showDialogShowMenu = false;
+      $scope.itemListTask = itemListTask;
+      Promise.all([
+        MeDetailTodoService.fetchTodo(id),
+        MeAssignService.fetchMember(id),
+        MeLabelService.fetchLabel(id),
+        MeDetailTodoService.fetchDetailTodo(id),
+      ]).then(function () {
+        $scope.detailTodo = MeDetailTodoService.getTodo();
+        $scope.detailTodo.listMemberDetailTodo = $scope.listMemberById.filter(
+          (member) => MeAssignService.getMembers().includes(member.id)
         );
-      }
+        $scope.detailTodo.listLabelDetailTodo = MeLabelService.getLabels();
+        $scope.detailTodo.listTaskDetailTodo =
+          MeDetailTodoService.getTodoDetail();
 
-      document.querySelector("#progressTodo").value = progressValue;
-      $scope.$apply();
-    });
+        $scope.detailTodo.listTaskDetailTodo.forEach((item) => {
+          item.checkShowFormUpdateTodoInTask = false;
+        });
+
+        descriptions = $scope.detailTodo.descriptions;
+
+        ConvertLongToDateString.setDateString($scope.detailTodo.deadline);
+        $scope.detailTodo.convertDate = ConvertLongToDateString.getDateString();
+
+        let count = $scope.detailTodo.listTaskDetailTodo.filter(function (
+          todo
+        ) {
+          return todo.statusTodo === 1;
+        }).length;
+
+        $scope.resetHeightTextarea();
+
+        let progressValue = 0;
+        if ($scope.detailTodo.listTaskDetailTodo.length > 0) {
+          progressValue = parseInt(
+            (count / $scope.detailTodo.listTaskDetailTodo.length) * 100
+          );
+        }
+
+        document.querySelector("#progressTodo").value = progressValue;
+        $scope.$apply();
+      });
+    }
   };
 
   $scope.resetHeightTextarea = function () {
@@ -481,9 +529,9 @@ window.MemberProjectIsParticipatingDetailController = function (
 
     stompClient.send(
       "/action/create-assign/" +
-        idProject +
+        $routeParams.id +
         "/" +
-        localStorage.getItem(idProject),
+        localStorage.getItem($routeParams.id),
       {},
       JSON.stringify(headers)
     );
@@ -499,9 +547,9 @@ window.MemberProjectIsParticipatingDetailController = function (
 
     stompClient.send(
       "/action/delete-assign/" +
-        idProject +
+        $routeParams.id +
         "/" +
-        localStorage.getItem(idProject),
+        localStorage.getItem($routeParams.id),
       {},
       JSON.stringify(headers)
     );
@@ -569,7 +617,7 @@ window.MemberProjectIsParticipatingDetailController = function (
       left: event.clientX - 450 + "px",
     };
 
-    MeLabelService.fetchLabels().then(function () {
+    MeLabelService.fetchLabels($routeParams.id).then(function () {
       $scope.listLabel = MeLabelService.getAllLabels();
 
       $scope.listLabel.forEach((lbAll) => {
@@ -625,7 +673,7 @@ window.MemberProjectIsParticipatingDetailController = function (
       left: event.clientX - 450 + "px",
     };
 
-    MeLabelService.fetchLabels().then(function () {
+    MeLabelService.fetchLabels($routeParams.id).then(function () {
       $scope.listLabel = MeLabelService.getAllLabels();
 
       $scope.listLabel.forEach((lbAll) => {
@@ -684,6 +732,15 @@ window.MemberProjectIsParticipatingDetailController = function (
       left: event.clientX - 450 + "px",
     };
 
+    if ($scope.detailTodo.deadline != null) {
+      let deadline = new Date($scope.detailTodo.deadline);
+
+      $scope.timeDeadline = new Date(
+        deadline.toLocaleDateString("en-CA") +
+          ", " +
+          deadline.toLocaleTimeString()
+      );
+    }
     $scope.clickOutPopupAddDeadline();
   };
 
@@ -714,9 +771,13 @@ window.MemberProjectIsParticipatingDetailController = function (
       indexTask: $scope.indexTask,
       indexTodoInTask: $scope.indexTodoInTask,
     };
-    let periodCurrentId = localStorage.getItem(idProject);
+    let periodCurrentId = localStorage.getItem($routeParams.id);
     stompClient.send(
-      "/action/create-label-todo" + "/" + idProject + "/" + periodCurrentId,
+      "/action/create-label-todo" +
+        "/" +
+        $routeParams.id +
+        "/" +
+        periodCurrentId,
       {},
       JSON.stringify(headers)
     );
@@ -729,9 +790,13 @@ window.MemberProjectIsParticipatingDetailController = function (
       indexTask: $scope.indexTask,
       indexTodoInTask: $scope.indexTodoInTask,
     };
-    let periodCurrentId = localStorage.getItem(idProject);
+    let periodCurrentId = localStorage.getItem($routeParams.id);
     stompClient.send(
-      "/action/delete-label-todo" + "/" + idProject + "/" + periodCurrentId,
+      "/action/delete-label-todo" +
+        "/" +
+        $routeParams.id +
+        "/" +
+        periodCurrentId,
       {},
       JSON.stringify(headers)
     );
@@ -739,7 +804,7 @@ window.MemberProjectIsParticipatingDetailController = function (
 
   $scope.actionReloadDataLabel = function (idTodo, indexTask, indexTodoInTask) {
     Promise.all([
-      MeLabelService.fetchLabels(),
+      MeLabelService.fetchLabels($routeParams.id),
       MeLabelService.fetchLabel(idTodo),
     ]).then(function () {
       if ($scope.detailTodo != null) {
@@ -827,9 +892,13 @@ window.MemberProjectIsParticipatingDetailController = function (
       indexTask: $scope.indexTask,
       indexTodoInTask: $scope.indexTodoInTask,
     };
-    let periodCurrentId = localStorage.getItem(idProject);
+    let periodCurrentId = localStorage.getItem($routeParams.id);
     stompClient.send(
-      "/action/update-priority-todo" + "/" + idProject + "/" + periodCurrentId,
+      "/action/update-priority-todo" +
+        "/" +
+        $routeParams.id +
+        "/" +
+        periodCurrentId,
       {},
       JSON.stringify(obj)
     );
@@ -873,7 +942,7 @@ window.MemberProjectIsParticipatingDetailController = function (
     $scope.showDialogAddMemberOut = false;
     $scope.showDialogAddPriorityLevel = false;
 
-    $scope.valuePeriod = localStorage.getItem(idProject);
+    $scope.valuePeriod = localStorage.getItem($routeParams.id);
 
     if (!$scope.showDialogShowMenu) {
       $scope.showDialogShowMenu = true;
@@ -934,21 +1003,16 @@ window.MemberProjectIsParticipatingDetailController = function (
         indexTask: $scope.indexTask,
         indexTodoInTask: $scope.indexTodoInTask,
       };
-      let periodCurrentId = localStorage.getItem(idProject);
+      let periodCurrentId = localStorage.getItem($routeParams.id);
       stompClient.send(
         "/action/create-todo-checklist" +
           "/" +
-          idProject +
+          $routeParams.id +
           "/" +
           periodCurrentId,
         {},
         JSON.stringify(obj)
       );
-      toastr.success("Thêm đầu việc thành công !", "Thông báo!", {
-        closeButton: true,
-        progressBar: true,
-        positionClass: "toast-top-center",
-      });
       $scope.valueAddTodoInChecklist = "";
       $scope.closeAddTodoInCheckList();
     }
@@ -990,21 +1054,16 @@ window.MemberProjectIsParticipatingDetailController = function (
         name: $(".textarea_update_todo_in_task").eq(index).val(),
         idTodo: id,
       };
-      let periodCurrentId = localStorage.getItem(idProject);
+      let periodCurrentId = localStorage.getItem($routeParams.id);
       stompClient.send(
         "/action/update-todo-checklist" +
           "/" +
-          idProject +
+          $routeParams.id +
           "/" +
           periodCurrentId,
         {},
         JSON.stringify(obj)
       );
-      toastr.success("Cập nhật thành công !", "Thông báo!", {
-        closeButton: true,
-        progressBar: true,
-        positionClass: "toast-top-center",
-      });
       $(".textarea_update_todo_in_task").eq(index).val("");
       $scope.closeSaveTodoInCheckList(index);
     }
@@ -1071,11 +1130,11 @@ window.MemberProjectIsParticipatingDetailController = function (
       indexTask: $scope.indexTask,
       indexTodoInTask: $scope.indexTodoInTask,
     };
-    let periodCurrentId = localStorage.getItem(idProject);
+    let periodCurrentId = localStorage.getItem($routeParams.id);
     stompClient.send(
       "/action/update-statustodo-todo-checklist" +
         "/" +
-        idProject +
+        $routeParams.id +
         "/" +
         periodCurrentId,
       {},
@@ -1132,17 +1191,16 @@ window.MemberProjectIsParticipatingDetailController = function (
       indexTask: $scope.indexTask,
       indexTodoInTask: $scope.indexTodoInTask,
     };
-    let periodCurrentId = localStorage.getItem(idProject);
+    let periodCurrentId = localStorage.getItem($routeParams.id);
     stompClient.send(
-      "/action/delete-todo-checklist" + "/" + idProject + "/" + periodCurrentId,
+      "/action/delete-todo-checklist" +
+        "/" +
+        $routeParams.id +
+        "/" +
+        periodCurrentId,
       {},
       JSON.stringify(obj)
     );
-    toastr.success("Xóa thành công !", "Thông báo!", {
-      closeButton: true,
-      progressBar: true,
-      positionClass: "toast-top-center",
-    });
   };
 
   $scope.actionReloadTodoInCheckListDelete = function (message) {
@@ -1222,21 +1280,16 @@ window.MemberProjectIsParticipatingDetailController = function (
       indexTask: $scope.indexTask,
       indexTodoInTask: $scope.indexTodoInTask,
     };
-    let periodCurrentId = localStorage.getItem(idProject);
+    let periodCurrentId = localStorage.getItem($routeParams.id);
     stompClient.send(
       "/action/update-descriptions-todo" +
         "/" +
-        idProject +
+        $routeParams.id +
         "/" +
         periodCurrentId,
       {},
       JSON.stringify(obj)
     );
-    toastr.success("Lưu mô tả thành công !", "Thông báo!", {
-      closeButton: true,
-      progressBar: true,
-      positionClass: "toast-top-center",
-    });
   };
 
   $scope.actionReloadTodoDescriptions = function (message) {
@@ -1257,12 +1310,53 @@ window.MemberProjectIsParticipatingDetailController = function (
     $scope.resetHeightTextarea();
   };
 
+  $scope.actionReloadTodoDeadlineUpdate = function (message) {
+    let obj = JSON.parse(message.body).data.data;
+    let indexTask = JSON.parse(message.body).data.indexTask;
+    let indexTodoInTask = JSON.parse(message.body).data.indexTodoInTask;
+    if ($scope.detailTodo != null) {
+      ConvertLongToDateString.setDateString(obj.deadline);
+      $scope.detailTodo.convertDate = ConvertLongToDateString.getDateString();
+      $scope.detailTodo.deadline = ConvertLongToDateString.getDateString();
+    }
+    $scope.listTask[indexTask].todoList[indexTodoInTask].deadline =
+      obj.deadline;
+    ConvertLongToDateString.setMonthDay(obj.deadline);
+    $scope.listTask[indexTask].todoList[indexTodoInTask].deadlineString =
+      ConvertLongToDateString.getMonthDay();
+    $scope.$apply();
+  };
+
+  $scope.actionReloadTodoDeadlineDelete = function (message) {
+    let obj = JSON.parse(message.body).data.data;
+    let indexTask = JSON.parse(message.body).data.indexTask;
+    let indexTodoInTask = JSON.parse(message.body).data.indexTodoInTask;
+    if ($scope.detailTodo != null) {
+      $scope.detailTodo.convertDate = null;
+      $scope.detailTodo.deadline = null;
+    }
+    $scope.listTask[indexTask].todoList[indexTodoInTask].deadline = null;
+    $scope.listTask[indexTask].todoList[indexTodoInTask].deadlineString = null;
+    $scope.$apply();
+  };
+
   // Subscribe websocket
   stompClient.connect({}, function (frame) {
     let sessionId = /\/([^\/]+)\/websocket/.exec(
       stompClient.ws._transport.url
     )[1];
-    let periodCurrentId = localStorage.getItem(idProject);
+
+    stompClient.subscribe(
+      "/portal-projects/success/" + sessionId,
+      function (message) {
+        let successObject = JSON.parse(message.body);
+        toastr.success(successObject.successMessage, "Thông báo", {
+          closeButton: true,
+          progressBar: true,
+          positionClass: "toast-top-center",
+        });
+      }
+    );
 
     // Message bắt lỗi trả về cho client thực hiện thao tác
     stompClient.subscribe(
@@ -1281,9 +1375,9 @@ window.MemberProjectIsParticipatingDetailController = function (
     stompClient.subscribe(
       "/portal-projects/update-descriptions-todo" +
         "/" +
-        idProject +
+        $routeParams.id +
         "/" +
-        periodCurrentId,
+        localStorage.getItem($routeParams.id),
       function (message) {
         $scope.actionReloadTodoDescriptions(message);
       },
@@ -1293,7 +1387,11 @@ window.MemberProjectIsParticipatingDetailController = function (
     );
 
     stompClient.subscribe(
-      "/portal-projects/assign" + "/" + idProject + "/" + periodCurrentId,
+      "/portal-projects/assign" +
+        "/" +
+        $routeParams.id +
+        "/" +
+        localStorage.getItem($routeParams.id),
       function (message) {
         if (JSON.parse(message.body).data.data.todoId != null) {
           $scope.actionReloadData(
@@ -1312,7 +1410,11 @@ window.MemberProjectIsParticipatingDetailController = function (
     );
 
     stompClient.subscribe(
-      "/portal-projects/label-todo" + "/" + idProject + "/" + periodCurrentId,
+      "/portal-projects/label-todo" +
+        "/" +
+        $routeParams.id +
+        "/" +
+        localStorage.getItem($routeParams.id),
       function (message) {
         console.log(message);
         if (JSON.parse(message.body).data.data.todoId != null) {
@@ -1332,7 +1434,11 @@ window.MemberProjectIsParticipatingDetailController = function (
     );
 
     stompClient.subscribe(
-      "/portal-projects/todo" + "/" + idProject + "/" + periodCurrentId,
+      "/portal-projects/todo" +
+        "/" +
+        $routeParams.id +
+        "/" +
+        localStorage.getItem($routeParams.id),
       function (message) {
         $scope.actionReloadDataPriorityTodo(
           JSON.parse(message.body).data.data.id,
@@ -1343,7 +1449,11 @@ window.MemberProjectIsParticipatingDetailController = function (
     );
 
     stompClient.subscribe(
-      "/portal-projects/todo-list" + "/" + idProject + "/" + periodCurrentId,
+      "/portal-projects/todo-list" +
+        "/" +
+        $routeParams.id +
+        "/" +
+        localStorage.getItem($routeParams.id),
       function (message) {
         $scope.actionReloadTodoList(message);
       }
@@ -1352,9 +1462,9 @@ window.MemberProjectIsParticipatingDetailController = function (
     stompClient.subscribe(
       "/portal-projects/create-todo-checklist" +
         "/" +
-        idProject +
+        $routeParams.id +
         "/" +
-        periodCurrentId,
+        localStorage.getItem($routeParams.id),
       function (message) {
         $scope.actionReloadTodoInCheckList(message);
       }
@@ -1363,9 +1473,9 @@ window.MemberProjectIsParticipatingDetailController = function (
     stompClient.subscribe(
       "/portal-projects/update-todo-checklist" +
         "/" +
-        idProject +
+        $routeParams.id +
         "/" +
-        periodCurrentId,
+        localStorage.getItem($routeParams.id),
       function (message) {
         $scope.actionReloadSaveTodoInCheckList(message);
       }
@@ -1374,9 +1484,9 @@ window.MemberProjectIsParticipatingDetailController = function (
     stompClient.subscribe(
       "/portal-projects/update-statustodo-todo-checklist" +
         "/" +
-        idProject +
+        $routeParams.id +
         "/" +
-        periodCurrentId,
+        localStorage.getItem($routeParams.id),
       function (message) {
         $scope.actionReloadTodoInCheckListByUpdateStatusTodo(message);
       }
@@ -1385,11 +1495,33 @@ window.MemberProjectIsParticipatingDetailController = function (
     stompClient.subscribe(
       "/portal-projects/delete-todo-checklist" +
         "/" +
-        idProject +
+        $routeParams.id +
         "/" +
-        periodCurrentId,
+        localStorage.getItem($routeParams.id),
       function (message) {
         $scope.actionReloadTodoInCheckListDelete(message);
+      }
+    );
+
+    stompClient.subscribe(
+      "/portal-projects/update-deadline-todo" +
+        "/" +
+        $routeParams.id +
+        "/" +
+        localStorage.getItem($routeParams.id),
+      function (message) {
+        $scope.actionReloadTodoDeadlineUpdate(message);
+      }
+    );
+
+    stompClient.subscribe(
+      "/portal-projects/delete-deadline-todo" +
+        "/" +
+        $routeParams.id +
+        "/" +
+        localStorage.getItem($routeParams.id),
+      function (message) {
+        $scope.actionReloadTodoDeadlineDelete(message);
       }
     );
   });
@@ -1399,5 +1531,71 @@ window.MemberProjectIsParticipatingDetailController = function (
   $scope.closeAddTodoList = function () {
     $scope.checkShowAddTodoList = false;
     $scope.$apply();
+  };
+
+  $scope.formatDateToString = function (timeString) {
+    let timeStr = new Date(timeString);
+    let yearTimeStr = timeStr.getFullYear();
+    let monthTimeStr = String(timeStr.getMonth() + 1).padStart(2, "0");
+    let dateTimeStr = String(timeStr.getDate()).padStart(2, "0");
+    let hoursTimeStr = String(timeStr.getHours()).padStart(2, "0");
+    let minutesTimeStr = String(timeStr.getMinutes()).padStart(2, "0");
+    let secondsTimeStr = String(timeStr.getSeconds()).padStart(2, "0");
+
+    return `${yearTimeStr}-${monthTimeStr}-${dateTimeStr} ${hoursTimeStr}:${minutesTimeStr}:${secondsTimeStr}`;
+  };
+
+  $scope.timeDeadline = "";
+
+  $scope.saveDueDate = function () {
+    if ($scope.timeDeadline == null || $scope.timeDeadline === "") {
+      toastr.error("Ngày hạn không được để trống !", "Thông báo!", {
+        closeButton: true,
+        progressBar: true,
+        positionClass: "toast-top-center",
+      });
+    } else {
+      let newFormatDeadline = $scope.formatDateToString($scope.timeDeadline);
+      let obj = {
+        idTodo: $scope.detailTodo.id,
+        deadline: newFormatDeadline,
+        indexTask: $scope.indexTask,
+        indexTodoInTask: $scope.indexTodoInTask,
+      };
+      stompClient.send(
+        "/action/update-deadline-todo" +
+          "/" +
+          $routeParams.id +
+          "/" +
+          localStorage.getItem($routeParams.id),
+        {},
+        JSON.stringify(obj)
+      );
+    }
+  };
+
+  $scope.removeDueDate = function () {
+    if ($scope.detailTodo.deadline == null) {
+      toastr.error("Chưa có ngày hạn !", "Thông báo!", {
+        closeButton: true,
+        progressBar: true,
+        positionClass: "toast-top-center",
+      });
+      return;
+    }
+    let obj = {
+      idTodo: $scope.detailTodo.id,
+      indexTask: $scope.indexTask,
+      indexTodoInTask: $scope.indexTodoInTask,
+    };
+    stompClient.send(
+      "/action/delete-deadline-todo" +
+        "/" +
+        $routeParams.id +
+        "/" +
+        localStorage.getItem($routeParams.id),
+      {},
+      JSON.stringify(obj)
+    );
   };
 };

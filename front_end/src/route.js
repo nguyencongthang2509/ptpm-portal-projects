@@ -37,6 +37,7 @@ app.config(function ($routeProvider, $locationProvider) {
       templateUrl: "./pages/member/member-project-is-participating-detail.html",
       controller: MemberProjectIsParticipatingDetailController,
       css: "../css/custom/member/member-project-is-participating-detail.css",
+      reloadOnSearch: false
     })
     .when("/member/period-project/:id", {
       templateUrl: "./pages/member/member-period-project.html",

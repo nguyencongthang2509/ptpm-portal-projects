@@ -24,8 +24,8 @@ app.service("MeLabelService", function ($http) {
     );
   };
 
-  this.fetchLabels = function(){
-    return $http.get(apiMemberLabel + "/list").then(
+  this.fetchLabels = function(idPorject){
+    return $http.get(apiMemberLabel + "/list?idProject=" + idPorject).then(
       function (response) {
         if (response.status === 200) {
           labels = response.data.data;

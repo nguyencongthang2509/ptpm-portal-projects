@@ -1,0 +1,26 @@
+package com.portalprojects.core.member.model.request;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.Setter;
+
+/**
+ * @author thangncph26123
+ */
+@Getter
+@Setter
+public class MeUpdateDeadlineTodoRequest {
+
+    @NotNull
+    private String idTodo;
+
+    @NotBlank
+    @NotEmpty
+    private String deadline;
+
+    private String indexTask;
+
+    private String indexTodoInTask;
+}

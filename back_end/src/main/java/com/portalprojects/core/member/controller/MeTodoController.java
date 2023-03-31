@@ -2,8 +2,10 @@ package com.portalprojects.core.member.controller;
 
 import com.portalprojects.core.common.base.ResponseObject;
 import com.portalprojects.core.member.model.request.MeCreateDetailTodoRequest;
+import com.portalprojects.core.member.model.request.MeDeleteDeadlineTodoRequest;
 import com.portalprojects.core.member.model.request.MeDeleteDetailTodoRequest;
 import com.portalprojects.core.member.model.request.MeUpdateDeTailTodoRequest;
+import com.portalprojects.core.member.model.request.MeUpdateDeadlineTodoRequest;
 import com.portalprojects.core.member.model.request.MeUpdateDescriptionsTodoRequest;
 import com.portalprojects.core.member.model.request.MeUpdateStatusTodoRequest;
 import com.portalprojects.core.member.model.request.MeUpdateTodoRequest;
@@ -51,41 +53,46 @@ public class MeTodoController {
     @MessageMapping("/update-priority-todo/{projectId}/{periodId}")
     @SendTo("/portal-projects/todo/{projectId}/{periodId}")
     public ResponseObject updatePriorityLevel(@RequestBody MeUpdateTodoRequest request,
+                                              StompHeaderAccessor headerAccessor,
                                               @DestinationVariable String projectId,
                                               @DestinationVariable String periodId) {
-        return new ResponseObject(meTodoService.updatePriorityLevel(request));
+        return new ResponseObject(meTodoService.updatePriorityLevel(request, headerAccessor));
     }
 
     @MessageMapping("/create-todo-checklist/{projectId}/{periodId}")
     @SendTo("/portal-projects/create-todo-checklist/{projectId}/{periodId}")
     public ResponseObject createTodoChecklist(@RequestBody MeCreateDetailTodoRequest request,
+                                              StompHeaderAccessor headerAccessor,
                                               @DestinationVariable String projectId,
                                               @DestinationVariable String periodId) {
-        return new ResponseObject(meTodoService.createTodoChecklist(request));
+        return new ResponseObject(meTodoService.createTodoChecklist(request, headerAccessor));
     }
 
     @MessageMapping("/update-todo-checklist/{projectId}/{periodId}")
     @SendTo("/portal-projects/update-todo-checklist/{projectId}/{periodId}")
     public ResponseObject updateTodoChecklist(@RequestBody MeUpdateDeTailTodoRequest request,
+                                              StompHeaderAccessor headerAccessor,
                                               @DestinationVariable String projectId,
                                               @DestinationVariable String periodId) {
-        return new ResponseObject(meTodoService.updateTodoChecklist(request));
+        return new ResponseObject(meTodoService.updateTodoChecklist(request, headerAccessor));
     }
 
     @MessageMapping("/update-statustodo-todo-checklist/{projectId}/{periodId}")
     @SendTo("/portal-projects/update-statustodo-todo-checklist/{projectId}/{periodId}")
     public ResponseObject updateStatusTodoTodoChecklist(@RequestBody MeUpdateStatusTodoRequest request,
+                                                        StompHeaderAccessor headerAccessor,
                                                         @DestinationVariable String projectId,
                                                         @DestinationVariable String periodId) {
-        return new ResponseObject(meTodoService.updateStatusTodo(request));
+        return new ResponseObject(meTodoService.updateStatusTodo(request, headerAccessor));
     }
 
     @MessageMapping("/delete-todo-checklist/{projectId}/{periodId}")
     @SendTo("/portal-projects/delete-todo-checklist/{projectId}/{periodId}")
     public ResponseObject deleteTodoChecklist(@RequestBody MeDeleteDetailTodoRequest request,
+                                              StompHeaderAccessor headerAccessor,
                                               @DestinationVariable String projectId,
                                               @DestinationVariable String periodId) {
-        return new ResponseObject(meTodoService.deleteDetailTodo(request));
+        return new ResponseObject(meTodoService.deleteDetailTodo(request, headerAccessor));
     }
 
     @MessageMapping("/update-descriptions-todo/{projectId}/{periodId}")
@@ -95,6 +102,24 @@ public class MeTodoController {
                                                  @DestinationVariable String projectId,
                                                  @DestinationVariable String periodId) {
         return new ResponseObject(meTodoService.updateDescriptionsTodo(request, headerAccessor));
+    }
+
+    @MessageMapping("/update-deadline-todo/{projectId}/{periodId}")
+    @SendTo("/portal-projects/update-deadline-todo/{projectId}/{periodId}")
+    public ResponseObject updateDeadlineTodo(@RequestBody MeUpdateDeadlineTodoRequest request,
+                                             StompHeaderAccessor headerAccessor,
+                                             @DestinationVariable String projectId,
+                                             @DestinationVariable String periodId) {
+        return new ResponseObject(meTodoService.updateDeadlineTodo(request, headerAccessor));
+    }
+
+    @MessageMapping("/delete-deadline-todo/{projectId}/{periodId}")
+    @SendTo("/portal-projects/delete-deadline-todo/{projectId}/{periodId}")
+    public ResponseObject deleteDeadlineTodo(@RequestBody MeDeleteDeadlineTodoRequest request,
+                                             StompHeaderAccessor headerAccessor,
+                                             @DestinationVariable String projectId,
+                                             @DestinationVariable String periodId) {
+        return new ResponseObject(meTodoService.deleteDeadlineTodo(request, headerAccessor));
     }
 
 }

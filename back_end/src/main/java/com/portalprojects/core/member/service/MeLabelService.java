@@ -15,6 +15,6 @@ public interface MeLabelService {
 
     List<MeLabelResponse> getAllLabelByIdTodo(String idTodo);
 
-    List<MeLabelResponse> getAll();
+    List<MeLabelResponse> getAll(String idProject);
 
 }

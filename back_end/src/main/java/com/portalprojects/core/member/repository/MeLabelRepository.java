@@ -21,8 +21,11 @@ public interface MeLabelRepository extends LabelRepository {
     List<MeLabelResponse> getAllLabelByIdTodo(@Param("idTodo") String idTodo);
 
     @Query(value = """
-            SELECT c.id, c.code, c.name, c.color_label FROM label c
+            SELECT c.id, c.code, c.name, c.color_label 
+            FROM label c JOIN label_project a ON c.id = a.label_id
+            JOIN project b ON a.project_id = b.id 
+            WHERE b.id = :idProject
             """, nativeQuery = true)
-    List<MeLabelResponse> getAll();
+    List<MeLabelResponse> getAll(@Param("idProject") String idProject);
 
 }

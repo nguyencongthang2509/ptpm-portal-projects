@@ -28,8 +28,8 @@ public class MeLabelController {
     }
 
     @GetMapping("/list")
-    public ResponseObject getAll() {
-        return new ResponseObject(meLabelService.getAll());
+    public ResponseObject getAll(@RequestParam("idProject") String idProject) {
+        return new ResponseObject(meLabelService.getAll(idProject));
     }
 
 }

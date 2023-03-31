@@ -2,8 +2,10 @@ package com.portalprojects.core.member.service;
 
 import com.portalprojects.core.common.base.TodoObject;
 import com.portalprojects.core.member.model.request.MeCreateDetailTodoRequest;
+import com.portalprojects.core.member.model.request.MeDeleteDeadlineTodoRequest;
 import com.portalprojects.core.member.model.request.MeDeleteDetailTodoRequest;
 import com.portalprojects.core.member.model.request.MeUpdateDeTailTodoRequest;
+import com.portalprojects.core.member.model.request.MeUpdateDeadlineTodoRequest;
 import com.portalprojects.core.member.model.request.MeUpdateDescriptionsTodoRequest;
 import com.portalprojects.core.member.model.request.MeUpdateStatusTodoRequest;
 import com.portalprojects.core.member.model.request.MeUpdateTodoRequest;
@@ -27,15 +29,19 @@ public interface MeTodoService {
 
     List<MeDetailTodoResponse> getDetailTodo(String idTodo);
 
-    TodoObject updatePriorityLevel(@Valid MeUpdateTodoRequest request);
+    TodoObject updatePriorityLevel(@Valid MeUpdateTodoRequest request, StompHeaderAccessor headerAccessor);
 
-    TodoObject createTodoChecklist(@Valid MeCreateDetailTodoRequest request);
+    TodoObject createTodoChecklist(@Valid MeCreateDetailTodoRequest request, StompHeaderAccessor headerAccessor);
 
-    Todo updateTodoChecklist(@Valid MeUpdateDeTailTodoRequest request);
+    Todo updateTodoChecklist(@Valid MeUpdateDeTailTodoRequest request, StompHeaderAccessor headerAccessor);
 
-    TodoObject updateStatusTodo(@Valid MeUpdateStatusTodoRequest request);
+    TodoObject updateStatusTodo(@Valid MeUpdateStatusTodoRequest request, StompHeaderAccessor headerAccessor);
 
-    TodoObject deleteDetailTodo(@Valid MeDeleteDetailTodoRequest request);
+    TodoObject deleteDetailTodo(@Valid MeDeleteDetailTodoRequest request, StompHeaderAccessor headerAccessor);
 
     TodoObject updateDescriptionsTodo(@Valid MeUpdateDescriptionsTodoRequest request, StompHeaderAccessor headerAccessor);
+
+    TodoObject updateDeadlineTodo(@Valid MeUpdateDeadlineTodoRequest request, StompHeaderAccessor headerAccessor);
+
+    TodoObject deleteDeadlineTodo(@Valid MeDeleteDeadlineTodoRequest request, StompHeaderAccessor headerAccessor);
 }
