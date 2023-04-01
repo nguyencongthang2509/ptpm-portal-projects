@@ -12,12 +12,11 @@ import org.hibernate.validator.constraints.Length;
  */
 @Getter
 @Setter
-public class MeUpdateDescriptionsTodoRequest {
+public class MeUpdateDescriptionsTodoRequest extends StompHeaderAccessorRequest{
 
     @NotNull
     private String idTodo;
 
-    @NotEmpty
     @Length(max = 1000, message = "Mô tả tối đa 1000 ký tự")
     private String descriptions;
 

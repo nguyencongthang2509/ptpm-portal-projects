@@ -5,11 +5,14 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
+
 /**
  * @author thangncph26123
  */
 @Component
 public class SuccessNotificationSender {
+
 
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
@@ -17,6 +20,7 @@ public class SuccessNotificationSender {
     public void senderNotification(String message, StompHeaderAccessor headerAccessor) {
         SuccessModel successModel = new SuccessModel(message);
         String sessionId = headerAccessor.getSessionId();
+        System.out.println(sessionId);
         simpMessagingTemplate.convertAndSend("/portal-projects/success/" + sessionId, successModel);
     }
 }

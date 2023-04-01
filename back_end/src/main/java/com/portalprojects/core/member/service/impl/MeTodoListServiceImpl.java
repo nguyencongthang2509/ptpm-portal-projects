@@ -7,6 +7,7 @@ import com.portalprojects.core.member.repository.MeTodoListRepository;
 import com.portalprojects.core.member.service.MeTodoListService;
 import com.portalprojects.infrastructure.constant.Message;
 import com.portalprojects.infrastructure.exception.rest.RestApiException;
+import com.portalprojects.util.TodoListHelper;
 import lombok.Synchronized;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,9 @@ public class MeTodoListServiceImpl implements MeTodoListService {
 
     @Autowired
     private MeTodoListRepository meTodoListRepository;
+
+    @Autowired
+    private TodoListHelper todoListHelper;
 
     @Override
     public List<MeTodoListResponse> getAllTodoList(String idProject) {
@@ -41,4 +45,6 @@ public class MeTodoListServiceImpl implements MeTodoListService {
         meTodoListRepository.updateIndexTodoList(request.getIdTodoList(), Integer.parseInt(request.getIndexAfter()));
         return new TodoListObject(request.getIdTodoList(), Integer.parseInt(request.getIndexBefore()), Integer.parseInt(request.getIndexAfter()));
     }
+
+
 }

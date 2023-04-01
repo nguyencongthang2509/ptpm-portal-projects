@@ -9,13 +9,7 @@ import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
  */
 @Getter
 @Setter
-public class MeDeleteDetailTodoRequest {
+public abstract class StompHeaderAccessorRequest {
 
-    private String id;
-
-    private String todoId;
-
-    private String indexTask;
-
-    private String indexTodoInTask;
+    private StompHeaderAccessor headerAccessor;
 }

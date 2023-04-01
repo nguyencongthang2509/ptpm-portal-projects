@@ -1,6 +1,7 @@
 package com.portalprojects.core.member.controller;
 
 import com.portalprojects.core.common.base.ResponseObject;
+import com.portalprojects.core.member.model.request.DesVarProjectIdAndPeriodIdRequest;
 import com.portalprojects.core.member.model.request.MeCreateOrDeleteAssignRequest;
 import com.portalprojects.core.member.model.request.MeUpdateTodoListRequest;
 import com.portalprojects.core.member.service.MeTodoListService;
@@ -10,6 +11,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,8 +36,14 @@ public class MeTodoListController {
     @MessageMapping("/update-todo-list/{projectId}/{periodId}")
     @SendTo("/portal-projects/todo-list/{projectId}/{periodId}")
     public ResponseObject updateIndexTodoList(@RequestBody MeUpdateTodoListRequest request,
-                                              @DestinationVariable String projectId,
-                                              @DestinationVariable String periodId) {
+                                              @ModelAttribute DesVarProjectIdAndPeriodIdRequest des) {
         return new ResponseObject(meTodoListService.updateIndexTodoList(request));
     }
+
+//    @MessageMapping("/update-todo-list/{projectId}")
+//    @SendTo("/portal-projects/todo-list/{projectId}")
+//    public ResponseObject createTodoList(@RequestBody MeUpdateTodoListRequest request,
+//                                         @DestinationVariable String projectId){
+//
+//    }
 }

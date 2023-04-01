@@ -18,7 +18,7 @@ import com.portalprojects.entity.Todo;
 import com.portalprojects.infrastructure.constant.Message;
 import com.portalprojects.infrastructure.constant.PriorityLevel;
 import com.portalprojects.infrastructure.constant.StatusTodo;
-import com.portalprojects.infrastructure.exception.rest.ErrorHandler;
+import com.portalprojects.infrastructure.exception.rest.MessageHandlingException;
 import com.portalprojects.infrastructure.exception.rest.RestApiException;
 import com.portalprojects.infrastructure.successnotification.ConstantMessageSuccess;
 import com.portalprojects.infrastructure.successnotification.SuccessNotificationSender;
@@ -28,6 +28,7 @@ import lombok.Synchronized;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -39,13 +40,11 @@ import java.util.Optional;
  * @author thangncph26123
  */
 @Service
+@Validated
 public class MeTodoServiceImpl implements MeTodoService {
 
     @Autowired
     private MeTodoRepository meTodoRepository;
-
-    @Autowired
-    private ErrorHandler errorHandler;
 
     @Autowired
     private SuccessNotificationSender successNotificationSender;
@@ -70,8 +69,6 @@ public class MeTodoServiceImpl implements MeTodoService {
     public TodoObject updatePriorityLevel(@Valid MeUpdateTodoRequest request, StompHeaderAccessor headerAccessor) {
         Optional<Todo> todoFindById = meTodoRepository.findById(request.getIdTodo());
         if (!todoFindById.isPresent()) {
-            errorHandler.handleRestApiException(new RestApiException(Message.TO_DO_NOT_EXISTS), headerAccessor);
-            return null;
         }
         PriorityLevel[] priorityLevels = PriorityLevel.values();
         todoFindById.get().setPriorityLevel(priorityLevels[request.getPriorityLevel()]);
@@ -99,8 +96,7 @@ public class MeTodoServiceImpl implements MeTodoService {
     public Todo updateTodoChecklist(@Valid MeUpdateDeTailTodoRequest request, StompHeaderAccessor headerAccessor) {
         Optional<Todo> todo = meTodoRepository.findById(request.getIdTodo());
         if (!todo.isPresent()) {
-            errorHandler.handleRestApiException(new RestApiException(Message.TO_DO_NOT_EXISTS), headerAccessor);
-            return null;
+            throw new MessageHandlingException(Message.TO_DO_NOT_EXISTS);
         }
         todo.get().setName(request.getName());
         Todo todoSave = meTodoRepository.save(todo.get());
@@ -113,8 +109,7 @@ public class MeTodoServiceImpl implements MeTodoService {
     public TodoObject updateStatusTodo(@Valid MeUpdateStatusTodoRequest request, StompHeaderAccessor headerAccessor) {
         Optional<Todo> todoFind = meTodoRepository.findById(request.getIdTodo());
         if (!todoFind.isPresent()) {
-            errorHandler.handleRestApiException(new RestApiException(Message.TO_DO_NOT_EXISTS), headerAccessor);
-            return null;
+            throw new MessageHandlingException(Message.TO_DO_NOT_EXISTS);
         }
         if (request.getStatusTodo() == 0) {
             todoFind.get().setStatusTodo(StatusTodo.DA_HOAN_THANH);
@@ -139,14 +134,9 @@ public class MeTodoServiceImpl implements MeTodoService {
     @Override
     @Synchronized
     public TodoObject updateDescriptionsTodo(@Valid MeUpdateDescriptionsTodoRequest request, StompHeaderAccessor headerAccessor) {
-        if (request.getDescriptions().length() > 1000) {
-            errorHandler.handleRestApiException(new RestApiException(Message.DESCRIPTIONS_TOO_LONG), headerAccessor);
-            return null;
-        }
         Optional<Todo> todoFind = meTodoRepository.findById(request.getIdTodo());
         if (!todoFind.isPresent()) {
-            errorHandler.handleRestApiException(new RestApiException(Message.TO_DO_NOT_EXISTS), headerAccessor);
-            return null;
+            throw new MessageHandlingException(Message.TO_DO_NOT_EXISTS);
         }
         todoFind.get().setDescriptions(request.getDescriptions());
         TodoObject todoObject = TodoObject.builder().data(meTodoRepository.save(todoFind.get())).indexTask(Integer.parseInt(request.getIndexTask())).indexTodoInTask(Integer.parseInt(request.getIndexTodoInTask())).build();
@@ -161,13 +151,11 @@ public class MeTodoServiceImpl implements MeTodoService {
         try {
             deadline = sdf.parse(request.getDeadline());
         } catch (ParseException e) {
-            errorHandler.handleRestApiException(new RestApiException(Message.INVALID_DATE), headerAccessor);
-            return null;
+            throw new MessageHandlingException(Message.INVALID_DATE);
         }
         Optional<Todo> todoFind = meTodoRepository.findById(request.getIdTodo());
         if (!todoFind.isPresent()) {
-            errorHandler.handleRestApiException(new RestApiException(Message.TO_DO_NOT_EXISTS), headerAccessor);
-            return null;
+            throw new MessageHandlingException(Message.TO_DO_NOT_EXISTS);
         }
         todoFind.get().setDeadline(deadline.getTime());
         TodoObject todoObject = TodoObject.builder().data(meTodoRepository.save(todoFind.get())).indexTask(Integer.parseInt(request.getIndexTask())).indexTodoInTask(Integer.parseInt(request.getIndexTodoInTask())).build();
@@ -179,8 +167,7 @@ public class MeTodoServiceImpl implements MeTodoService {
     public TodoObject deleteDeadlineTodo(@Valid MeDeleteDeadlineTodoRequest request, StompHeaderAccessor headerAccessor) {
         Optional<Todo> todoFind = meTodoRepository.findById(request.getIdTodo());
         if (!todoFind.isPresent()) {
-            errorHandler.handleRestApiException(new RestApiException(Message.TO_DO_NOT_EXISTS), headerAccessor);
-            return null;
+            throw new MessageHandlingException(Message.TO_DO_NOT_EXISTS);
         }
         todoFind.get().setDeadline(null);
         TodoObject todoObject = TodoObject.builder().data(meTodoRepository.save(todoFind.get())).indexTask(Integer.parseInt(request.getIndexTask())).indexTodoInTask(Integer.parseInt(request.getIndexTodoInTask())).build();

@@ -42,4 +42,5 @@ public interface MeTodoListRepository extends TodoListRepository {
             WHERE index_todo_list < :indexBefore AND index_todo_list >= :indexAfter
             """, nativeQuery = true)
     void updateIndexTodoListAsc(@Param("indexBefore") Integer indexBefore, @Param("indexAfter") Integer indexAfter);
+
 }

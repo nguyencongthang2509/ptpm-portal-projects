@@ -1,6 +1,7 @@
 package com.portalprojects.core.member.controller;
 
 import com.portalprojects.core.common.base.ResponseObject;
+import com.portalprojects.core.member.model.request.DesVarProjectIdAndPeriodIdRequest;
 import com.portalprojects.core.member.model.request.MeCreateOrDeleteAssignRequest;
 import com.portalprojects.core.member.service.MeAssignService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -37,8 +39,7 @@ public class MeAssignController {
     @MessageMapping("/create-assign/{projectId}/{periodId}")
     @SendTo("/portal-projects/assign/{projectId}/{periodId}")
     public ResponseObject create(@RequestBody MeCreateOrDeleteAssignRequest request,
-                                 @DestinationVariable String projectId,
-                                 @DestinationVariable String periodId) {
+                                 @ModelAttribute DesVarProjectIdAndPeriodIdRequest des) {
         return new ResponseObject(meAssignService.create(request));
     }
 
@@ -46,8 +47,7 @@ public class MeAssignController {
     @MessageMapping("/delete-assign/{projectId}/{periodId}")
     @SendTo("/portal-projects/assign/{projectId}/{periodId}")
     public ResponseObject delete(@RequestBody MeCreateOrDeleteAssignRequest request,
-                                 @DestinationVariable String projectId,
-                                 @DestinationVariable String periodId) {
+                                 @ModelAttribute DesVarProjectIdAndPeriodIdRequest des) {
         return new ResponseObject(meAssignService.delete(request));
     }
 }

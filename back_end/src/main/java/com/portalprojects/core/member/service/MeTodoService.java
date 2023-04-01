@@ -39,7 +39,7 @@ public interface MeTodoService {
 
     TodoObject deleteDetailTodo(@Valid MeDeleteDetailTodoRequest request, StompHeaderAccessor headerAccessor);
 
-    TodoObject updateDescriptionsTodo(@Valid MeUpdateDescriptionsTodoRequest request, StompHeaderAccessor headerAccessor);
+    TodoObject updateDescriptionsTodo(@Valid final MeUpdateDescriptionsTodoRequest request, StompHeaderAccessor headerAccessor);
 
     TodoObject updateDeadlineTodo(@Valid MeUpdateDeadlineTodoRequest request, StompHeaderAccessor headerAccessor);
 
