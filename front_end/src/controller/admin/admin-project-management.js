@@ -80,6 +80,7 @@ window.AdminProjectManagementController = function (
     $scope.form_project.endTime = "";
   };
 
+
   // thêm project
   $scope.project_creat = {};
   $scope.addProject = function () {

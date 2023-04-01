@@ -1,5 +1,6 @@
 package com.portalprojects.core.admin.model.request;
 
+import com.portalprojects.core.common.base.PageableRequest;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,7 +9,7 @@ import lombok.Setter;
  */
 @Setter
 @Getter
-public class AdFindLabelRequest extends AdBaseLabelRequest {
+public class AdFindLabelRequest extends PageableRequest {
 
     private String name;
 

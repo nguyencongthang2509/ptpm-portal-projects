@@ -25,4 +25,8 @@ public abstract class AdBaseLabelRequest {
     @NotBlank
     private String colorLabel;
 
+    @NotEmpty
+    @NotBlank
+    private String statusLabel;
+
 }
