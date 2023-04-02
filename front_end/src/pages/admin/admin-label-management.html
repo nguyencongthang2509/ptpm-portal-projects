@@ -59,12 +59,22 @@
             ></button>
           </td>
           <td>
-            <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal_detail_label" ng-click="detail($event,$index)">
+            <a
+              href="#"
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModal_detail_label"
+              ng-click="detail($event,$index)"
+            >
               <div class="btn_eye" data-toggle="tooltip" title="Xem chi tiết">
                 <img src="../../../assets/img/eye-fill.svg" />
               </div>
             </a>
-            <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal_update_label" ng-click="detail($event,$index)">
+            <a
+              href="#"
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModal_update_label"
+              ng-click="detail($event,$index)"
+            >
               <div
                 class="btn_pencil"
                 data-toggle="tooltip"
@@ -149,23 +159,22 @@
                 ng-model="form_label.name"
               />
               <small class="text-danger"><p>{{errorNameAdd}}</p></small>
-            </div>  
-            <div  class="form-group">
-              <label class="mr-sm-2" for="inlineFormCustomSelect" style="margin-right: 20px;">Màu nhãn</label>
-              <select ng-model="form_label.colorLabel" class="custom-select mr-sm-2 " id="inlineFormCustomSelect">
-                <option selected >Mời chọn màu nhãn </option>
-                <option style="width: 150px; background-color: #ADFF2F; color: #ADFF2F;" value="#ADFF2F">#ADFF2F</option>
-                <option style="width: 150px; background-color: #FFA500; color: #FFA500;" value="#FFA500">#FFA500</option>
-                <option style="width: 150px; background-color: #47799C; color: #47799C;" value="#47799C">#47799C</option>
-                <option style="width: 150px; background-color: #EE82EE; color: #EE82EE;" value="#EE82EE">#EE82EE</option>
-                <option style="width: 150px; background-color: #FF6347; color: #FF6347;" value="#FF6347">#FF6347</option>
-                <option style="width: 150px; background-color: #7AA1E4; color: #7AA1E4;" value="#7AA1E4">#7AA1E4</option>
-                <option style="width: 150px; background-color: #FF4500; color: #FF4500;" value="#FF4500">#FF4500</option>
-                <option style="width: 150px; background-color: #FFFF00; color: #FFFF00;" value="#FFFF00">#FFFF00</option>
-                <option style="width: 150px; background-color: #FFD700; color: #FFD700;" value="#FFD700">#FFD700</option>
-                <option style="width: 150px; background-color: #FA8072; color: #FA8072;" value="#FA8072">#FA8072</option>
-              </select>
-            </div>          
+            </div>
+            <div class="form-group" >
+              <label for="" style="margin-right: 30px;">Màu nhãn</label><br>
+              <button type="button" class="btn btn-primary my-button" ng-style="{'background-color':color}" style="width: 130px; height: 33px"  ></button><br>
+              <label for="" style="margin-right: 30px;">Chọn màu</label><br>
+              <button type="button" class="btn btn-primary my-button" ng-style="{'background-color':'#FA8072'}"style="width: 95px; height: 29px ; margin: 20px 15px 0px 32px;"  ng-click="setColor('#FA8072')" ></button>
+              <button type="button" class="btn btn-primary my-button" ng-style="{'background-color':'#FFD700'}"style="width: 95px; height: 29px ; margin: 20px 15px 0px 32px;"  ng-click="setColor('#FFD700')" ></button>
+              <button type="button" class="btn btn-primary my-button" ng-style="{'background-color':'#FFFF00'}"style="width: 95px; height: 29px ; margin: 20px 15px 0px 32px;"  ng-click="setColor('#FFFF00')" ></button>
+              <button type="button" class="btn btn-primary my-button" ng-style="{'background-color':'#FF4500'}"style="width: 95px; height: 29px ; margin: 20px 15px 0px 32px;"  ng-click="setColor('#FF4500')" ></button>
+              <button type="button" class="btn btn-primary my-button" ng-style="{'background-color':'#7AA1E4'}"style="width: 95px; height: 29px ; margin: 20px 15px 0px 32px;"  ng-click="setColor('#7AA1E4')" ></button>
+              <button type="button" class="btn btn-primary my-button" ng-style="{'background-color':'#FF6347'}"style="width: 95px; height: 29px ; margin: 20px 15px 0px 32px;"  ng-click="setColor('#FF6347')" ></button>
+              <button type="button" class="btn btn-primary my-button" ng-style="{'background-color':'#EE82EE'}"style="width: 95px; height: 29px ; margin: 20px 15px 0px 32px;"  ng-click="setColor('#EE82EE')" ></button>
+              <button type="button" class="btn btn-primary my-button" ng-style="{'background-color':'#47799C'}"style="width: 95px; height: 29px ; margin: 20px 15px 0px 32px;"  ng-click="setColor('#47799C')" ></button>
+              <button type="button" class="btn btn-primary my-button" ng-style="{'background-color':'#FFA500'}"style="width: 95px; height: 29px ; margin: 20px 15px 0px 32px;"  ng-click="setColor('#FFA500')" ></button>
+              <button type="button" class="btn btn-primary my-button" ng-style="{'background-color':'#ADFF2F'}"style="width: 95px; height: 29px ; margin: 20px 15px 0px 32px;"  ng-click="setColor('#ADFF2F')" ></button>
+            </div>
           </form>
         </div>
         <div class="modal-footer">
@@ -184,8 +193,8 @@
     </div>
   </div>
 
-    <!-- Modal update nhãn -->
-    <div
+  <!-- Modal update nhãn -->
+  <div
     class="modal fade"
     id="exampleModal_update_label"
     tabindex="-1"
@@ -232,23 +241,22 @@
                 ng-model="form_label_update.name"
               />
               <small class="text-danger"><p>{{errorNameUpdate}}</p></small>
-            </div>  
-            <div  class="form-group">
-              <label class="mr-sm-2" for="inlineFormCustomSelect" style="margin-right: 20px;">Màu nhãn</label>
-              <select ng-model="form_label_update.colorLabel" class="custom-select mr-sm-2 " id="inlineFormCustomSelect">
-                <option selected >Mời chọn màu nhãn </option>
-                <option style="width: 150px; background-color: #ADFF2F; color: #ADFF2F;" value="#ADFF2F">#ADFF2F</option>
-                <option style="width: 150px; background-color: #FFA500; color: #FFA500;" value="#FFA500">#FFA500</option>
-                <option style="width: 150px; background-color: #47799C; color: #47799C;" value="#47799C">#47799C</option>
-                <option style="width: 150px; background-color: #EE82EE; color: #EE82EE;" value="#EE82EE">#EE82EE</option>
-                <option style="width: 150px; background-color: #FF6347; color: #FF6347;" value="#FF6347">#FF6347</option>
-                <option style="width: 150px; background-color: #7AA1E4; color: #7AA1E4;" value="#7AA1E4">#7AA1E4</option>
-                <option style="width: 150px; background-color: #FF4500; color: #FF4500;" value="#FF4500">#FF4500</option>
-                <option style="width: 150px; background-color: #FFFF00; color: #FFFF00;" value="#FFFF00">#FFFF00</option>
-                <option style="width: 150px; background-color: #FFD700; color: #FFD700;" value="#FFD700">#FFD700</option>
-                <option style="width: 150px; background-color: #FA8072; color: #FA8072;" value="#FA8072">#FA8072</option>
-              </select>
-            </div>          
+            </div>
+            <div class="form-group" >
+              <label for="" style="margin-right: 30px;">Màu nhãn</label><br>
+              <button type="button" class="btn btn-primary my-button" ng-style="{'background-color':form_label_update.colorLabel}" style="width: 130px; height: 33px"  ></button><br>
+              <label for="" style="margin-right: 30px;">Chọn màu</label><br>
+              <button type="button" class="btn btn-primary my-button" ng-style="{'background-color':'#FA8072'}"style="width: 95px; height: 29px ; margin: 20px 15px 0px 32px;"  ng-click="setColorUpadte('#FA8072')" ></button>
+              <button type="button" class="btn btn-primary my-button" ng-style="{'background-color':'#FFD700'}"style="width: 95px; height: 29px ; margin: 20px 15px 0px 32px;"  ng-click="setColorUpadte('#FFD700')" ></button>
+              <button type="button" class="btn btn-primary my-button" ng-style="{'background-color':'#FFFF00'}"style="width: 95px; height: 29px ; margin: 20px 15px 0px 32px;"  ng-click="setColorUpadte('#FFFF00')" ></button>
+              <button type="button" class="btn btn-primary my-button" ng-style="{'background-color':'#FF4500'}"style="width: 95px; height: 29px ; margin: 20px 15px 0px 32px;"  ng-click="setColorUpadte('#FF4500')" ></button>
+              <button type="button" class="btn btn-primary my-button" ng-style="{'background-color':'#7AA1E4'}"style="width: 95px; height: 29px ; margin: 20px 15px 0px 32px;"  ng-click="setColorUpadte('#7AA1E4')" ></button>
+              <button type="button" class="btn btn-primary my-button" ng-style="{'background-color':'#FF6347'}"style="width: 95px; height: 29px ; margin: 20px 15px 0px 32px;"  ng-click="setColorUpadte('#FF6347')" ></button>
+              <button type="button" class="btn btn-primary my-button" ng-style="{'background-color':'#EE82EE'}"style="width: 95px; height: 29px ; margin: 20px 15px 0px 32px;"  ng-click="setColorUpadte('#EE82EE')" ></button>
+              <button type="button" class="btn btn-primary my-button" ng-style="{'background-color':'#47799C'}"style="width: 95px; height: 29px ; margin: 20px 15px 0px 32px;"  ng-click="setColorUpadte('#47799C')" ></button>
+              <button type="button" class="btn btn-primary my-button" ng-style="{'background-color':'#FFA500'}"style="width: 95px; height: 29px ; margin: 20px 15px 0px 32px;"  ng-click="setColorUpadte('#FFA500')" ></button>
+              <button type="button" class="btn btn-primary my-button" ng-style="{'background-color':'#ADFF2F'}"style="width: 95px; height: 29px ; margin: 20px 15px 0px 32px;"  ng-click="setColorUpadte('#ADFF2F')" ></button>
+            </div>
           </form>
         </div>
         <div class="modal-footer">
@@ -259,7 +267,11 @@
           >
             Thoát
           </button>
-          <button type="button" class="btn btn-primary" ng-click="updateLabel($event)">
+          <button
+            type="button"
+            class="btn btn-primary"
+            ng-click="updateLabel($event)"
+          >
             Update
           </button>
         </div>
@@ -267,73 +279,68 @@
     </div>
   </div>
 
-   <!-- Modal detail nhãn -->
+  <!-- Modal detail nhãn -->
   <div
-  class="modal fade"
-  id="exampleModal_detail_label"
-  tabindex="-1"
-  aria-labelledby="exampleModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Thêm nhãn</h1>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <!-- body model -->
-      <div class="modal-body">
-        <form>
-          <div class="form-group">
-            <label for="">Mã nhãn</label>
-            <input
-              type="text"
-              class="form-control"
-              id=""
-              ng-model="form_label_update.code"
-            />
-            <small class="text-danger"><p>{{errorCodeAdd}}</p></small>
-          </div>
-          <div class="form-group">
-            <label for="">Tên nhãn</label>
-            <input
-              type="text"
-              class="form-control"
-              ng-model="form_label_update.name"
-            />
-            <small class="text-danger"><p>{{errorNameAdd}}</p></small>
-          </div>  
-
-          <!-- // chưa xử lý dk  -->
-          <div  class="form-group">
-            <button
+    class="modal fade"
+    id="exampleModal_detail_label"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Thêm nhãn</h1>
+          <button
             type="button"
-            class="btn btn-primary"
-            ng-model="form_label_update.colorLabel"
-            ng-style="{'background-color':'{{form_label_update.colorLabel}}'}"
-            style="width: 50px; height: 20px"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
           ></button>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button
-          type="button"
-          class="btn btn-secondary"
-          data-bs-dismiss="modal"
-        >
-          Thoát
-        </button>
-        <button type="button" class="btn btn-primary" ng-click="addlabel()">
-          Thêm
-        </button>
+        </div>
+        <!-- body model -->
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="">Mã nhãn</label>
+              <input
+                type="text"
+                class="form-control"
+                id=""
+                ng-model="form_label_update.code"
+              />
+              <small class="text-danger"><p>{{errorCodeAdd}}</p></small>
+            </div>
+            <div class="form-group">
+              <label for="">Tên nhãn</label>
+              <input
+                type="text"
+                class="form-control"
+                ng-model="form_label_update.name"
+              />
+              <small class="text-danger"><p>{{errorNameAdd}}</p></small>
+            </div>
+
+            <!-- // chưa xử lý dk  -->
+            <div class="form-group">
+              <label for="" style="margin-right: 30px;">Màu nhãn</label><br>
+              <button type="button" class="btn btn-primary my-button" ng-style="{'background-color':form_label_update.colorLabel}" style="width: 130px; height: 33px"  ></button>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Thoát
+          </button>
+          <button type="button" class="btn btn-primary" ng-click="addlabel()">
+            Thêm
+          </button>
+        </div>
       </div>
     </div>
   </div>
-</div>
 </div>

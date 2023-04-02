@@ -54,9 +54,16 @@ window.AdminLabelManagementController = function (
     statusLabel: "0",
   };
 
+  $scope.setColor = function(color) {
+    $scope.form_label.colorLabel = color;
+    $scope.color = color;
+    console.log($scope.form_label.colorLabel);
+    
+  };
   $scope.addlabel = function () {
     let api = admin_label;
     console.log($scope.form_label);
+    console.log($scope.color);
     $http.post(api, $scope.form_label).then(
       function (response) {
         toastr.success("Thêm thành công", "Thông báo!", {
@@ -94,10 +101,15 @@ window.AdminLabelManagementController = function (
     $scope.form_label_update.id = label.id;
     $scope.form_label_update.code = label.code;
     $scope.form_label_update.name = label.name;
-    $scope.colorLabel = label.colorLabel;
+    $scope.form_label_update.colorLabel = label.colorLabel;
     $scope.indexUpdate = index;
   };
 
+  $scope.setColorUpadte = function(color) {
+    $scope.form_label_update.colorLabel = color;
+    $scope.color = color;
+    
+  };
   $scope.updateLabel = function (event) {
     event.preventDefault();
     let label = $scope.listLabel[ $scope.indexUpdate];
